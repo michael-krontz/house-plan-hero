@@ -37,7 +37,6 @@ function ImageGallery() {
     </li>
   </ul>
 </div>
-
   )
 }
 
