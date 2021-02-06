@@ -6,11 +6,19 @@ import galleryItem4 from './hp-hero-4.jpg';
 import galleryItem5 from './hp-hero-5.jpg';
 import { useRef } from 'react'
 import { Form, Button, Card, Container } from 'react-bootstrap'
+import { useAuth } from './AuthContext'
 
 function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
+  const { signupUser } = useAuth()
+
+  function handleSubit(e) {
+    e.preventDefault()
+
+    signupUser(emailRef.current.value, passwordRef.current.value)
+  }
 
   return (
     <>
@@ -31,8 +39,6 @@ function Signup() {
           </Form.Group>
           <Button className="w-100" type="submit">Sign Up</Button>
         </Form>
-     
-
       </Card.Body>
     </Card>
     <div className="w-100 text-center mt-2"></div>
@@ -43,7 +49,7 @@ function Signup() {
 function Logo() {
   return (
     <div className = "Logo-wrapper">
-      <h2>House Plan Hero</h2>      
+      <h4 style={{ marginBottom: "0" }}>House Plan Hero</h4>      
     </div>
   );
 };
@@ -84,14 +90,13 @@ function App() {
         <NavBar></NavBar>
       </header>
 
-      <Container 
-        className="d-flex align-items-center justify-content-center" 
-        style={{ minHeight: "100vh" }}>
-
-          <div className="w-100" style={{ maxWidth: '400px' }}>
-            <Signup></Signup>
-          </div>
+    <AuthProvider>
+      <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <div className="w-100" style={{ maxWidth: '400px' }}>
+          <Signup></Signup>
+        </div>
       </Container>
+    </AuthProvider>
 
       <div className = "App-body">
         <ImageGallery></ImageGallery>
