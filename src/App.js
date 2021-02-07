@@ -1,15 +1,19 @@
+import React from 'react';
 import './App.css';
 import galleryItem1 from './hp-hero-1.jpg';
 import galleryItem2 from './hp-hero-2.jpg';
 import galleryItem3 from './hp-hero-3.jpg';
 import galleryItem4 from './hp-hero-4.jpg';
 import galleryItem5 from './hp-hero-5.jpg';
+import { Container } from 'react-bootstrap'
+import Signup from './Signup'
+import { AuthProvider } from './AuthContext'
 
 
 function Logo() {
   return (
     <div className = "Logo-wrapper">
-      <h2>House Plan Hero</h2>      
+      <h4 style={{ marginBottom: "0" }}>House Plan Hero</h4>      
     </div>
   );
 };
@@ -26,6 +30,7 @@ function NavBar() {
 
 function ImageGallery() {
   return (
+    
   <div className = "Image-gallery">
   <ul className = "Gallery-list">
     <li className = "Gallery-Item">
@@ -45,12 +50,20 @@ function App() {
     <div className="App">
 
       <header className = "App-header">
-      <Logo></Logo>
-      <NavBar></NavBar>
+        <Logo></Logo>
+        <NavBar></NavBar>
       </header>
 
+    <AuthProvider>
+      <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <div className="w-100" style={{ maxWidth: '400px' }}>
+          <Signup></Signup>
+        </div>
+      </Container>
+    </AuthProvider>
+
       <div className = "App-body">
-      <ImageGallery></ImageGallery>
+        <ImageGallery></ImageGallery>
       </div>
     </div>
   );
