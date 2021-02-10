@@ -14,7 +14,7 @@ import Login from './Login'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
-
+import ApiCall from './ApiCall'
 
 function Logo() {
   return (
@@ -77,6 +77,7 @@ function App() {
       </Container>
 
       <div className = "App-body">
+        <ApiCall></ApiCall>
         <ImageGallery></ImageGallery>
       </div>
     </div>
