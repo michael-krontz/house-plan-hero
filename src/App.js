@@ -1,10 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import galleryItem1 from './hp-hero-1.jpg';
-import galleryItem2 from './hp-hero-2.jpg';
-import galleryItem3 from './hp-hero-3.jpg';
-import galleryItem4 from './hp-hero-4.jpg';
-import galleryItem5 from './hp-hero-5.jpg';
 import { Container } from 'react-bootstrap'
 import Signup from './Signup'
 import { AuthProvider } from './AuthContext'
@@ -14,7 +9,6 @@ import Login from './Login'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
-import ApiCall from './ApiCall'
 
 function Logo() {
   return (
@@ -34,21 +28,44 @@ function NavBar() {
   );
 }
 
-function ImageGallery() {
-  return (
-    
-  <div className = "Image-gallery">
-  <ul className = "Gallery-list">
-    <li className = "Gallery-Item">
-    <img src={galleryItem1} alt="Houseplan Name"  className = "responsive"/>
-    <img src={galleryItem2} alt="Houseplan Name" className = "responsive"/>
-    <img src={galleryItem3} alt="Houseplan Name" className = "responsive"/>
-    <img src={galleryItem4} alt="Houseplan Name" className = "responsive"/>
-    <img src={galleryItem5} alt="Houseplan Name" className = "responsive"/>
-    </li>
-  </ul>
-</div>
-  )
+function ApiCall() {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch("https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <ul>
+        {items.map(item => (
+          <li key={item.id}>
+            <img src={`../images/hph_${item.id}.jpg`}  alt={item.name}  className = "responsive"/>
+          </li>
+        ))}
+      </ul>
+    );
+  }
 }
 
 function App() {
@@ -78,7 +95,6 @@ function App() {
 
       <div className = "App-body">
         <ApiCall></ApiCall>
-        <ImageGallery></ImageGallery>
       </div>
     </div>
   );
