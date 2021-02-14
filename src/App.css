@@ -54,3 +54,7 @@ ul {
   height: auto;
   object-fit: cover;
 }
+
+ul {
+  padding: 0;
+}
