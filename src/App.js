@@ -12,7 +12,7 @@ import './App.css';
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
-let cards = []
+var cards = []
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
@@ -66,28 +66,36 @@ function Deck() {
     return <div>Loading...</div>;
   } else {
 
-    let itemarray =  [items.map(item => (
-
+    let itemIdArray =  [items.map(item => (
+    <ul>
       <li key={item.id}>
         item = {item.id}
       </li>
-
+    </ul>
   ))]
 
-  cards = [{ items} ]
+  // let itemNameArray =  [items.map(item => (
+  //   <ul>
+  //     <li key={item.name}>
+  //       item = {item.name}
+  //     </li>
+  //   </ul>
+  // ))]
 
-  console.log(itemarray);
+  cards = [ '1', '2', '3', '4', '5', '6', '7', ] 
 
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
+    console.log(cards)
   return props.map(({ x, y, rot, scale }, i) => (
     <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
       {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-      <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${itemarray[i]})` }} />
+      <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }} />
     </animated.div>
   ))
   }
 }
+
 
 // function Logo() {
 //   return (
