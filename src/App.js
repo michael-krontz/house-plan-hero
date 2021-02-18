@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-// import { Container } from 'react-bootstrap'
-// import Signup from './Signup'
-// import { AuthProvider } from './AuthContext'
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-// import Dashboard from './Dashboard'
-// import Login from './Login'
-// import PrivateRoute from './PrivateRoute'
-// import ForgotPassword from "./ForgotPassword"
-// import UpdateProfile from "./UpdateProfile"
+import { Container } from 'react-bootstrap'
+import Signup from './Signup'
+import { AuthProvider } from './AuthContext'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Dashboard from './Dashboard'
+import Login from './Login'
+import PrivateRoute from './PrivateRoute'
+import ForgotPassword from "./ForgotPassword"
+import UpdateProfile from "./UpdateProfile"
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
@@ -68,25 +68,18 @@ function Deck() {
 
     let itemIdArray =  [items.map(item => (
     <ul>
-      <li key={item.id}>
-        item = {item.id}
+      <li key={item.name}>
+        item = {item.name}
       </li>
     </ul>
   ))]
 
-  // let itemNameArray =  [items.map(item => (
-  //   <ul>
-  //     <li key={item.name}>
-  //       item = {item.name}
-  //     </li>
-  //   </ul>
-  // ))]
+  console.log(itemIdArray);
 
   cards = [ '1', '2', '3', '4', '5', '6', '7', ] 
 
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-    console.log(cards)
   return props.map(({ x, y, rot, scale }, i) => (
     <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
       {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
@@ -97,61 +90,52 @@ function Deck() {
 }
 
 
-// function Logo() {
-//   return (
-//     <div className = "Logo-wrapper">
-//       <h4 style={{ marginBottom: "0" }}>House Plan Hero</h4>      
-//     </div>
-//   );
-// };
+function Logo() {
+  return (
+    <div className = "Logo-wrapper">
+      <h4 style={{ marginBottom: "0" }}>House Plan Hero</h4>      
+    </div>
+  );
+};
 
-// function NavBar() {
-//   return (
-//   <div className = "Nav-wrapper">
-//       <ul className = "Nav">
-//         <li>Login</li>
-//       </ul>
-//   </div>
-//   );
-// }
+function NavBar() {
+  return (
+  <div className = "Nav-wrapper">
+      <ul className = "Nav">
+        <li>Login</li>
+      </ul>
+  </div>
+  );
+}
 
 
 function App() {
   return (
+    <>
+      <header className = "App-header">
+        <Logo></Logo>
+        <NavBar></NavBar>
+      </header>
 
-    <Deck></Deck>
+      <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <div className="w-100" style={{ maxWidth: '400px' }}>
+          <Router>
+            <AuthProvider>
+              <Switch>
+                <PrivateRoute exact path="/" component={Dashboard} />
+                <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                <Route path="/signup" component={Signup} />
+                <Route path="/login" component={Login} />
+                <Route path="/forgot-password" component={ForgotPassword} />
+              </Switch>
+            </AuthProvider>
+          </Router>
+        </div>
+      </Container>
 
-
-    // <div className="App">
-
-
-
-
-    //   <header className = "App-header">
-    //     <Logo></Logo>
-    //     <NavBar></NavBar>
-    //   </header>
-
-    //   <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-    //     <div className="w-100" style={{ maxWidth: '400px' }}>
-    //       <Router>
-    //         <AuthProvider>
-    //           <Switch>
-    //             <PrivateRoute exact path="/" component={Dashboard} />
-    //             <PrivateRoute path="/update-profile" component={UpdateProfile} />
-    //             <Route path="/signup" component={Signup} />
-    //             <Route path="/login" component={Login} />
-    //             <Route path="/forgot-password" component={ForgotPassword} />
-    //           </Switch>
-    //         </AuthProvider>
-    //       </Router>
-    //     </div>
-    //   </Container>
-
-    //   <div className = "App-body">
-    //     <ApiCall></ApiCall>
-    //   </div>
-    // </div>
+      <div className = "App-body">
+      </div>
+    </>
   );
 };
 
