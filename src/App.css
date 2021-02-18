@@ -1,4 +1,4 @@
-/* .App {
+.App {
   text-align: center;
 }
 
@@ -57,7 +57,11 @@ ul {
 
 ul {
   padding: 0;
-} */
+}
+
+a:hover {
+  text-decoration: none;
+}
 
 #root {
   background: lightblue;
