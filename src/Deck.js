@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import ApiCall from './ApiCall'
 
 var cards =  [ '1', '2', '3', '4', '5', '6', '7', ] 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -36,7 +35,6 @@ export default function Deck() {
       return props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <ApiCall></ApiCall>
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }} />
         </animated.div>
       ))
