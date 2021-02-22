@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import AuthContent from './AuthContent'
@@ -26,13 +25,6 @@ function NavBar() {
 
 
 function App() {
-  const [resourceType, setResourceType] = useState('houseplans')
-
-  useEffect(() => {
-    fetch(`https://house-plan-hero-default-rtdb.firebaseio.com/${resourceType}.json`)
-      .then(response => response.json())
-      .then(json => console.log(json))
-  }, [resourceType])
 
   return (
     <Router>

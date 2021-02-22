@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
+import axios from 'axios'
 
 var cards =  [ '1', '2', '3', '4', '5', '6', '7', ] 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -10,9 +11,34 @@ const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 export default function Deck() {
-  // const [error, setError] = useState(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [items, setItems] = useState([]);
+
+  const [posts, setPosts]=useState([])
+  const getPosts = async () => {
+    try {
+  const userPosts = await axios.get("https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json")
+    
+  setPosts(userPosts.data);  // set State
+
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+
+  posts.filter(houseplan => houseplan.id === 6).map(hp6 => (
+  // hp6.designer.trim(),
+    console.log(hp6)
+  ))
+
+
+  useEffect(()=>{
+    getPosts()
+  }, []) // includes empty dependency array
+  // console.log(posts)
+
+
+
+
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
