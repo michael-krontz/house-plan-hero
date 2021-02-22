@@ -3,7 +3,6 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import axios from 'axios'
 
-var cards =  [ '1', '2', '3', '4', '5', '6', '7', ] 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -24,12 +23,14 @@ export default function Deck() {
   }
 };
 
+var cards = []
+var hpUrl
 
-  posts.filter(houseplan => houseplan.id === 6).map(hp6 => (
-  // hp6.designer.trim(),
-    console.log(hp6)
-  ))
-
+  posts.filter(houseplan => houseplan.id === 1).map(hp1 => (
+    hpUrl = ("images/" + "hph_" + hp1.id + ".jpg")
+  ));
+ 
+cards = [hpUrl]
 
   useEffect(()=>{
     getPosts()
