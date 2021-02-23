@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import ApiCall from './ApiCall'
+import axios from 'axios'
 
-var cards =  [ '1', '2', '3', '4', '5', '6', '7', ] 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -11,9 +10,58 @@ const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 export default function Deck() {
-  // const [error, setError] = useState(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [items, setItems] = useState([]);
+
+  const [posts, setPosts]=useState([])
+  const getPosts = async () => {
+    try {
+  const userPosts = await axios.get("https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json")
+    
+  setPosts(userPosts.data);  // set State
+
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+var cards = []
+var hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7 
+
+  posts.filter(houseplan => houseplan.id === 1).map(hp1 => (
+    // eslint-disable-next-line
+    hpUrl1 = "images/" + "hph_" + hp1.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 2).map(hp2 => (
+    // eslint-disable-next-line
+    hpUrl2 = "images/" + "hph_" + hp2.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 3).map(hp3 => (
+    // eslint-disable-next-line
+    hpUrl3 = "images/" + "hph_" + hp3.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 4).map(hp4 => (
+    // eslint-disable-next-line
+    hpUrl4 = "images/" + "hph_" + hp4.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 5).map(hp5 => (
+    // eslint-disable-next-line
+    hpUrl5 = "images/" + "hph_" + hp5.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 6).map(hp6 => (
+    // eslint-disable-next-line
+    hpUrl6 = "images/" + "hph_" + hp6.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 7).map(hp7 => (
+    // eslint-disable-next-line
+    hpUrl7 = "images/" + "hph_" + hp7.id + ".jpg"
+  ));
+ 
+cards = [hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7]
+
+  useEffect(()=>{
+    getPosts()
+  }, []) // includes empty dependency array
+  // console.log(posts)
+
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
@@ -36,7 +84,6 @@ export default function Deck() {
       return props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <ApiCall></ApiCall>
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }} />
         </animated.div>
       ))
