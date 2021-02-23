@@ -24,21 +24,43 @@ export default function Deck() {
 };
 
 var cards = []
-var hpUrl
+var hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7 
 
   posts.filter(houseplan => houseplan.id === 1).map(hp1 => (
-    hpUrl = ("images/" + "hph_" + hp1.id + ".jpg")
+    // eslint-disable-next-line
+    hpUrl1 = "images/" + "hph_" + hp1.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 2).map(hp2 => (
+    // eslint-disable-next-line
+    hpUrl2 = "images/" + "hph_" + hp2.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 3).map(hp3 => (
+    // eslint-disable-next-line
+    hpUrl3 = "images/" + "hph_" + hp3.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 4).map(hp4 => (
+    // eslint-disable-next-line
+    hpUrl4 = "images/" + "hph_" + hp4.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 5).map(hp5 => (
+    // eslint-disable-next-line
+    hpUrl5 = "images/" + "hph_" + hp5.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 6).map(hp6 => (
+    // eslint-disable-next-line
+    hpUrl6 = "images/" + "hph_" + hp6.id + ".jpg"
+  ));
+  posts.filter(houseplan => houseplan.id === 7).map(hp7 => (
+    // eslint-disable-next-line
+    hpUrl7 = "images/" + "hph_" + hp7.id + ".jpg"
   ));
  
-cards = [hpUrl]
+cards = [hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7]
 
   useEffect(()=>{
     getPosts()
   }, []) // includes empty dependency array
   // console.log(posts)
-
-
-
 
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
