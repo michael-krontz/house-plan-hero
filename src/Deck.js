@@ -24,38 +24,24 @@ export default function Deck() {
 };
 
 var cards = []
-var hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7 
+var cardUrl
+var charext
+var hpCardId
+var lowercase
 
-  posts.filter(houseplan => houseplan.id === 1).map(hp1 => (
-    // eslint-disable-next-line
-    hpUrl1 = "images/" + "hph_" + hp1.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 2).map(hp2 => (
-    // eslint-disable-next-line
-    hpUrl2 = "images/" + "hph_" + hp2.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 3).map(hp3 => (
-    // eslint-disable-next-line
-    hpUrl3 = "images/" + "hph_" + hp3.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 4).map(hp4 => (
-    // eslint-disable-next-line
-    hpUrl4 = "images/" + "hph_" + hp4.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 5).map(hp5 => (
-    // eslint-disable-next-line
-    hpUrl5 = "images/" + "hph_" + hp5.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 6).map(hp6 => (
-    // eslint-disable-next-line
-    hpUrl6 = "images/" + "hph_" + hp6.id + ".jpg"
-  ));
-  posts.filter(houseplan => houseplan.id === 7).map(hp7 => (
-    // eslint-disable-next-line
-    hpUrl7 = "images/" + "hph_" + hp7.id + ".jpg"
-  ));
- 
-cards = [hpUrl1, hpUrl2, hpUrl3, hpUrl4, hpUrl5, hpUrl6, hpUrl7]
+/* eslint-disable */
+  var z
+  for (z = 0; z < posts.length; z++) {
+    posts.filter(houseplan => houseplan.id === z).map(hp => (
+      charext = hp.designer.substring(0, 1),
+      lowercase = charext.toLowerCase(),
+      hpCardId = lowercase + z,
+      cardUrl = "images/" + hpCardId + ".jpg",
+      cards.push(cardUrl),
+      console.log(cardUrl)
+    ));
+  }
+/* eslint-enable */
 
   useEffect(()=>{
     getPosts()
