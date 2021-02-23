@@ -74,8 +74,9 @@ a:hover {
 
 #root > div {
   position: absolute;
-  width: 100vw;
-  margin-top: 10vh;
+  width: 96vw;
+  margin-top: 35vh;
+  margin-left: 2vw;
   will-change: transform;
   display: flex;
   align-items: center;
@@ -91,9 +92,9 @@ a:hover {
   border-style: solid;
   border-width: 10px;
   border-color: white;
-  width: 45vh;
-  max-width: 300px;
-  height: 85vh;
+  width: 100vw;
+  max-width: 420px;
+  height: 50vh;
   max-height: 570px;
   will-change: transform;
   border-radius: 10px;
