@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import axios from 'axios'
+import { useDoubleTap } from 'use-double-tap';
+
+var cardcount = []
+
+
+const LikeEvent = () => {
+  const bind = useDoubleTap((event) => {
+    console.log(cardcount);
+    console.log('Double tapped');
+  });
+
+  return <button {...bind}>Tap me</button>;
+}
+
 
 // function MyVerticallyCenteredModal(props) {
 //   return (
@@ -81,6 +95,7 @@ var lowercase
   }, [])
 
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
+  cardcount = [gone]
   const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
   const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -103,7 +118,9 @@ var lowercase
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           
-          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }} />
+          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
+          <LikeEvent></LikeEvent>
+          </animated.div>
         </animated.div>
       ))
 }
