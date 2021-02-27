@@ -3,6 +3,7 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import axios from 'axios'
 import { useDoubleTap } from 'use-double-tap';
+import { Button } from 'bootstrap';
 
 
 var buttonStyle = {
@@ -36,10 +37,11 @@ var charext
 var hpCardId
 var lowercase
 var currentCard = 1
+var stackend = false
 
 const LikeEvent = () => {
   const bind = useDoubleTap((event) => {
-    if (currentCard < cards.length) {
+    if (currentCard < 8) {
       console.log("Current Card:" + currentCard)
       console.log("Cards:" + cards.length)
     }
@@ -89,7 +91,7 @@ const LikeEvent = () => {
       }
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })
-    if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
+    if (!down && gone.size === cards.length) return <h1>Doneski!</h1>
   })
          
         // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
@@ -101,4 +103,14 @@ const LikeEvent = () => {
           </animated.div>
         </animated.div>
       ))
+
+      // return (
+      //   <div>
+      //     { stackend && <Button /> }
+      //   </div>
+      // );
 }
+
+
+
+// if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
