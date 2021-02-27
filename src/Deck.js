@@ -50,7 +50,7 @@ const LikeEvent = () => {
 
 /* eslint-disable */
   var z
-  for (z = 0; z < posts.length; z++) {
+  for (z = 0; z < 8; z++) {
     posts.filter(houseplan => houseplan.id === z).map(hp => (
       charext = hp.designer.substring(0, 1),
       lowercase = charext.toLowerCase(),
