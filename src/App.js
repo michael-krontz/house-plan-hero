@@ -1,10 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import AuthContent from './AuthContent'
-import Deck, { deckDone } from './Deck'
+import Deck from './Deck'
+import Delay from "react-delay"
 // import render from 'react-dom'
-import React, { useState } from "react";
+// import React, { useState } from "react";
 // import { Button } from 'bootstrap';
+
+
 
 
 function Logo() {
@@ -27,28 +30,21 @@ function NavBar() {
   );
 }
 
-  function DeckButtons() {
-    const [deckDone, setDeckEnd] = useState(false)
-
+  function DeckButtons() {   
     return(
-      <div>
-          { deckDone &&
-              <div className = "DeckButtonsWrapper">
-              <div className = "DeckButtons">
-                <button>Reload</button>
-                <button>View Different Style</button>
-                <button>View More</button>
-                </div>
-              </div>
-          }
-      </div>
+      <Delay wait={2000}>
+          <div>
+                  <div className = "DeckButtonsWrapper">
+                  <div className = "DeckButtons">
+                    <button>Reload</button>
+                    <button>View Different Style</button>
+                    <button>View More</button>
+                    </div>
+                  </div>
+          </div>
+        </Delay>
     )
   }
-
-
-
-
-    
 
 
 function App() {
