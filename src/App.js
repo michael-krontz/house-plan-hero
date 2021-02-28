@@ -2,10 +2,10 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import AuthContent from './AuthContent'
 import Deck, { deckDone } from './Deck'
+// import render from 'react-dom'
 import React, { useState } from "react";
 // import { Button } from 'bootstrap';
 
-const [hidden, setHidden] = useState(true);
 
 function Logo() {
   return (
@@ -27,31 +27,28 @@ function NavBar() {
   );
 }
 
-function DeckButtons({}) {
-  const [hidden, setHidden] = useState(true);
-  if (deckDone === true) {
-    return (
-        <div className = "DeckButtonsWrapper">
-          <div className = "DeckButtons">
-            <button>Reload</button>
-            <button>View More</button>
-          </div>
-        </div>
-    );
-  }
-}
+  function DeckButtons() {
+    const [deckDone, setDeckEnd] = useState(false)
 
-function LessText({ text, maxLength }) {
-  // Create a piece of state, and initialize it to `true`
-  // `hidden` will hold the current value of the state,
-  // and `setHidden` will let us change it
-
-  // If the text is short enough, don't bother with the
-  // buttons
-  if (deckDone == false) {
-    return <span>{text}</span>;
+    return(
+      <div>
+          { deckDone &&
+              <div className = "DeckButtonsWrapper">
+              <div className = "DeckButtons">
+                <button>Reload</button>
+                <button>View Different Style</button>
+                <button>View More</button>
+                </div>
+              </div>
+          }
+      </div>
+    )
   }
-}
+
+
+
+
+    
 
 
 function App() {
