@@ -7,6 +7,10 @@ import { useDoubleTap } from 'use-double-tap';
 // import { Button } from 'bootstrap';
 
 
+export var currentCard = 1
+export var deckDone = false
+
+
 var buttonStyle = {
   width: '100%',
   height: '100%',
@@ -42,7 +46,6 @@ var cardUrl
 var charext
 var hpCardId
 var lowercase
-var currentCard = 1
 
 function Doneski() {
   return (
@@ -101,8 +104,13 @@ const LikeEvent = () => {
         }
 
         console.log("Current Card: " + currentCard);
-        console.log(gone.size)
+        console.log("gone size" + gone.size)
       }
+
+      if (gone.size >= 7) {
+        deckDone = true;
+      }
+
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })
     if (!down && gone.size === 7) return <Doneski></Doneski>

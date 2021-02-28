@@ -100,3 +100,15 @@ a:hover {
   border-radius: 10px;
   box-shadow: 0 12.5px 33px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+.DeckButtonsWrapper {
+  width: 100vw;
+  height: 42vh;
+}
+
+.DeckButtons {
+  width: 45vw !important;
+  height: 450px !important;
+  background-color: white !important;
+  border: none !important;
+}
