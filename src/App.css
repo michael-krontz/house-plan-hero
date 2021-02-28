@@ -100,3 +100,24 @@ a:hover {
   border-radius: 10px;
   box-shadow: 0 12.5px 33px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
+
+.DeckButtonsWrapper {
+  width: 100vw !important;
+  height: 42vh !important;
+  border: none !important;
+  border-radius: none !important;
+  background-color: transparent !important;
+  display: flex;
+  box-shadow: none !important;
+  justify-content: center;
+}
+
+.DeckButtons {
+  width: 25vw !important;
+  height: 250px !important;
+  background-color: transparent !important;
+  border: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

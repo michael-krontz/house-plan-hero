@@ -2,6 +2,13 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import AuthContent from './AuthContent'
 import Deck from './Deck'
+import Delay from "react-delay"
+// import render from 'react-dom'
+// import React, { useState } from "react";
+// import { Button } from 'bootstrap';
+
+
+
 
 function Logo() {
   return (
@@ -23,9 +30,24 @@ function NavBar() {
   );
 }
 
+  function DeckButtons() {   
+    return(
+      <Delay wait={2000}>
+          <div>
+                  <div className = "DeckButtonsWrapper">
+                  <div className = "DeckButtons">
+                    <button>Reload</button>
+                    <button>View Different Style</button>
+                    <button>View More</button>
+                    </div>
+                  </div>
+          </div>
+        </Delay>
+    )
+  }
+
 
 function App() {
-
   return (
     <Router>
     <>
@@ -33,6 +55,7 @@ function App() {
         <Logo></Logo>
         <NavBar></NavBar>
       </header>
+        <DeckButtons></DeckButtons>
         <Redirect exact from="/" to="/deck" />
         <Route path='/deck' component={Deck}/>
         <Route path='/authcontent' component={AuthContent}/>
