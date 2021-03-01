@@ -17,11 +17,6 @@ var buttonStyle = {
   opacity: '0'
 };
 
-var doneButton = {
-  width: '120px',
-  height: '120px',
-};
-
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -47,19 +42,10 @@ var charext
 var hpCardId
 var lowercase
 
-function Doneski() {
-  return (
-    <div>
-      <button style={doneButton}></button>
-    </div>
-  );
-};
-
 const LikeEvent = () => {
   const bind = useDoubleTap((event) => {
     if (currentCard < 8) {
-      console.log("Current Card:" + currentCard)
-      console.log("Cards:" + cards.length)
+      console.log("Card Numer: " +  currentCard + " of " +  cards.length)
     }
   });
 
@@ -104,16 +90,11 @@ const LikeEvent = () => {
         }
 
         console.log("Current Card: " + currentCard);
-        console.log("gone size" + gone.size)
-      }
-
-      if (gone.size >= 7) {
-        deckDone = true;
       }
 
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })
-    if (!down && gone.size === 7) return <Doneski></Doneski>
+    if (!down && gone.size === 7) return
   })
          
         // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
@@ -125,14 +106,8 @@ const LikeEvent = () => {
           </animated.div>
         </animated.div>
       ))
-
-      // return (
-      //   <div>
-      //     { stackend && <Button /> }
-      //   </div>
-      // );
 }
 
 
-
+// This resets gone count to 0, and brings cards back in
 // if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
