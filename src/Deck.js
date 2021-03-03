@@ -51,7 +51,11 @@ export default function DeckBuild() {
    const LikeEvent = () => {
      const bind = useDoubleTap((event) => {
        if (currentCard < 8) {
+        cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
+
          console.log("Card Numer: " +  currentCard + " of " +  cards.length)
+         console.log(cards)
+         event = Deck.this.forceUpdate
        }
      });
      return <button {...bind} style={buttonStyle}></button>;
