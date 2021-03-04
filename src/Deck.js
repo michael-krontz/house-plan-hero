@@ -3,7 +3,6 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 
-
 var cardUrl
 var charext
 var hpCardId
@@ -46,7 +45,6 @@ export default function DeckBuild() {
     onDoubleClick: noop,
   };
 
-
   const DoubleClickExample = () => (
     <ClickableBox
       onDoubleClick={LikeEvent}
@@ -61,15 +59,6 @@ export default function DeckBuild() {
     console.log(cards)
   }
  
- 
- 
-  //   if (currentCard < 8) {
-
-  //      console.log("Card Numer: " +  currentCard + " of " +  cards.length)
-  //      console.log(cards)
-  //    }
-  // }
-
   function Deck() {
     // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
