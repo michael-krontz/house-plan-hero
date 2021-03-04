@@ -12,6 +12,7 @@ var currentCard = 1
 
 export default function DeckBuild() {
   var cards = []
+  const [stateVal, setStateVal] = React.useState([cards]);
   
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
@@ -53,14 +54,21 @@ export default function DeckBuild() {
     />
   );
 
-  function LikeEvent() {
-    if (currentCard < 8) {
-      cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
-
-       console.log("Card Numer: " +  currentCard + " of " +  cards.length)
-       console.log(cards)
-     }
+  const LikeEvent = () => {
+    const newItems = [...stateVal];
+    cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
+    setStateVal(newItems)
+    console.log(cards)
   }
+ 
+ 
+ 
+  //   if (currentCard < 8) {
+
+  //      console.log("Card Numer: " +  currentCard + " of " +  cards.length)
+  //      console.log(cards)
+  //    }
+  // }
 
   function Deck() {
     // These two are just helpers, they curate spring data, values that are later being interpolated into css
