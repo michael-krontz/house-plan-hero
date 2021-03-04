@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import { useDoubleTap } from 'use-double-tap';
 import useAxios from 'axios-hooks'
 
 
@@ -10,13 +9,6 @@ var charext
 var hpCardId
 var lowercase
 var currentCard = 1
-
-var buttonStyle = {
-  width: '100%',
-  height: '100%',
-  opacity: '0'
-};
-
 
 export default function DeckBuild() {
   var cards = []
@@ -41,25 +33,41 @@ export default function DeckBuild() {
     ));
   }
   /* eslint-enable */
+
+  const noop = () => {};
+
+  const ClickableBox = ({ onClick, onDoubleClick }) => (
+    <div style={{ width: '100%', height: '100%', opacity: '0' }} onClick={onClick} onDoubleClick={onDoubleClick}></div>
+  );
+
+  ClickableBox.defaultProps = {
+    onClick: noop,
+    onDoubleClick: noop,
+  };
+
+
+  const DoubleClickExample = () => (
+    <ClickableBox
+      onDoubleClick={LikeEvent}
+      return 
+    />
+  );
+
+  function LikeEvent() {
+    if (currentCard < 8) {
+      cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
+
+       console.log("Card Numer: " +  currentCard + " of " +  cards.length)
+       console.log(cards)
+     }
+  }
+
   function Deck() {
     // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   // This is being used down there in the view, it interpolates rotation and scale into a css transform
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`
-    
-   const LikeEvent = () => {
-     const bind = useDoubleTap((event) => {
-       if (currentCard < 8) {
-        cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
-
-         console.log("Card Numer: " +  currentCard + " of " +  cards.length)
-         console.log(cards)
-         event = Deck.this.forceUpdate
-       }
-     });
-     return <button {...bind} style={buttonStyle}></button>;
-   }
    
      const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
      const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
@@ -93,7 +101,7 @@ export default function DeckBuild() {
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
-          <LikeEvent></LikeEvent>
+          <DoubleClickExample></DoubleClickExample>
           </animated.div>
         </animated.div>
       ))
