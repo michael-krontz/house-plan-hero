@@ -9,11 +9,11 @@ var charext
 var hpCardId
 var lowercase
 var currentCard = 1
+var z = 0
 
 var _ = require('lodash')
 
 export default function DeckBuild() {
-  var currentDeck = []
   var allCards = []
   var cards = []
   const [stateVal, setStateVal] = React.useState([cards]);
@@ -38,48 +38,35 @@ export default function DeckBuild() {
       ));
   }
 
-  var newArray = _.chunk(allCards, [5])
-  console.log(newArray[0])
-  cards = newArray[0]
+    var newArray = _.chunk(allCards, [5])
+    var cards = newArray[z]
+    var displayStatus = 'flex'
 
-  // currentDeck = allCards.slice(0, 5)
-  // cards = currentDeck
-  // console.log("All Cards " + allCards)
-  // console.log("Current Deck " + currentDeck)
-  
+  const zoop = () => {};
 
+  const NextDeckButton = ({ onClick }) => (
+    <div style={{ width: '100%', height: '40px', backgroundColor: 'gray', display: {displayStatus} }} onClick={onClick}></div>
+  )
 
-  // function Chunks ({allCardData}){
-  //   const chunk = (array, size) =>
-  //   Array.from({length: Math.ceil(array.length / size)}, (value, index) => array.slice(index * size, index * size + size));
-  
-  //   const itemsPerChunk = 5;
-  //   const inputArray = {allCardData};
-    
-  //   const newArray = chunk(inputArray, itemsPerChunk);
-  //   console.log(newArray.length); // 3,
-    
-  //   document.write(JSON.stringify(newArray)); //  [ [ 'a', 'b', 'c' ], [ 'd', 'e', 'f' ], [ 'g' ] ]
+  NextDeckButton.defaultProps = {
+    onClick: zoop,
+  };
 
+  const NextDeck = () => {
+    return <NextDeckButton onClick={NextDeckAction} />
+  };
 
+  const NextDeckAction = () => {
+    if (z < (newArray.length - 1)) {
+      z ++
+      cards = newArray[z]
+      setStateVal(cards)
+    }
 
-  //   // Array.apply(0,{length: Math.ceil(allCardData.length / 5)}).map((_, index) => allCards.slice(index*5, (index+1)*5))
-  // // // The following will group letters of the alphabet by 4
-  // // console.log(Chunks([...Array(allCardData)].map((x,i)=>String.allCardData(i + 97)), 4))
-  // }
-
-  // var z
-  // for (z = 0; z < 8; z++) {
-  //   cardData.filter(houseplan => houseplan.id === z).map(hp => (
-  //     charext = hp.designer.substring(0, 1),
-  //     lowercase = charext.toLowerCase(),
-  //     hpCardId = lowercase + z,
-  //     cardUrl = "images/" + hpCardId + ".jpg",
-  //     currentDeck.push(cardUrl),
-  //     console.log(currentDeck)
-  //   ));
-  // }
-  /* eslint-enable */
+    else if (z = newArray.length) {
+      displayStatus = 'none'
+    }
+  };
 
   const noop = () => {};
 
@@ -164,6 +151,7 @@ export default function DeckBuild() {
           </div>
         </div>
       </div>
+      <NextDeck></NextDeck>
       <Deck></Deck>
     </>
   )
