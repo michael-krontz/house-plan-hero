@@ -3,13 +3,18 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 
+
 var cardUrl
 var charext
 var hpCardId
 var lowercase
 var currentCard = 1
 
+var _ = require('lodash')
+
 export default function DeckBuild() {
+  var currentDeck = []
+  var allCards = []
   var cards = []
   const [stateVal, setStateVal] = React.useState([cards]);
   
@@ -22,16 +27,58 @@ export default function DeckBuild() {
 
   var cardData = data
     /* eslint-disable */
-  var z
-  for (z = 0; z < 8; z++) {
-    cardData.filter(houseplan => houseplan.id === z).map(hp => (
+  var x
+  for (x=0; x < cardData.length; x++) {
+    cardData.filter(houseplan => houseplan.id === x).map(hp => (
       charext = hp.designer.substring(0, 1),
       lowercase = charext.toLowerCase(),
-      hpCardId = lowercase + z,
+      hpCardId = lowercase + x,
       cardUrl = "images/" + hpCardId + ".jpg",
-      cards.push(cardUrl)
-    ));
+      allCards.push(cardUrl)
+      ));
   }
+
+  var newArray = _.chunk(allCards, [5])
+  console.log(newArray[0])
+  cards = newArray[0]
+
+  // currentDeck = allCards.slice(0, 5)
+  // cards = currentDeck
+  // console.log("All Cards " + allCards)
+  // console.log("Current Deck " + currentDeck)
+  
+
+
+  // function Chunks ({allCardData}){
+  //   const chunk = (array, size) =>
+  //   Array.from({length: Math.ceil(array.length / size)}, (value, index) => array.slice(index * size, index * size + size));
+  
+  //   const itemsPerChunk = 5;
+  //   const inputArray = {allCardData};
+    
+  //   const newArray = chunk(inputArray, itemsPerChunk);
+  //   console.log(newArray.length); // 3,
+    
+  //   document.write(JSON.stringify(newArray)); //  [ [ 'a', 'b', 'c' ], [ 'd', 'e', 'f' ], [ 'g' ] ]
+
+
+
+  //   // Array.apply(0,{length: Math.ceil(allCardData.length / 5)}).map((_, index) => allCards.slice(index*5, (index+1)*5))
+  // // // The following will group letters of the alphabet by 4
+  // // console.log(Chunks([...Array(allCardData)].map((x,i)=>String.allCardData(i + 97)), 4))
+  // }
+
+  // var z
+  // for (z = 0; z < 8; z++) {
+  //   cardData.filter(houseplan => houseplan.id === z).map(hp => (
+  //     charext = hp.designer.substring(0, 1),
+  //     lowercase = charext.toLowerCase(),
+  //     hpCardId = lowercase + z,
+  //     cardUrl = "images/" + hpCardId + ".jpg",
+  //     currentDeck.push(cardUrl),
+  //     console.log(currentDeck)
+  //   ));
+  // }
   /* eslint-enable */
 
   const noop = () => {};
