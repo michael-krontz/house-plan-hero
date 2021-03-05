@@ -59,14 +59,18 @@ export default function DeckBuild() {
   };
 
   const NextDeckAction = () => {
-    if (z < (newArray.length - 1)) {
+    if (z < (newArray.length -1)) {
       z ++
       cards = newArray[z]
       setStateVal(cards)
+      console.log("new array: " + newArray.length)
+      console.log("z: " + z)
     }
 
-    else if (z === (newArray.length - 3)) {
+    else if (z = (newArray.length - 1)) {
       console.log("No More Cards")
+      const nextNone = 'none'
+      setNextDisplay(nextNone)
     }
   };
 
