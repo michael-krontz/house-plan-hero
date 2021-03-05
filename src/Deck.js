@@ -16,7 +16,10 @@ var _ = require('lodash')
 export default function DeckBuild() {
   var allCards = []
   var cards = []
-  const [stateVal, setStateVal] = React.useState([cards]);
+
+  const [stateVal, setStateVal] = useState([cards]);
+  const [nextDisplay, setNextDisplay] = useState('flex');
+
   
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
@@ -40,12 +43,11 @@ export default function DeckBuild() {
 
     var newArray = _.chunk(allCards, [5])
     var cards = newArray[z]
-    var displayStatus = 'flex'
 
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <div style={{ width: '100%', height: '40px', backgroundColor: 'gray', display: {displayStatus} }} onClick={onClick}></div>
+    <div style={{ width: '50%', height: '60px', marginLeft: '25%', backgroundColor: 'white', display: {nextDisplay} }} onClick={onClick}>Next Deck</div>
   )
 
   NextDeckButton.defaultProps = {
@@ -63,8 +65,8 @@ export default function DeckBuild() {
       setStateVal(cards)
     }
 
-    else if (z = newArray.length) {
-      displayStatus = 'none'
+    else if (z === (newArray.length - 3)) {
+      console.log("No More Cards")
     }
   };
 
