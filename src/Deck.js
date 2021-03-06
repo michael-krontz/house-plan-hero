@@ -3,7 +3,6 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 
-
 var cardUrl
 var charext
 var hpCardId
@@ -47,7 +46,7 @@ export default function DeckBuild() {
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <div style={{ width: '50%', height: '60px', marginLeft: '25%', backgroundColor: 'white', display: {nextDisplay} }} onClick={onClick}>Next Deck</div>
+    <button className="next-button" onClick={onClick}>Next Deck</button>
   )
 
   NextDeckButton.defaultProps = {
