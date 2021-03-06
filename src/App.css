@@ -101,6 +101,18 @@ a:hover {
   box-shadow: 0 12.5px 33px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
 
+#root > button {
+  width: 30vw !important;
+  height: 60px !important;
+  margin-left: 35vw;
+  background-color: white !important;
+  display: flex !important;
+  position: absolute;
+  bottom: 120px;
+  justify-content: center;
+  align-items: center;
+}
+
 .DeckButtonsWrapper {
   width: 100vw !important;
   height: 42vh !important;
@@ -121,3 +133,4 @@ a:hover {
   flex-direction: column;
   justify-content: center;
 }
+

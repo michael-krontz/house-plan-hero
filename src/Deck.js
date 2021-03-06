@@ -8,10 +8,17 @@ var charext
 var hpCardId
 var lowercase
 var currentCard = 1
+var z = 0
+
+var _ = require('lodash')
 
 export default function DeckBuild() {
+  var allCards = []
   var cards = []
-  const [stateVal, setStateVal] = React.useState([cards]);
+
+  const [stateVal, setStateVal] = useState([cards]);
+  const [nextDisplay, setNextDisplay] = useState('flex');
+
   
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
@@ -22,17 +29,49 @@ export default function DeckBuild() {
 
   var cardData = data
     /* eslint-disable */
-  var z
-  for (z = 0; z < 8; z++) {
-    cardData.filter(houseplan => houseplan.id === z).map(hp => (
+  var x
+  for (x=0; x < cardData.length; x++) {
+    cardData.filter(houseplan => houseplan.id === x).map(hp => (
       charext = hp.designer.substring(0, 1),
       lowercase = charext.toLowerCase(),
-      hpCardId = lowercase + z,
+      hpCardId = lowercase + x,
       cardUrl = "images/" + hpCardId + ".jpg",
-      cards.push(cardUrl)
-    ));
+      allCards.push(cardUrl)
+      ));
   }
-  /* eslint-enable */
+
+    var newArray = _.chunk(allCards, [5])
+    var cards = newArray[z]
+
+  const zoop = () => {};
+
+  const NextDeckButton = ({ onClick }) => (
+    <button className="next-button" onClick={onClick}>Next Deck</button>
+  )
+
+  NextDeckButton.defaultProps = {
+    onClick: zoop,
+  };
+
+  const NextDeck = () => {
+    return <NextDeckButton onClick={NextDeckAction} />
+  };
+
+  const NextDeckAction = () => {
+    if (z < (newArray.length -1)) {
+      z ++
+      cards = newArray[z]
+      setStateVal(cards)
+      console.log("new array: " + newArray.length)
+      console.log("z: " + z)
+    }
+
+    else if (z = (newArray.length - 1)) {
+      console.log("No More Cards")
+      const nextNone = 'none'
+      setNextDisplay(nextNone)
+    }
+  };
 
   const noop = () => {};
 
@@ -117,6 +156,7 @@ export default function DeckBuild() {
           </div>
         </div>
       </div>
+      <NextDeck></NextDeck>
       <Deck></Deck>
     </>
   )
