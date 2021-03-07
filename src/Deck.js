@@ -152,11 +152,10 @@ export default function DeckBuild() {
           <div className = "DeckButtons">
             <button onClick={refetch}>Reload</button>
             <button>View Different Style</button>
-            <button>View More</button>
+            <NextDeck></NextDeck>
           </div>
         </div>
       </div>
-      <NextDeck></NextDeck>
       <Deck></Deck>
     </>
   )

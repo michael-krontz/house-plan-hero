@@ -75,7 +75,7 @@ a:hover {
 #root > div {
   position: absolute;
   width: 96vw;
-  margin-top: 35vh;
+  margin-top: 42vh;
   margin-left: 2vw;
   will-change: transform;
   display: flex;
