@@ -15,11 +15,10 @@ var _ = require('lodash')
 export default function DeckBuild() {
   var allCards = []
   var cards = []
+  var reload = false
 
-  const [stateVal, setStateVal] = useState([cards]);
-  const [nextDisplay, setNextDisplay] = useState('flex');
-
-  
+  const [stateVal, setStateVal] = useState([cards]); 
+  const [reloadState, setReloadState] = useState(reload); 
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
   )
@@ -97,6 +96,29 @@ export default function DeckBuild() {
     setStateVal(newItems)
     console.log(cards)
   }
+
+  const floop = () => {};
+  const ReloadButton = ({ onClickReload }) => (
+    <button className="reload-button" onClick={ReloadDeckAction}>Reload Deck</button>
+  )
+
+  
+  ReloadButton.defaultProps = {
+    onClickReload: floop,
+  };
+
+  const ReloadDeck = () => {
+    return <ReloadButton />
+  };
+
+  const ReloadDeckAction = () => {
+      // ...
+        setReloadState(true)
+        console.log("FASDASDASDa")
+        console.log("ReloadState: " + reloadState)
+      // ...
+
+ }
  
   function Deck() {
     // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -125,9 +147,12 @@ export default function DeckBuild() {
              currentCard = 1
            }
            console.log("Current Card: " + currentCard);
-         }
-  
-         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
+         }        
+
+         const reloadState = useState(() => gone.clear() || set(i => to(i)), 600)
+
+
+          return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
        })
      })
   
@@ -150,7 +175,7 @@ export default function DeckBuild() {
       <div>
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
-            <button onClick={refetch}>Reload</button>
+            <ReloadDeck></ReloadDeck>
             <button>View Different Style</button>
             <NextDeck></NextDeck>
           </div>
@@ -164,4 +189,3 @@ export default function DeckBuild() {
 
 
 // This resets gone count to 0, and brings cards back in
-// if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
