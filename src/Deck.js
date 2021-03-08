@@ -16,10 +16,7 @@ export default function DeckBuild() {
   var allCards = []
   var cards = []
 
-  const [stateVal, setStateVal] = useState([cards]);
-  const [nextDisplay, setNextDisplay] = useState('flex');
-
-  
+  const [stateVal, setStateVal] = useState([cards]); 
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
   )
@@ -107,6 +104,21 @@ export default function DeckBuild() {
    
      const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
      const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
+     const [reloadState, setReload] = useState((gone.clear() || set(i => to(i)), 600)) ; 
+
+    const floop = () => {};
+    const ReloadButton = ({ onClickReload }) => (
+      <button className="reload-button" onClick={ReloadDeckAction}>Reload Deck</button>
+    )
+
+    ReloadButton.defaultProps = {
+      onClickReload: floop,
+    };
+
+    const ReloadDeckAction = () => {
+      setReload((gone.clear() || set(i => to(i)), 600))
+    }
+
      // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
      const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
        const trigger = velocity > 0.1 // If you flick hard enough it should trigger the card to fly out
@@ -125,9 +137,12 @@ export default function DeckBuild() {
              currentCard = 1
            }
            console.log("Current Card: " + currentCard);
-         }
-  
-         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
+         }        
+
+        //  const reloadState = useState(() => gone.clear() || set(i => to(i)), 600)
+
+
+          return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
        })
      })
   
@@ -138,19 +153,19 @@ export default function DeckBuild() {
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
           <DoubleClickExample></DoubleClickExample>
+          <ReloadButton></ReloadButton>
           </animated.div>
         </animated.div>
       ))
     )
   }
-
+  
 
   return(
     <>
       <div>
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
-            <button onClick={refetch}>Reload</button>
             <button>View Different Style</button>
             <NextDeck></NextDeck>
           </div>
@@ -160,8 +175,3 @@ export default function DeckBuild() {
     </>
   )
 }
-
-
-
-// This resets gone count to 0, and brings cards back in
-// if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i)), 600)
