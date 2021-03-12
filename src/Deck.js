@@ -65,8 +65,6 @@ export default function DeckBuild() {
 
     else if (z = (newArray.length - 1)) {
       console.log("No More Cards")
-      const nextNone = 'none'
-      setNextDisplay(nextNone)
     }
   };
 
@@ -104,20 +102,6 @@ export default function DeckBuild() {
    
      const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
      const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
-     const [reloadState, setReload] = useState((gone.clear() || set(i => to(i)), 600)) ; 
-
-    const floop = () => {};
-    const ReloadButton = ({ onClickReload }) => (
-      <button className="reload-button" onClick={ReloadDeckAction}>Reload Deck</button>
-    )
-
-    ReloadButton.defaultProps = {
-      onClickReload: floop,
-    };
-
-    const ReloadDeckAction = () => {
-      setReload((gone.clear() || set(i => to(i)), 600))
-    }
 
      // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
      const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -139,8 +123,8 @@ export default function DeckBuild() {
            console.log("Current Card: " + currentCard);
          }        
 
-        //  const reloadState = useState(() => gone.clear() || set(i => to(i)), 600)
-
+        // Reload function
+        // gone.clear() || set(i => to(i)), 600)
 
           return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
        })
@@ -153,7 +137,6 @@ export default function DeckBuild() {
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
           <DoubleClickExample></DoubleClickExample>
-          <ReloadButton></ReloadButton>
           </animated.div>
         </animated.div>
       ))
