@@ -9,7 +9,6 @@ var hpCardId
 var lowercase
 var currentCard = 1
 var z = 0
-
 var _ = require('lodash')
 
 export default function DeckBuild() {
