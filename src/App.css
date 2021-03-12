@@ -135,7 +135,11 @@ a:hover {
 }
 
 .info-box {
-  border-radius: 0 !important;
+  border-radius: 0;
   position: absolute;
-  max-height: 75px !important;
+  max-height: 75px;
+  width: 45vw !important;
+  background-color: white;
+  left: 25%;
+  padding: 18px;
 }

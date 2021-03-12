@@ -10,10 +10,7 @@ var lowercase
 var currentCard = 1
 var z = 0
 
-
-
 var _ = require('lodash')
-
 
 export default function DeckBuild() {
   var allCards = []
@@ -170,7 +167,6 @@ export default function DeckBuild() {
   return(
     <>
       <div>
-        <InfoBox isDeckOver={false} />
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
             <button>View Different Style</button>
@@ -178,6 +174,7 @@ export default function DeckBuild() {
           </div>
         </div>
       </div>
+      <InfoBox isDeckOver={false} />
       <Deck></Deck>
     </>
   )
