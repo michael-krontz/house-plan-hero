@@ -134,3 +134,8 @@ a:hover {
   justify-content: center;
 }
 
+.info-box {
+  border-radius: 0 !important;
+  position: absolute;
+  max-height: 75px !important;
+}
