@@ -109,8 +109,8 @@ export default function DeckBuild() {
     />
   );
 
-  const LikeEvent = () => {
-    DetailDeckBuild()
+  function LikeEvent() {
+
     // const newItems = [...stateVal];
     // cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
     // setStateVal(newItems)

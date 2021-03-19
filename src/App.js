@@ -33,7 +33,7 @@ function App() {
         <NavBar></NavBar>
       </header>
         <DeckBuild></DeckBuild>
-        <DetailDeckBuild></DetailDeckBuild>
+        <DetailDeckBuild></DetailDeckBuild>        
         <Route path='/authcontent' component={AuthContent}/>
     </>
     </Router>

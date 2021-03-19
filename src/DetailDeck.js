@@ -2,22 +2,17 @@ import React, { useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
-export default function DetailDeckBuild() {
+export default function DetailDeckBuild(details) {
   var currentCard = 1
-  var cards = [1, 2, 3, 4, 5]
-  // var to
-  // var from
-  // var trans
-  // var props = 5
-  // var bind
+  var Detailcards = [{details}]
+
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
   
     function DetailDeck() {
-      console.log("COOOOOOOOOOOM")
       const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-      const [props, set] = useSprings(cards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
+      const [props, set] = useSprings(Detailcards.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     
       // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
       const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -50,7 +45,7 @@ export default function DetailDeckBuild() {
        props.map(({ x, y, rot, scale }, i) => (
          <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
            {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
+           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${Detailcards[i]})` }}>
            </animated.div>
          </animated.div>
        ))
