@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import DeckBuild from './Deck'
+import DetailDeckBuild from './DetailDeck';
 
 function Logo() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <NavBar></NavBar>
       </header>
         <DeckBuild></DeckBuild>
+        <DetailDeckBuild></DetailDeckBuild>
         <Route path='/authcontent' component={AuthContent}/>
     </>
     </Router>
