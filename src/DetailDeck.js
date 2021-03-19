@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 
-export default function DetailDeckBuild(details) {
+export default function DetailDeckBuild() {
   var currentCard = 1
-  var Detailcards = [{details}]
+  var Detailcards = [1, 2, 3]
 
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
