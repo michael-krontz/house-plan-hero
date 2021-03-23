@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
+import DetailDeckBuild from './DetailDeck'
 
 var cardUrl
 var charext
@@ -108,11 +109,12 @@ export default function DeckBuild() {
     />
   );
 
-  const LikeEvent = () => {
-    const newItems = [...stateVal];
-    cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
-    setStateVal(newItems)
-    console.log(cards)
+  function LikeEvent() {
+    console.log("Detail Cardz!!")
+    // const newItems = [...stateVal];
+    // cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
+    // setStateVal(newItems)
+    // console.log(cards)
   }
  
   function Deck() {
