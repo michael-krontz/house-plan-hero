@@ -1,10 +1,12 @@
 import './App.css';
+import React, { useState, useRef } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
-import React, { useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
+import useDoubleClick from 'use-double-click'
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 function Logo() {
   return (
@@ -34,12 +36,8 @@ var currentCard = 1
 var z = 0
 var _ = require('lodash')
 
-
-function DetailDeckBuild({ cards }) {
-  const [cardState, setCardState] = useState(cards)
-  console.log(cardState)
-  console.log(cardState.length)
-
+function DetailDeckBuild() {
+  const cardState = useRecoilValue(detailState);
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -67,10 +65,8 @@ function DetailDeckBuild({ cards }) {
               currentCard = 1
             }
           }        
-    
             // Reload function
             // gone.clear() || set(i => to(i)), 600)
-            
             return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
         })  
       })
@@ -93,8 +89,6 @@ function DetailDeckBuild({ cards }) {
     </>
     )
   }
-
-
 
 function DeckBuild() {
   var allCards = []
@@ -156,11 +150,10 @@ function DeckBuild() {
     }
   };
 
-  
   function VisibleInfoBox(props) {
     return <div className="info-box">
-           <p>This is a conditional info box.</p>
-           </div>;
+      <p>This is a conditional info box.</p>
+      </div>;
   }
   
   function HiddenInfoBox(props) {
@@ -175,33 +168,6 @@ function DeckBuild() {
     return <HiddenInfoBox />;
   }
 
-  const noop = () => {};
-
-  const ClickableBox = ({ onClick, onDoubleClick }) => (
-    <div style={{ width: '100%', height: '100%', opacity: '0' }} onClick={onClick} onDoubleClick={onDoubleClick}></div>
-  );
-
-  ClickableBox.defaultProps = {
-    onClick: noop,
-    onDoubleClick: noop,
-  };
-
-  const DoubleClickExample = () => (
-    <ClickableBox
-      onDoubleClick={LikeEvent}
-      return 
-    />
-  );
-
-  function LikeEvent() {
-    console.log("Detail Cardz!! " + detailCards)
-    
-    // const newItems = [...stateVal];
-    // cards.push('New Card', 'New Card', 'New Card', 'New Card', 'New Card')
-    // setStateVal(newItems)
-    // console.log(cards)
-  }
- 
   function Deck() {
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -228,10 +194,8 @@ function DeckBuild() {
           currentCard = 1
         }
       }        
-
         // Reload function
         // gone.clear() || set(i => to(i)), 600)
-        
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
@@ -242,7 +206,7 @@ function DeckBuild() {
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
-          <DoubleClickExample></DoubleClickExample>
+          <DoubleClickEvent></DoubleClickEvent>
           </animated.div>
         </animated.div>
       ))
@@ -265,15 +229,25 @@ function DeckBuild() {
   )
 }
 
+const DoubleClickEvent = () => {
+  const setDetailCards = useSetRecoilState(detailState)
+  const buttonRef = useRef();
+ 
+  useDoubleClick({
+    onDoubleClick: e => setDetailCards([1, 2, 3, 4, 5]),
+    ref: buttonRef,
+    latency: 350
+  });
 
+  return <div className="tap-area" ref={buttonRef}>Click Me</div>
+}
 
-
-
+const detailState = atom({
+  key: 'detailState', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
 
 function App() {
-
-  const [detailCards, setDetailCards] = useState([1, 2, 3, 4, 5]);
-
   return (
     <Router>
     <>
@@ -281,8 +255,10 @@ function App() {
         <Logo></Logo>
         <NavBar></NavBar>
       </header>
-        <DeckBuild></DeckBuild>
-        <DetailDeckBuild cards={detailCards}></DetailDeckBuild>        
+        <RecoilRoot>
+          <DeckBuild></DeckBuild>        
+          <DetailDeckBuild></DetailDeckBuild>
+        </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
     </>
     </Router>
