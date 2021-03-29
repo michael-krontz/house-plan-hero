@@ -6,7 +6,7 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 import useDoubleClick from 'use-double-click'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 function Logo() {
   return (
@@ -93,6 +93,7 @@ function DetailDeckBuild() {
 function DeckBuild() {
   var allCards = []
   var cards = []
+  var allCardIds = []
 
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -111,6 +112,7 @@ function DeckBuild() {
       charext = hp.designer.substring(0, 1),
       lowercase = charext.toLowerCase(),
       hpCardId = lowercase + x,
+      allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
       ));
@@ -150,6 +152,9 @@ function DeckBuild() {
     }
   };
 
+
+
+
   function VisibleInfoBox(props) {
     return <div className="info-box">
       <p>This is a conditional info box.</p>
@@ -169,6 +174,10 @@ function DeckBuild() {
   }
 
   function Deck() {
+  var currentCardId = []
+  console.log(typeof currentCardId)
+  console.log(currentCardId)
+  
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -193,25 +202,31 @@ function DeckBuild() {
         if (currentCard > 7) {
           currentCard = 1
         }
+        currentCardId = allCardIds[currentCard - 1]
       }        
+
+      console.log(currentCardId)
+
         // Reload function
         // gone.clear() || set(i => to(i)), 600)
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
-  
+
+
      // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return (
       props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
-          <DoubleClickEvent></DoubleClickEvent>
+          <DoubleClickEvent currentCardId={currentCardId}></DoubleClickEvent>
           </animated.div>
         </animated.div>
       ))
     )
   }
+
 
   return(
     <>
@@ -229,15 +244,19 @@ function DeckBuild() {
   )
 }
 
-const DoubleClickEvent = () => {
+const DoubleClickEvent = (props) => {
   const setDetailCards = useSetRecoilState(detailState)
   const buttonRef = useRef();
  
   useDoubleClick({
-    onDoubleClick: e => setDetailCards(['images/d7-4.jpeg', 'images/d7-3.jpeg', 'images/d7-2.jpeg', 'images/d7-1.jpeg']),
+    onDoubleClick: e => setDetailCards(['images/' + props.currentCardId + '-1.jpeg']),
     ref: buttonRef,
     latency: 350
   });
+
+  const [detailStateLog, setDetailStateLog] = useRecoilState(detailState)
+  console.log(detailStateLog)
+
 
   return <div className="tap-area" ref={buttonRef}>Click Me</div>
 }
