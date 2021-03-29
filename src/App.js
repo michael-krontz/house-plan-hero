@@ -234,7 +234,7 @@ const DoubleClickEvent = () => {
   const buttonRef = useRef();
  
   useDoubleClick({
-    onDoubleClick: e => setDetailCards([1, 2, 3, 4, 5]),
+    onDoubleClick: e => setDetailCards(['images/d7-4.jpeg', 'images/d7-3.jpeg', 'images/d7-2.jpeg', 'images/d7-1.jpeg']),
     ref: buttonRef,
     latency: 350
   });
