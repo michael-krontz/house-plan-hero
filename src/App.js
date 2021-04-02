@@ -6,7 +6,7 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 import useDoubleClick from 'use-double-click'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 
 function Logo() {
   return (
@@ -33,11 +33,13 @@ var charext
 var hpCardId
 var lowercase
 var currentCard = 1
+var currentHand = 1
 var z = 0
 var _ = require('lodash')
 
 function DetailDeckBuild() {
   const cardState = useRecoilValue(detailState);
+  console.log("Detail Card State: " + cardState)
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -59,12 +61,6 @@ function DetailDeckBuild() {
           const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
           const scale = down ? 1 : 1 // Active cards lift up a bit
           
-          if (isGone === true) {
-            currentCard ++
-            if (currentCard > 7) {
-              currentCard = 1
-            }
-          }        
             // Reload function
             // gone.clear() || set(i => to(i)), 600)
             return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
@@ -93,6 +89,7 @@ function DetailDeckBuild() {
 function DeckBuild() {
   var allCards = []
   var cards = []
+  var allCardIds = []
 
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -108,13 +105,16 @@ function DeckBuild() {
   var x
   for (x=0; x < cardData.length; x++) {
     cardData.filter(houseplan => houseplan.id === x).map(hp => (
-      charext = hp.designer.substring(0, 1),
+      charext = hp.designer.substring(0, 0),
       lowercase = charext.toLowerCase(),
       hpCardId = lowercase + x,
+      allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
       ));
   }
+
+  console.log(cardUrl)
 
     var newArray = _.chunk(allCards, [5])
     var cards = newArray[z]
@@ -169,6 +169,9 @@ function DeckBuild() {
   }
 
   function Deck() {
+  const cardId = useRecoilValue(currentCardId);
+  const setCardId = useSetRecoilState(currentCardId);
+  
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -189,17 +192,22 @@ function DeckBuild() {
       const scale = down ? 1 : 1 // Active cards lift up a bit
       
       if (isGone === true) {
+        currentHand ++
+      }
+
+      console.log("cards.length: " + cards.length)
+      console.log("currentCard: " + currentCard)
+      console.log("currentHand: " + currentHand)
+      
+      if (isGone === true) {
         currentCard ++
-        if (currentCard > 7) {
-          currentCard = 1
-        }
-      }        
-        // Reload function
-        // gone.clear() || set(i => to(i)), 600)
+        setCardId(currentCard)
+      }
+
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
-  
+
      // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return (
       props.map(({ x, y, rot, scale }, i) => (
@@ -230,21 +238,29 @@ function DeckBuild() {
 }
 
 const DoubleClickEvent = () => {
+  const cardId = useRecoilValue(currentCardId);
   const setDetailCards = useSetRecoilState(detailState)
   const buttonRef = useRef();
+  // const cardId = props
+  console.log("Card ID: " + cardId);
  
   useDoubleClick({
-    onDoubleClick: e => setDetailCards(['images/d7-4.jpeg', 'images/d7-3.jpeg', 'images/d7-2.jpeg', 'images/d7-1.jpeg']),
+    onDoubleClick: e => setDetailCards(['images/' + cardId + '-4.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-1.jpeg']),
     ref: buttonRef,
     latency: 350
   });
 
-  return <div className="tap-area" ref={buttonRef}>Click Me</div>
+  return <div className="tap-area" ref={buttonRef}></div>
 }
 
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
+});
+
+const currentCardId = atom({
+  key: 'currentCardId', // unique ID (with respect to other atoms/selectors)
+  default: 1, // default value (aka initial value)
 });
 
 function App() {
