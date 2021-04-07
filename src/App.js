@@ -29,8 +29,10 @@ function NavBar() {
 }
 
 var cardUrl
+var detailCardUrl
 var charext
 var hpCardId
+var hpdCardId
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -160,6 +162,7 @@ function DeckBuild() {
   var allCards = []
   var cards = []
   var allCardIds = []
+  var allDetailCards = []
 
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -182,12 +185,22 @@ function DeckBuild() {
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
       ));
+
+    cardData.filter(houseplan => houseplan.detailCards === x).map(hpd => (
+      charext = hpd.detailCards,
+      hpdCardId = x,
+      allDetailCards.push(hpdCardId),
+      detailCardUrl = "images/" + hpdCardId + "-" + x + ".jpeg",
+      allDetailCards.push(detailCardUrl)
+      ));
   }
 
-  console.log(cardUrl)
+  console.log(allDetailCards)
 
     var newArray = _.chunk(allCards, [5])
     var cards = newArray[z]
+    cards.reverse();
+
 
   const zoop = () => {};
 
@@ -274,6 +287,7 @@ function DeckBuild() {
         setCardId(currentCard)
       }
 
+
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
@@ -312,7 +326,6 @@ const DoubleClickEvent = () => {
   const setDetailCards = useSetRecoilState(detailState)
   const setInfoCard = useSetRecoilState(infoState)
   const buttonRef = useRef();
-  // const cardId = props
   console.log("Card ID: " + cardId);
  
   useDoubleClick({
