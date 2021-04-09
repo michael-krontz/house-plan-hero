@@ -33,6 +33,7 @@ var detailCardUrl
 var charext
 var hpCardId
 var hpdCardId
+var hpdCardArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -163,9 +164,12 @@ function DeckBuild() {
   var cards = []
   var allCardIds = []
   var allDetailCards = []
+  var detailCardId = []
+  var hpdCardArrayItem
 
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
+  const setDetailArray = useSetRecoilState(detailState)
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
   )
@@ -185,17 +189,21 @@ function DeckBuild() {
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
       ));
+    }
 
-    cardData.filter(houseplan => houseplan.detailCards === x).map(hpd => (
-      charext = hpd.detailCards,
-      hpdCardId = x,
-      allDetailCards.push(hpdCardId),
-      detailCardUrl = "images/" + hpdCardId + "-" + x + ".jpeg",
-      allDetailCards.push(detailCardUrl)
-      ));
+    var y
+    var hpdArrayItem
+    for (y=0; y < cardData.length; y++) {
+    cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
+    hpdCardArrayItem = hpd.detailCards,
+    hpdCardArray.push(hpdCardArrayItem),
+    hpdArrayItem = hpdCardArray[currentCard - 1]
+    // setDetailArray(['images/' + currentCard + '-' + hpdArrayItem + '.jpeg'])
+    ))
+      
   }
 
-  console.log(allDetailCards)
+  console.log("Card " + currentCard + " has " + hpdArrayItem + " detail cards")
 
     var newArray = _.chunk(allCards, [5])
     var cards = newArray[z]
@@ -277,10 +285,6 @@ function DeckBuild() {
       if (isGone === true) {
         currentHand ++
       }
-
-      // console.log("cards.length: " + cards.length)
-      // console.log("currentCard: " + currentCard)
-      // console.log("currentHand: " + currentHand)
       
       if (isGone === true) {
         currentCard ++
@@ -335,7 +339,7 @@ const DoubleClickEvent = () => {
   });
   
   function DoubleClick() {
-    setDetailCards(['images/' + cardId + '-4.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-1.jpeg'])
+    setDetailCards(['images/' + cardId + '-6.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-1.jpeg'])
     setInfoCard([currentCardId])
   }
   
