@@ -29,10 +29,10 @@ function NavBar() {
 }
 
 var cardUrl
-var detailCardUrl
+// var detailCardUrl
 var charext
 var hpCardId
-var hpdCardId
+// var hpdCardId
 var hpdCardArray = []
 var lowercase
 var currentCard = 1
@@ -42,7 +42,7 @@ var _ = require('lodash')
 
 function DetailDeckBuild() {
   const cardState = useRecoilValue(detailState);
-  console.log("Detail Card State: " + cardState)
+  // console.log("Detail Card State: " + cardState)
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -94,7 +94,7 @@ function DetailDeckBuild() {
     const cardState = useRecoilValue(infoState);
     const cardId = useRecoilValue(currentCardId);
 
-    console.log("Info Card State: " + cardState)
+    // console.log("Info Card State: " + cardState)
     const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
     const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
     const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -163,13 +163,11 @@ function DeckBuild() {
   var allCards = []
   var cards = []
   var allCardIds = []
-  var allDetailCards = []
-  var detailCardId = []
   var hpdCardArrayItem
 
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
-  const setDetailArray = useSetRecoilState(detailState)
+  const setDetailCount = useSetRecoilState(detailCount);
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
   )
@@ -198,12 +196,11 @@ function DeckBuild() {
     hpdCardArrayItem = hpd.detailCards,
     hpdCardArray.push(hpdCardArrayItem),
     hpdArrayItem = hpdCardArray[currentCard - 1]
-    // setDetailArray(['images/' + currentCard + '-' + hpdArrayItem + '.jpeg'])
     ))
       
   }
-
-  console.log("Card " + currentCard + " has " + hpdArrayItem + " detail cards")
+  // console.log("Card " + currentCard + " has " + hpdArrayItem + " detail cards")
+  // console.log("HDP CARD ARRAY Item: " + hpdCardArray[currentCard - 1])
 
     var newArray = _.chunk(allCards, [5])
     var cards = newArray[z]
@@ -262,6 +259,8 @@ function DeckBuild() {
   function Deck() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
+  const setDetailCount = useSetRecoilState(detailCount);
+
   
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -289,6 +288,7 @@ function DeckBuild() {
       if (isGone === true) {
         currentCard ++
         setCardId(currentCard)
+        setDetailCount(hpdCardArray[currentCard - 1])
       }
 
 
@@ -326,11 +326,12 @@ function DeckBuild() {
 }
 
 const DoubleClickEvent = () => {
+  const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const setDetailCards = useSetRecoilState(detailState)
   const setInfoCard = useSetRecoilState(infoState)
   const buttonRef = useRef();
-  console.log("Card ID: " + cardId);
+
  
   useDoubleClick({
     onDoubleClick: e => DoubleClick(),
@@ -341,6 +342,9 @@ const DoubleClickEvent = () => {
   function DoubleClick() {
     setDetailCards(['images/' + cardId + '-6.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-1.jpeg'])
     setInfoCard([currentCardId])
+
+    console.log("Card ID: " + cardId);
+    console.log("Detail Count: " + detailcardcount);
   }
   
   return <div className="tap-area" ref={buttonRef}></div>
@@ -360,6 +364,12 @@ const currentCardId = atom({
   key: 'currentCardId', // unique ID (with respect to other atoms/selectors)
   default: 1, // default value (aka initial value)
 });
+
+const detailCount = atom({
+  key: 'detailCount', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
 
 function App() {
   return (
