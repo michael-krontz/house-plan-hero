@@ -340,9 +340,11 @@ const DoubleClickEvent = () => {
   });
   
   function DoubleClick() {
-    setDetailCards(['images/' + cardId + '-6.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-1.jpeg'])
+    var newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+    setDetailCards(newArray)
     setInfoCard([currentCardId])
 
+    console.log(newArray)
     console.log("Card ID: " + cardId);
     console.log("Detail Count: " + detailcardcount);
   }
@@ -367,7 +369,7 @@ const currentCardId = atom({
 
 const detailCount = atom({
   key: 'detailCount', // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
+  default: 4, // default value (aka initial value)
 });
 
 
