@@ -340,7 +340,15 @@ const DoubleClickEvent = () => {
   });
   
   function DoubleClick() {
-    var newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+    var newArray = []
+
+    if (detailcardcount < 1) {
+      newArray =[];
+    }
+    else {
+      newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+    }
+
     setDetailCards(newArray)
     setInfoCard([currentCardId])
 
