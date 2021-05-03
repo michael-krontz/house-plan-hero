@@ -191,21 +191,16 @@ function DeckBuild() {
 
     var y
     var hpdArrayItem
-    for (y=0; y < cardData.length; y++) {
+    for (y=0; y < 1; y++) {
     cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
     hpdCardArrayItem = hpd.detailCards,
-    hpdCardArray.push(hpdCardArrayItem),
-    hpdArrayItem = hpdCardArray[currentCard - 1]
+    hpdCardArray.push(hpdCardArrayItem)
     ))
-      
   }
-  // console.log("Card " + currentCard + " has " + hpdArrayItem + " detail cards")
-  // console.log("HDP CARD ARRAY Item: " + hpdCardArray[currentCard - 1])
 
-    var newArray = _.chunk(allCards, [5])
-    var cards = newArray[z]
-    cards.reverse();
-
+  var newArray = _.chunk(allCards, [5])
+  var cards = newArray[z]
+  cards.reverse();
 
   const zoop = () => {};
 
@@ -289,6 +284,7 @@ function DeckBuild() {
         currentCard ++
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
+        console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
       }
 
 
@@ -343,8 +339,9 @@ const DoubleClickEvent = () => {
     var newArray = []
 
     if (detailcardcount < 1) {
-      newArray =[];
+      newArray = [];
     }
+
     else {
       newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
     }
@@ -377,7 +374,7 @@ const currentCardId = atom({
 
 const detailCount = atom({
   key: 'detailCount', // unique ID (with respect to other atoms/selectors)
-  default: 4, // default value (aka initial value)
+  default: [4], // default value (aka initial value)
 });
 
 
