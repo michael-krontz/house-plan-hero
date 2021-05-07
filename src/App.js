@@ -28,12 +28,23 @@ function NavBar() {
   );
 }
 
+function TitleDisplay() {
+  const currentTitleState = useRecoilValue(currentTitle);
+  return (
+    <div className = "Title-display-wrapper">
+      <h1>{currentTitleState[currentCard]}</h1>
+      <h3>Truoba</h3>
+    </div>
+  )
+}
+
 var cardUrl
 // var detailCardUrl
 var charext
 var hpCardId
 // var hpdCardId
 var hpdCardArray = []
+var hptCardArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -164,7 +175,9 @@ function DeckBuild() {
   var cards = []
   var allCardIds = []
   var hpdCardArrayItem
+  var hptCardArrayItem
 
+  const setCurrentTitle = useSetRecoilState(currentTitle);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
   const setDetailCount = useSetRecoilState(detailCount);
@@ -197,6 +210,19 @@ function DeckBuild() {
     hpdCardArray.push(hpdCardArrayItem)
     ))
   }
+
+  var q
+  var hptArrayItem
+  hptCardArray = []
+  for (q=0; q < 1; q++) {
+  cardData.filter(houseplan => houseplan.name).map(hpt => (
+  hptCardArrayItem = hpt.name,
+  hptCardArray.push(hptCardArrayItem)
+  ))
+}
+
+console.log(hptCardArray)
+setCurrentTitle(hptCardArray)
 
   var newArray = _.chunk(allCards, [5])
   var cards = newArray[z]
@@ -255,8 +281,9 @@ function DeckBuild() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
+  const setCurrentTitle = useSetRecoilState(currentTitle);
 
-  
+
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -284,6 +311,7 @@ function DeckBuild() {
         currentCard ++
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
+        setCurrentTitle(hptCardArray[currentCard - 1])
         console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
       }
 
@@ -377,6 +405,11 @@ const detailCount = atom({
   default: [4], // default value (aka initial value)
 });
 
+const currentTitle = atom({
+  key: 'currentTitle', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
 
 function App() {
   return (
@@ -386,7 +419,9 @@ function App() {
         <Logo></Logo>
         <NavBar></NavBar>
       </header>
+
         <RecoilRoot>
+          <TitleDisplay></TitleDisplay>
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
           <DetailDeckBuild></DetailDeckBuild>
