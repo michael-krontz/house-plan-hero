@@ -30,9 +30,11 @@ function NavBar() {
 
 function TitleDisplay() {
   const currentTitleState = useRecoilValue(currentTitle);
+  const cardId = useRecoilValue(currentCardId);
+
   return (
     <div className = "Title-display-wrapper">
-      <h1>{currentTitleState[currentCard]}</h1>
+      <h1>{currentTitleState[cardId - 1]}</h1>
       <h3>Truoba</h3>
     </div>
   )
@@ -311,7 +313,6 @@ setCurrentTitle(hptCardArray)
         currentCard ++
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
-        setCurrentTitle(hptCardArray[currentCard - 1])
         console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
       }
 
