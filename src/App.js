@@ -28,12 +28,25 @@ function NavBar() {
   );
 }
 
+function TitleDisplay() {
+  const currentTitleState = useRecoilValue(currentTitle);
+  const currentDesignerState = useRecoilValue(currentDesigner);
+  const cardId = useRecoilValue(currentCardId);
+
+  return (
+    <div className = "Title-display-wrapper">
+      <h1>{currentTitleState[cardId - 1]}</h1>
+      <h3>{currentDesignerState[cardId - 1]}</h3>
+    </div>
+  )
+}
+
 var cardUrl
-// var detailCardUrl
 var charext
 var hpCardId
-// var hpdCardId
 var hpdCardArray = []
+var hptCardArray = []
+var hpdeCardArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -164,10 +177,13 @@ function DeckBuild() {
   var cards = []
   var allCardIds = []
   var hpdCardArrayItem
+  var hptCardArrayItem
+  var hpdeCardArrayItem
 
+  const setCurrentTitle = useSetRecoilState(currentTitle);
+  const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
-  const setDetailCount = useSetRecoilState(detailCount);
   const [{ data, loading, error }, refetch] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
   )
@@ -189,14 +205,36 @@ function DeckBuild() {
       ));
     }
 
-    var y
-    var hpdArrayItem
-    for (y=0; y < 1; y++) {
+  var y
+  for (y=0; y < 1; y++) {
     cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
-    hpdCardArrayItem = hpd.detailCards,
-    hpdCardArray.push(hpdCardArrayItem)
+      hpdCardArrayItem = hpd.detailCards,
+      hpdCardArray.push(hpdCardArrayItem)
     ))
   }
+
+  var q
+  hptCardArray = []
+  for (q=0; q < 1; q++) {
+    cardData.filter(houseplan => houseplan.name).map(hpt => (
+      hptCardArrayItem = hpt.name,
+      hptCardArray.push(hptCardArrayItem)
+    ))
+  }
+
+  var w
+  hpdeCardArray = []
+  for (w=0; w < 1; w++) {
+    cardData.filter(houseplan => houseplan.designer).map(hpde => (
+      hpdeCardArrayItem = hpde.designer,
+      hpdeCardArray.push(hpdeCardArrayItem)
+    ))
+  }
+
+
+console.log(hptCardArray)
+setCurrentTitle(hptCardArray)
+setCurrentDesigner(hpdeCardArray)
 
   var newArray = _.chunk(allCards, [5])
   var cards = newArray[z]
@@ -255,8 +293,9 @@ function DeckBuild() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
+  const setCurrentTitle = useSetRecoilState(currentTitle);
 
-  
+
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -377,6 +416,16 @@ const detailCount = atom({
   default: [4], // default value (aka initial value)
 });
 
+const currentTitle = atom({
+  key: 'currentTitle', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentDesigner = atom({
+  key: 'currentDesigner', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
 
 function App() {
   return (
@@ -386,7 +435,9 @@ function App() {
         <Logo></Logo>
         <NavBar></NavBar>
       </header>
+
         <RecoilRoot>
+          <TitleDisplay></TitleDisplay>
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
           <DetailDeckBuild></DetailDeckBuild>
