@@ -32,13 +32,25 @@ function TitleDisplay() {
   const currentTitleState = useRecoilValue(currentTitle);
   const currentDesignerState = useRecoilValue(currentDesigner);
   const cardId = useRecoilValue(currentCardId);
+  const stackOver = useRecoilValue(isStackOver);
 
-  return (
-    <div className = "Title-display-wrapper">
-      <h1>{currentTitleState[cardId - 1]}</h1>
-      <h3>{currentDesignerState[cardId - 1]}</h3>
+  if (stackOver === false) {
+    return (
+      <div className = "Title-display-wrapper">
+        <h1>{currentTitleState[cardId - 1]}</h1>
+        <h3>{currentDesignerState[cardId - 1]}</h3>
+      </div>
+    )
+  }
+
+  else {
+    return (
+      <div className = "Title-display-wrapper">
+      <h1></h1>
+      <h3></h3>
     </div>
-  )
+    )
+  }
 }
 
 var cardUrl
@@ -180,6 +192,7 @@ function DeckBuild() {
   var hptCardArrayItem
   var hpdeCardArrayItem
 
+  const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
@@ -259,6 +272,8 @@ setCurrentDesigner(hpdeCardArray)
       z ++
       cards = newArray[z]
       setStateVal(cards)
+      currentHand = 1
+      stackOver(false)
       console.log("new array: " + newArray.length)
       console.log("z: " + z)
       console.log("newarray - 1: " + (newArray.length - 1))
@@ -294,6 +309,8 @@ setCurrentDesigner(hpdeCardArray)
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setCurrentTitle = useSetRecoilState(currentTitle);
+  const setStackOver = useSetRecoilState(isStackOver);
+
 
 
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -317,6 +334,7 @@ setCurrentDesigner(hpdeCardArray)
       
       if (isGone === true) {
         currentHand ++
+        console.log("CURRENT HAND" + currentHand)
       }
       
       if (isGone === true) {
@@ -324,6 +342,10 @@ setCurrentDesigner(hpdeCardArray)
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
         console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
+      }
+
+      if (currentHand == 6) {
+        setStackOver(true)
       }
 
 
@@ -426,6 +448,11 @@ const currentDesigner = atom({
   default: [], // default value (aka initial value)
 });
 
+const isStackOver = atom({
+  key: 'isStackOver', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
+
 
 function App() {
   return (
@@ -437,7 +464,7 @@ function App() {
       </header>
 
         <RecoilRoot>
-          <TitleDisplay></TitleDisplay>
+          <TitleDisplay isStackOver={false} />
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
           <DetailDeckBuild></DetailDeckBuild>
