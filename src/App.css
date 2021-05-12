@@ -156,3 +156,82 @@ a:hover {
   position: absolute !important;
   margin-top: 25px !important;
 }
+
+.Floor-plan {
+  width: 100%;
+  height: 50%;
+  background-color: rgb(92, 92, 92);
+}
+
+.Stats {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 7%;
+  padding-right: 7%;
+  margin-top: 10px;
+}
+
+.Bed-icon {
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 99px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+}
+
+.Bath-icon {
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 99px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+}
+
+.Sqft-icon {
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 99px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+}
+
+.Beds {
+  display: flex;
+  align-items: center;
+}
+
+.Baths {
+  display: flex;
+  align-items: center;
+}
+
+.Sqft {
+  display: flex;
+  align-items: center;
+}
+
+.Stats-h4 {
+  font-size: 18px;
+}
+
+.Info-cta {
+  width: 100%;
+  height: 65px;
+  position: absolute;
+  bottom: 0;
+}
+
+.Description {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  flex-direction: column;
+}
+
+.Description-h5 {
+  font-size: 15px;
+}

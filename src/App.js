@@ -172,7 +172,26 @@ function DetailDeckBuild() {
       function InfoContent() {
         return (
           <>
-            <div>This is the Info Card for {cardId}</div>
+            <div className = "Floor-plan"></div>
+            <div className = "Stats">
+              <div className = "Beds">
+                <div className = "Bed-icon"></div>
+                <h4 className = "Stats-h4">3 Beds</h4>
+              </div>
+              <div className = "Baths">
+                <div className = "Bath-icon"></div>
+                <h4 className = "Stats-h4">2 Baths</h4>
+              </div>
+              <div className = "Sqft">
+                <div className = "Sqft-icon"></div>
+                <h4 className = "Stats-h4">1800 Sq Ft</h4>
+              </div>
+            </div>
+            <div className = "Description">
+              <h5 className = "Description-h5">This modern house design reflects the needs of contemporary living by giving you a diverse inside layout.</h5>
+              <h5 className = "Description-h5">House plans like these are divided into several different zones, creating designated spaces for all events and family members.</h5>
+            </div>
+            <button className = "Info-cta">View on Truoba</button>
          </>
         )
       }
