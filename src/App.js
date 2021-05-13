@@ -234,33 +234,24 @@ function DeckBuild() {
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
-      ));
-    }
-
-  var y
-  for (y=0; y < 1; y++) {
+    ));
+      
     cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
       hpdCardArrayItem = hpd.detailCards,
       hpdCardArray.push(hpdCardArrayItem)
-    ))
-  }
-
-  var q
-  hptCardArray = []
-  for (q=0; q < 1; q++) {
+    ));
+      
+    hptCardArray = []
     cardData.filter(houseplan => houseplan.name).map(hpt => (
       hptCardArrayItem = hpt.name,
       hptCardArray.push(hptCardArrayItem)
-    ))
-  }
-
-  var w
-  hpdeCardArray = []
-  for (w=0; w < 1; w++) {
+    ));
+    
+    hpdeCardArray = []
     cardData.filter(houseplan => houseplan.designer).map(hpde => (
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
-    ))
+    ));
   }
 
 
