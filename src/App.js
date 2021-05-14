@@ -30,7 +30,9 @@ function NavBar() {
 
 function TitleDisplay() {
   const currentTitleState = useRecoilValue(currentTitle);
-  const currentDesignerState = useRecoilValue(currentDesigner);
+  const currentBedState = useRecoilValue(currentBed);
+  const currentBathState = useRecoilValue(currentBath);
+  const currentSqftState = useRecoilValue(currentSqft);
   const cardId = useRecoilValue(currentCardId);
   const stackOver = useRecoilValue(isStackOver);
 
@@ -38,7 +40,20 @@ function TitleDisplay() {
     return (
       <div className = "Title-display-wrapper">
         <h1>{currentTitleState[cardId - 1]}</h1>
-        <h3>{currentDesignerState[cardId - 1]}</h3>
+        <div className = "Stats">
+          <div className = "Beds">
+            <div className = "Bed-icon"></div>
+            <h4 className = "Stats-h4">{currentBedState[cardId - 1]} Beds</h4>
+          </div>
+          <div className = "Baths">
+            <div className = "Bath-icon"></div>
+            <h4 className = "Stats-h4">{currentBathState[cardId - 1]} Baths</h4>
+          </div>
+          <div className = "Sqft">
+            <div className = "Sqft-icon"></div>
+            <h4 className = "Stats-h4">{currentSqftState[cardId - 1]} Sq Ft</h4>
+          </div>
+        </div>
       </div>
     )
   }
@@ -47,7 +62,6 @@ function TitleDisplay() {
     return (
       <div className = "Title-display-wrapper">
       <h1></h1>
-      <h3></h3>
     </div>
     )
   }
@@ -59,6 +73,9 @@ var hpCardId
 var hpdCardArray = []
 var hptCardArray = []
 var hpdeCardArray = []
+var hpBedArray = []
+var hpBathArray = []
+var hpSqftArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -173,20 +190,6 @@ function DetailDeckBuild() {
         return (
           <>
             <div className = "Floor-plan"></div>
-            <div className = "Stats">
-              <div className = "Beds">
-                <div className = "Bed-icon"></div>
-                <h4 className = "Stats-h4">3 Beds</h4>
-              </div>
-              <div className = "Baths">
-                <div className = "Bath-icon"></div>
-                <h4 className = "Stats-h4">2 Baths</h4>
-              </div>
-              <div className = "Sqft">
-                <div className = "Sqft-icon"></div>
-                <h4 className = "Stats-h4">1800 Sq Ft</h4>
-              </div>
-            </div>
             <div className = "Description">
               <h5 className = "Description-h5">This modern house design reflects the needs of contemporary living by giving you a diverse inside layout.</h5>
               <h5 className = "Description-h5">House plans like these are divided into several different zones, creating designated spaces for all events and family members.</h5>
@@ -210,9 +213,15 @@ function DeckBuild() {
   var hpdCardArrayItem
   var hptCardArrayItem
   var hpdeCardArrayItem
+  var hpBedArrayItem
+  var hpBathArrayItem
+  var hpSqftArrayItem
 
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
+  const setCurrentBed = useSetRecoilState(currentBed);
+  const setCurrentBath = useSetRecoilState(currentBath);
+  const setCurrentSqft = useSetRecoilState(currentSqft);
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -252,12 +261,33 @@ function DeckBuild() {
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
     ));
+
+    hpBedArray = []
+    cardData.filter(houseplan => houseplan.bed).map(hpBed => (
+      hpBedArrayItem = hpBed.bed,
+      hpBedArray.push(hpBedArrayItem)
+    ));
+
+    hpBathArray = []
+    cardData.filter(houseplan => houseplan.bath).map(hpBath => (
+      hpBathArrayItem = hpBath.bath,
+      hpBathArray.push(hpBathArrayItem)
+    ));
+
+    hpSqftArray = []
+    cardData.filter(houseplan => houseplan.sqft).map(hpSqft => (
+      hpSqftArrayItem = hpSqft.sqft,
+      hpSqftArray.push(hpSqftArrayItem)
+    ));
   }
 
 
 console.log(hptCardArray)
 setCurrentTitle(hptCardArray)
 setCurrentDesigner(hpdeCardArray)
+setCurrentBed(hpBedArray)
+setCurrentBath(hpBathArray)
+setCurrentSqft(hpSqftArray)
 
   var newArray = _.chunk(allCards, [5])
   var cards = newArray[z]
@@ -318,11 +348,7 @@ setCurrentDesigner(hpdeCardArray)
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
-  const setCurrentTitle = useSetRecoilState(currentTitle);
   const setStackOver = useSetRecoilState(isStackOver);
-
-
-
   const to = i => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(2deg) rotateY(${r / 2}deg) rotateZ(${r}deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -455,6 +481,21 @@ const currentTitle = atom({
 
 const currentDesigner = atom({
   key: 'currentDesigner', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentBed = atom({
+  key: 'currentBed', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentBath = atom({
+  key: 'currentBath', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentSqft = atom({
+  key: 'currentSqft', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
 });
 
