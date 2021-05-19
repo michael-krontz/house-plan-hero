@@ -76,6 +76,8 @@ var hpdeCardArray = []
 var hpBedArray = []
 var hpBathArray = []
 var hpSqftArray = []
+var hpDescArray = []
+var hpLinkArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
@@ -134,6 +136,8 @@ function DetailDeckBuild() {
 
   function InfoDeckBuild() {
     const cardState = useRecoilValue(infoState);
+    const descState = useRecoilValue(currentDesc);
+    const linkState = useRecoilValue(currentLink);
     const cardId = useRecoilValue(currentCardId);
 
     // console.log("Info Card State: " + cardState)
@@ -191,14 +195,13 @@ function DetailDeckBuild() {
           <>
             <div className = "Floor-plan"></div>
             <div className = "Description">
-              <h5 className = "Description-h5">This modern house design reflects the needs of contemporary living by giving you a diverse inside layout.</h5>
-              <h5 className = "Description-h5">House plans like these are divided into several different zones, creating designated spaces for all events and family members.</h5>
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
             </div>
-            <button className = "Info-cta">View on Truoba</button>
+            <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
          </>
         )
       }
-  
+
       return (
       <>
         <InfoDeck></InfoDeck>
@@ -216,12 +219,16 @@ function DeckBuild() {
   var hpBedArrayItem
   var hpBathArrayItem
   var hpSqftArrayItem
+  var hpDescArrayItem
+  var hpLinkArrayItem
 
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
   const setCurrentBath = useSetRecoilState(currentBath);
   const setCurrentSqft = useSetRecoilState(currentSqft);
+  const setCurrentDesc = useSetRecoilState(currentDesc);
+  const setCurrentLink = useSetRecoilState(currentLink);
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -279,15 +286,30 @@ function DeckBuild() {
       hpSqftArrayItem = hpSqft.sqft,
       hpSqftArray.push(hpSqftArrayItem)
     ));
+
+    hpDescArray = []
+    cardData.filter(houseplan => houseplan.desc).map(hpDesc => (
+      hpDescArrayItem = hpDesc.desc,
+      hpDescArray.push(hpDescArrayItem)
+    ));
+    
+    hpLinkArray = []
+    cardData.filter(houseplan => houseplan.linkurl).map(hpLink => (
+      hpLinkArrayItem = hpLink.linkurl,
+      hpLinkArray.push(hpLinkArrayItem)
+    ));
   }
 
 
 console.log(hptCardArray)
+console.log(hpLinkArray)
 setCurrentTitle(hptCardArray)
 setCurrentDesigner(hpdeCardArray)
 setCurrentBed(hpBedArray)
 setCurrentBath(hpBathArray)
 setCurrentSqft(hpSqftArray)
+setCurrentDesc(hpDescArray)
+setCurrentLink(hpLinkArray)
 
   var newArray = _.chunk(allCards, [5])
   var cards = newArray[z]
@@ -496,6 +518,16 @@ const currentBath = atom({
 
 const currentSqft = atom({
   key: 'currentSqft', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentDesc = atom({
+  key: 'currentDesc', // unique ID (with respect to other atoms/selectors)
+  default: '', // default value (aka initial value)
+});
+
+const currentLink = atom({
+  key: 'currentLink', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
 });
 
