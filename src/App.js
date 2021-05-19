@@ -191,16 +191,13 @@ function DetailDeckBuild() {
       } 
 
       function InfoContent() {
-
-        var linkStateConverted = linkState[cardId - 1]
-
         return (
           <>
             <div className = "Floor-plan"></div>
             <div className = "Description">
               <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
             </div>
-            <div className = "Info-cta" onClick={()=> window.open("{linkStateConverted}", "_blank")}>View on Truoba</div>
+            <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
          </>
         )
       }
