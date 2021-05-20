@@ -159,8 +159,10 @@ a:hover {
 
 .Floor-plan {
   width: 100%;
-  height: 50%;
-  background-color: rgb(92, 92, 92);
+  height: 59%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .Stats {
@@ -233,6 +235,8 @@ a:hover {
   margin: auto;
   margin-top: 10px;
   flex-direction: column;
+  height: 135px;
+  overflow: scroll;
 }
 
 .Description-h5 {
