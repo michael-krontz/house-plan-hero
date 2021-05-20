@@ -191,9 +191,11 @@ function DetailDeckBuild() {
       } 
 
       function InfoContent() {
+        const cardId = useRecoilValue(currentCardId);
+
         return (
           <>
-            <div className = "Floor-plan"></div>
+            <div className = "Floor-plan" style={{ backgroundImage: `url(${'images/fp_' + cardId + '.png'})` }}></div>
             <div className = "Description">
               <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
             </div>
