@@ -134,12 +134,14 @@ a:hover {
 
 .info-box {
   border-radius: 0;
-  position: absolute;
+  position: absolute !important;
   max-height: 75px;
   width: 45vw !important;
   background-color: white;
   left: 25%;
   padding: 18px;
+  margin-top: unset;
+  bottom: 8vh;
 }
 
 .tap-area {

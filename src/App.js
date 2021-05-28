@@ -352,7 +352,7 @@ setCurrentLink(hpLinkArray)
 
   function VisibleInfoBox(props) {
     return <div className="info-box">
-      <p>This is a conditional info box.</p>
+      <NextDeck></NextDeck>      
       </div>;
   }
   
@@ -361,11 +361,13 @@ setCurrentLink(hpLinkArray)
   }
   
   function InfoBox(props) {
-    if (isDeckOver) {
+    const stackOver = useRecoilValue(isStackOver);
+
+    if (stackOver === false) {
       
-      return <VisibleInfoBox />;
+      return <HiddenInfoBox />;
     }
-    return <HiddenInfoBox />;
+    return <VisibleInfoBox />;
   }
 
   function Deck() {
@@ -432,11 +434,10 @@ setCurrentLink(hpLinkArray)
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
             <button>View Different Style</button>
-            <NextDeck></NextDeck>
           </div>
         </div>
       </div>
-      <InfoBox isDeckOver={false} />
+      <InfoBox isDeckOver={true} />
       <Deck></Deck>
     </>
   )
