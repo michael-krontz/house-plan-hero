@@ -6,7 +6,9 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 import useDoubleClick from 'use-double-click'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState, useRecoilState } from 'recoil';
+import { BottomSheet } from 'react-spring-bottom-sheet'
+import 'react-spring-bottom-sheet/dist/style.css'
 
 function Logo() {
   return (
@@ -224,6 +226,8 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
 
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
@@ -370,6 +374,14 @@ setCurrentLink(hpLinkArray)
     return <VisibleInfoBox />;
   }
 
+  function ChangeStyle() {
+    openBottomSheet(true)
+  }
+
+  function ChangeStyleBack() {
+    openBottomSheet(false)
+  }
+
   function Deck() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
@@ -410,7 +422,6 @@ setCurrentLink(hpLinkArray)
         setStackOver(true)
       }
 
-
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
@@ -428,12 +439,18 @@ setCurrentLink(hpLinkArray)
     )
   }
 
+
+  console.log(BottomSheetState)
+
+
   return(
     <>
       <div>
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
-            <button>View Different Style</button>
+          <button >[Deck Icon]</button>
+            <button className="change-style-button" onClick={ChangeStyle}>View Different Style</button>
+            <BottomSheet open={BottomSheetState}>My awesome content here <button onClick={ChangeStyleBack}>Close</button></BottomSheet>
           </div>
         </div>
       </div>
@@ -442,6 +459,8 @@ setCurrentLink(hpLinkArray)
     </>
   )
 }
+
+
 
 const DoubleClickEvent = () => {
   const detailcardcount = useRecoilValue(detailCount)
@@ -536,6 +555,11 @@ const currentLink = atom({
 
 const isStackOver = atom({
   key: 'isStackOver', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
+
+const isBottomSheetOpen = atom({
+  key: 'isBottomSheetOpen', // unique ID (with respect to other atoms/selectors)
   default: false, // default value (aka initial value)
 });
 
