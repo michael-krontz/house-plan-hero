@@ -242,3 +242,7 @@ a:hover {
 .Description-h5 {
   font-size: 15px;
 }
+
+.change-style-button {
+  bottom: 180px !important;
+}

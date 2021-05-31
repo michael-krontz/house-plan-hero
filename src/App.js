@@ -30,6 +30,41 @@ function NavBar() {
   );
 }
 
+
+function StyleSelectionBottomSheet() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+
+  function closeBottomSheet() {
+    openBottomSheet(false)
+  }
+
+  return <BottomSheet open={BottomSheetState}>My awesome content here <button onClick={closeBottomSheet}>Close</button></BottomSheet>
+}
+
+
+function StyleSelection() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+  const stackOver = useRecoilValue(isStackOver);
+  if (stackOver === true) {
+    return <button className="change-style-button" onClick={ChangeStyle}>View Different Style</button>
+  }
+
+  else {
+    return <p></p>
+  }
+
+  function ChangeStyle() {
+    openBottomSheet(true)
+    console.log("COCKBALLZ")
+  }
+  
+  function ChangeStyleBack() {
+    openBottomSheet(false)
+  }
+}
+
 function TitleDisplay() {
   const currentTitleState = useRecoilValue(currentTitle);
   const currentBedState = useRecoilValue(currentBed);
@@ -226,8 +261,6 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
 
-  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
-  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
@@ -374,14 +407,6 @@ setCurrentLink(hpLinkArray)
     return <VisibleInfoBox />;
   }
 
-  function ChangeStyle() {
-    openBottomSheet(true)
-  }
-
-  function ChangeStyleBack() {
-    openBottomSheet(false)
-  }
-
   function Deck() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
@@ -439,18 +464,11 @@ setCurrentLink(hpLinkArray)
     )
   }
 
-
-  console.log(BottomSheetState)
-
-
   return(
     <>
       <div>
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
-          <button >[Deck Icon]</button>
-            <button className="change-style-button" onClick={ChangeStyle}>View Different Style</button>
-            <BottomSheet open={BottomSheetState}>My awesome content here <button onClick={ChangeStyleBack}>Close</button></BottomSheet>
           </div>
         </div>
       </div>
@@ -574,9 +592,11 @@ function App() {
       </header>
 
         <RecoilRoot>
+          <StyleSelectionBottomSheet></StyleSelectionBottomSheet>
           <TitleDisplay isStackOver={false} />
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
+          <StyleSelection></StyleSelection>
           <DetailDeckBuild></DetailDeckBuild>
         </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
