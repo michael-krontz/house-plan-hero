@@ -20,6 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-spring": "^8.0.27",
+    "react-spring-bottom-sheet": "^3.2.1",
     "react-touch": "^0.4.4",
     "react-use-gesture": "^9.0.4",
     "recoil": "^0.1.3",

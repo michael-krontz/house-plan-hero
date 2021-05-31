@@ -6,7 +6,9 @@ import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
 import useDoubleClick from 'use-double-click'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState, useRecoilState } from 'recoil';
+import { BottomSheet } from 'react-spring-bottom-sheet'
+import 'react-spring-bottom-sheet/dist/style.css'
 
 function Logo() {
   return (
@@ -26,6 +28,41 @@ function NavBar() {
           </ul>
       </div>
   );
+}
+
+
+function StyleSelectionBottomSheet() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+
+  function closeBottomSheet() {
+    openBottomSheet(false)
+  }
+
+  return <BottomSheet open={BottomSheetState}>My awesome content here <button onClick={closeBottomSheet}>Close</button></BottomSheet>
+}
+
+
+function StyleSelection() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+  const stackOver = useRecoilValue(isStackOver);
+  if (stackOver === true) {
+    return <button className="change-style-button" onClick={ChangeStyle}>View Different Style</button>
+  }
+
+  else {
+    return <p></p>
+  }
+
+  function ChangeStyle() {
+    openBottomSheet(true)
+    console.log("COCKBALLZ")
+  }
+  
+  function ChangeStyleBack() {
+    openBottomSheet(false)
+  }
 }
 
 function TitleDisplay() {
@@ -410,7 +447,6 @@ setCurrentLink(hpLinkArray)
         setStackOver(true)
       }
 
-
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
   })
@@ -433,7 +469,6 @@ setCurrentLink(hpLinkArray)
       <div>
         <div className = "DeckButtonsWrapper">
           <div className = "DeckButtons">
-            <button>View Different Style</button>
           </div>
         </div>
       </div>
@@ -442,6 +477,8 @@ setCurrentLink(hpLinkArray)
     </>
   )
 }
+
+
 
 const DoubleClickEvent = () => {
   const detailcardcount = useRecoilValue(detailCount)
@@ -539,6 +576,11 @@ const isStackOver = atom({
   default: false, // default value (aka initial value)
 });
 
+const isBottomSheetOpen = atom({
+  key: 'isBottomSheetOpen', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
+
 
 function App() {
   return (
@@ -550,9 +592,11 @@ function App() {
       </header>
 
         <RecoilRoot>
+          <StyleSelectionBottomSheet></StyleSelectionBottomSheet>
           <TitleDisplay isStackOver={false} />
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
+          <StyleSelection></StyleSelection>
           <DetailDeckBuild></DetailDeckBuild>
         </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
