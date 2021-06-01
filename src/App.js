@@ -30,6 +30,26 @@ function NavBar() {
   );
 }
 
+function BottomSheetContent() {
+  return (
+    <>
+      <div>
+        <div className = "tag-wrapper">
+          <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Farmhouse</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Craftsman</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
+        </div>
+      </div>
+    </>
+  )
+}
 
 function StyleSelectionBottomSheet() {
   const BottomSheetState = useRecoilValue(isBottomSheetOpen)
@@ -39,9 +59,8 @@ function StyleSelectionBottomSheet() {
     openBottomSheet(false)
   }
 
-  return <BottomSheet open={BottomSheetState}>My awesome content here <button onClick={closeBottomSheet}>Close</button></BottomSheet>
+  return <BottomSheet open={BottomSheetState}><button className = "close-button" onClick={closeBottomSheet}>Close</button><BottomSheetContent></BottomSheetContent></BottomSheet>
 }
-
 
 function StyleSelection() {
   const BottomSheetState = useRecoilValue(isBottomSheetOpen)
@@ -57,7 +76,6 @@ function StyleSelection() {
 
   function ChangeStyle() {
     openBottomSheet(true)
-    console.log("COCKBALLZ")
   }
   
   function ChangeStyleBack() {
@@ -477,8 +495,6 @@ setCurrentLink(hpLinkArray)
     </>
   )
 }
-
-
 
 const DoubleClickEvent = () => {
   const detailcardcount = useRecoilValue(detailCount)

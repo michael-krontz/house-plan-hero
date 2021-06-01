@@ -246,3 +246,34 @@ a:hover {
 .change-style-button {
   bottom: 180px !important;
 }
+
+.tag-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 450px;
+  overflow: auto;
+}
+
+.homestyle-tag {
+  width: 100%;
+  padding: 17px;
+  background-color: rgb(70, 70, 70);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  color: white;
+  text-shadow: 1px 2px rgb(48, 48, 48);
+}
+
+.tag {
+  margin-bottom: 0;
+}
+
+.close-button {
+  position: absolute;
+  top: -40px;
+  right: 10px;
+}
