@@ -11,11 +11,44 @@ import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 
 function Logo() {
-  return (
-    <div className = "Logo-wrapper">
-      <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '24px' }}>House Plan Hero</Link>
+  const currentTitleState = useRecoilValue(currentTitle);
+  const cardId = useRecoilValue(currentCardId);
+  const currentBedState = useRecoilValue(currentBed);
+  const currentBathState = useRecoilValue(currentBath);
+  const currentSqftState = useRecoilValue(currentSqft);
+  const stackOver = useRecoilValue(isStackOver);
+
+  if (stackOver === false) {
+    return (
+      <div className = "Logo-wrapper">
+        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState[cardId - 1]}</Link>
+        <div className = "Stats">
+            <div className = "Beds">
+              <div className = "Bed-icon"></div>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState[cardId - 1]}</h4>
+            </div>
+            <div className = "Baths">
+              <div className = "Bath-icon"></div>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState[cardId - 1]}</h4>
+            </div>
+            <div className = "Sqft">
+              <div className = "Sqft-icon"></div>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState[cardId - 1]}</h4>
+            </div>
+          </div>
+      </div>
+    );
+  }
+
+  else {
+    return (
+      <div className = "Title-display-wrapper">
+      <h1></h1>
     </div>
-  );
+    )
+  }
+
+
 };
 
 function NavBar() {
@@ -80,45 +113,6 @@ function StyleSelection() {
   
   function ChangeStyleBack() {
     openBottomSheet(false)
-  }
-}
-
-function TitleDisplay() {
-  const currentTitleState = useRecoilValue(currentTitle);
-  const currentBedState = useRecoilValue(currentBed);
-  const currentBathState = useRecoilValue(currentBath);
-  const currentSqftState = useRecoilValue(currentSqft);
-  const cardId = useRecoilValue(currentCardId);
-  const stackOver = useRecoilValue(isStackOver);
-
-  if (stackOver === false) {
-    return (
-      <div className = "Title-display-wrapper">
-        <h1>{currentTitleState[cardId - 1]}</h1>
-        <div className = "Stats">
-          <div className = "Beds">
-            <div className = "Bed-icon"></div>
-            <h4 className = "Stats-h4">{currentBedState[cardId - 1]} Beds</h4>
-          </div>
-          <div className = "Baths">
-            <div className = "Bath-icon"></div>
-            <h4 className = "Stats-h4">{currentBathState[cardId - 1]} Baths</h4>
-          </div>
-          <div className = "Sqft">
-            <div className = "Sqft-icon"></div>
-            <h4 className = "Stats-h4">{currentSqftState[cardId - 1]} Sq Ft</h4>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  else {
-    return (
-      <div className = "Title-display-wrapper">
-      <h1></h1>
-    </div>
-    )
   }
 }
 
@@ -602,14 +596,15 @@ function App() {
   return (
     <Router>
     <>
-      <header className = "App-header">
-        <Logo></Logo>
-        <NavBar></NavBar>
-      </header>
+
 
         <RecoilRoot>
+          <header className = "App-header">
+            <Logo></Logo>
+            <NavBar></NavBar>
+          </header>
           <StyleSelectionBottomSheet></StyleSelectionBottomSheet>
-          <TitleDisplay isStackOver={false} />
+          {/* <TitleDisplay isStackOver={false} /> */}
           <DeckBuild></DeckBuild>
           <InfoDeckBuild></InfoDeckBuild>        
           <StyleSelection></StyleSelection>
