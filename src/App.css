@@ -74,14 +74,14 @@ a:hover {
 
 #root > div {
   position: absolute;
-  width: 96vw;
-  margin-top: 25vh;
-  margin-left: 2vw;
+  width: 100%;
+  height: 110vh;
   will-change: transform;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+  margin-top: -85px;
 }
 
 #root > div > div {
@@ -90,9 +90,9 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center center;
   width: 100vw;
-  max-width: 420px;
-  height: 50vh;
-  max-height: 570px;
+  /* max-width: 420px; */
+  height: 100vh;
+  /* max-height: 570px; */
   will-change: transform;
   border-radius: 2px;
   -webkit-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.52); 
@@ -109,6 +109,7 @@ a:hover {
   bottom: 120px;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .DeckButtonsWrapper {
@@ -154,7 +155,9 @@ a:hover {
   display: flex;
   flex-direction: column;
   position: absolute !important;
-  margin-top: 25px !important;
+  margin-top: -25px !important;
+  z-index: 2 !important;
+  height: 50px !important;
 }
 
 .Floor-plan {
