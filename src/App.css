@@ -90,9 +90,7 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center center;
   width: 96vw;
-  /* max-width: 420px; */
-  height: calc(90vh - 64px);
-  /* max-height: 570px; */
+  height: calc(90vh - 100px);
   will-change: transform;
   border-radius: 2px;
   -webkit-box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.52); 
