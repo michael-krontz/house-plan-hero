@@ -75,7 +75,7 @@ a:hover {
 
 #root > div {
   position: absolute;
-  margin-top: 8px;
+  margin-top: 0px;
   width: 100%;
   will-change: transform;
   display: flex;
@@ -89,9 +89,9 @@ a:hover {
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: center center;
-  width: 100vw;
+  width: 96vw;
   /* max-width: 420px; */
-  height: 100vh;
+  height: calc(90vh - 64px);
   /* max-height: 570px; */
   will-change: transform;
   border-radius: 2px;
