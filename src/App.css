@@ -65,7 +65,7 @@ a:hover {
 }
 
 #root {
-  background: lightblue;
+  background: #8e8e8e;
   position: fixed;
   overflow: hidden;
   width: 100%;

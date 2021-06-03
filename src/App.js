@@ -278,6 +278,8 @@ function DeckBuild() {
   const setCurrentDesc = useSetRecoilState(currentDesc);
   const setCurrentLink = useSetRecoilState(currentLink);
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
+  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+  const viewToggleState = useSetRecoilState(viewToggle);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
   const [{ data, loading, error }, refetch] = useAxios(
@@ -416,8 +418,41 @@ setCurrentLink(hpLinkArray)
     return <VisibleInfoBox />;
   }
 
+  const voop = () => {};
+
+  function ToggleViewButton() {
+    return <button className="view-button" onClick={ToggleViewAction}>[View Icon]</button>
+  }
+
+  ToggleViewButton.defaultProps = {
+    onClick: voop,
+  };
+
+  const ToggleView = () => {
+    return <ToggleViewButton onClick={ToggleViewAction} />
+  };
+
+  function ToggleViewAction() {
+
+
+
+    if (viewToggleActive == false) {
+      viewToggleState('100%')
+      setViewToggleActive(true)
+    }
+  
+    else if (viewToggleActive == true) {
+      viewToggleState('auto 100%')
+      setViewToggleActive(false)
+    }
+  };
+
+
+
+
   function Deck() {
   const cardId = useRecoilValue(currentCardId);
+  const viewToggleState = useRecoilValue(viewToggle);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
@@ -465,7 +500,8 @@ setCurrentLink(hpLinkArray)
       props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
+          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`, backgroundSize: `${viewToggleState}`}}>
+          <ToggleView></ToggleView>
           <DoubleClickEvent></DoubleClickEvent>
           </animated.div>
         </animated.div>
@@ -588,6 +624,15 @@ const isBottomSheetOpen = atom({
   default: false, // default value (aka initial value)
 });
 
+const viewToggle = atom({
+  key: 'viewToggle', // unique ID (with respect to other atoms/selectors)
+  default: 'auto 100%', // default value (aka initial value)
+});
+
+const isViewToggleActive = atom({
+  key: 'isViewToggleActive', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
 
 function App() {
   return (
