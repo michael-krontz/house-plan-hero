@@ -11,6 +11,26 @@ import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 
 function ViewModal() {
+  const cardId = useRecoilValue(currentCardId);
+  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+
+  if (viewToggleActive === true) {
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+        </div>
+      </div>
+    )
+  }
+
+  else {
+    return (
+      <h1></h1>
+    )
+  }
+}
+
+function ViewModalButton() {
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
@@ -22,30 +42,25 @@ function ViewModal() {
     onClick: voop,
   };
 
-  function ToggleView() {
-    return <ToggleViewButton onClick={ToggleViewAction} />
-  };
-
   function ToggleViewAction() {
+    if (viewToggleActive === false) {
+      setViewToggleActive(true)
+  
+      return (
+          <ToggleViewButton></ToggleViewButton>
+      )
+    }
+  
+    else if (viewToggleActive === true) {
       setViewToggleActive(false)
-  }
-
-
-  if (viewToggleActive === true) {
-    return (
-      <div className = "modal-wrapper">
+  
+      return (
         <ToggleViewButton></ToggleViewButton>
-        <div className = "modal-image">
-        </div>
-      </div>
-    )
+        )
+    }
   }
 
-  else {
-    return (
-      <h1></h1>
-    )
-  }
+  return <ToggleViewButton></ToggleViewButton>
 }
 
 function Logo() {
@@ -643,6 +658,7 @@ function App() {
         <RecoilRoot>
           <header className = "App-header">
             <ViewModal></ViewModal>
+            <ViewModalButton></ViewModalButton>
             <Logo></Logo>
             <NavBar></NavBar>
           </header>
