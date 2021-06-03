@@ -10,6 +10,44 @@ import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilStat
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 
+function ViewModal() {
+  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+  const voop = () => {};
+
+  function ToggleViewButton() {
+    return <button className="view-button" onClick={ToggleViewAction}>[View Icon]</button>
+  }
+
+  ToggleViewButton.defaultProps = {
+    onClick: voop,
+  };
+
+  function ToggleView() {
+    return <ToggleViewButton onClick={ToggleViewAction} />
+  };
+
+  function ToggleViewAction() {
+      setViewToggleActive(false)
+  }
+
+
+  if (viewToggleActive === true) {
+    return (
+      <div className = "modal-wrapper">
+        <ToggleViewButton></ToggleViewButton>
+        <div className = "modal-image">
+        </div>
+      </div>
+    )
+  }
+
+  else {
+    return (
+      <h1></h1>
+    )
+  }
+}
+
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
   const cardId = useRecoilValue(currentCardId);
@@ -45,8 +83,6 @@ function Logo() {
       <h1></h1>
     )
   }
-
-
 };
 
 function NavBar() {
@@ -278,8 +314,6 @@ function DeckBuild() {
   const setCurrentDesc = useSetRecoilState(currentDesc);
   const setCurrentLink = useSetRecoilState(currentLink);
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
-  const viewToggleState = useSetRecoilState(viewToggle);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
   const [{ data, loading, error }, refetch] = useAxios(
@@ -418,41 +452,8 @@ setCurrentLink(hpLinkArray)
     return <VisibleInfoBox />;
   }
 
-  const voop = () => {};
-
-  function ToggleViewButton() {
-    return <button className="view-button" onClick={ToggleViewAction}>[View Icon]</button>
-  }
-
-  ToggleViewButton.defaultProps = {
-    onClick: voop,
-  };
-
-  const ToggleView = () => {
-    return <ToggleViewButton onClick={ToggleViewAction} />
-  };
-
-  function ToggleViewAction() {
-
-
-
-    if (viewToggleActive == false) {
-      viewToggleState('100%')
-      setViewToggleActive(true)
-    }
-  
-    else if (viewToggleActive == true) {
-      viewToggleState('auto 100%')
-      setViewToggleActive(false)
-    }
-  };
-
-
-
-
   function Deck() {
   const cardId = useRecoilValue(currentCardId);
-  const viewToggleState = useRecoilValue(viewToggle);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
@@ -500,8 +501,7 @@ setCurrentLink(hpLinkArray)
       props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`, backgroundSize: `${viewToggleState}`}}>
-          <ToggleView></ToggleView>
+          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`}}>
           <DoubleClickEvent></DoubleClickEvent>
           </animated.div>
         </animated.div>
@@ -642,6 +642,7 @@ function App() {
 
         <RecoilRoot>
           <header className = "App-header">
+            <ViewModal></ViewModal>
             <Logo></Logo>
             <NavBar></NavBar>
           </header>

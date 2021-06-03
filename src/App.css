@@ -277,3 +277,13 @@ a:hover {
   top: -40px;
   right: 10px;
 }
+
+.modal-wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: #838383;
+  z-index: 10;
+  top: 0;
+}
