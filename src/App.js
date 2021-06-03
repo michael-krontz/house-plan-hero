@@ -10,6 +10,59 @@ import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilStat
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 
+function ViewModal() {
+  const cardId = useRecoilValue(currentCardId);
+  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+
+  if (viewToggleActive === true) {
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+        </div>
+      </div>
+    )
+  }
+
+  else {
+    return (
+      <h1></h1>
+    )
+  }
+}
+
+function ViewModalButton() {
+  const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+  const voop = () => {};
+
+  function ToggleViewButton() {
+    return <button className="view-button" onClick={ToggleViewAction}>[View Icon]</button>
+  }
+
+  ToggleViewButton.defaultProps = {
+    onClick: voop,
+  };
+
+  function ToggleViewAction() {
+    if (viewToggleActive === false) {
+      setViewToggleActive(true)
+  
+      return (
+          <ToggleViewButton></ToggleViewButton>
+      )
+    }
+  
+    else if (viewToggleActive === true) {
+      setViewToggleActive(false)
+  
+      return (
+        <ToggleViewButton></ToggleViewButton>
+        )
+    }
+  }
+
+  return <ToggleViewButton></ToggleViewButton>
+}
+
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
   const cardId = useRecoilValue(currentCardId);
@@ -45,8 +98,6 @@ function Logo() {
       <h1></h1>
     )
   }
-
-
 };
 
 function NavBar() {
@@ -465,7 +516,7 @@ setCurrentLink(hpLinkArray)
       props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})` }}>
+          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`}}>
           <DoubleClickEvent></DoubleClickEvent>
           </animated.div>
         </animated.div>
@@ -588,6 +639,15 @@ const isBottomSheetOpen = atom({
   default: false, // default value (aka initial value)
 });
 
+const viewToggle = atom({
+  key: 'viewToggle', // unique ID (with respect to other atoms/selectors)
+  default: 'auto 100%', // default value (aka initial value)
+});
+
+const isViewToggleActive = atom({
+  key: 'isViewToggleActive', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
 
 function App() {
   return (
@@ -597,6 +657,8 @@ function App() {
 
         <RecoilRoot>
           <header className = "App-header">
+            <ViewModal></ViewModal>
+            <ViewModalButton></ViewModalButton>
             <Logo></Logo>
             <NavBar></NavBar>
           </header>
