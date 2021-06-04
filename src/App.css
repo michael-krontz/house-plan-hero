@@ -98,13 +98,14 @@ a:hover {
 }
 
 #root > button {
-  width: 30vw !important;
   height: 60px !important;
-  margin-left: 35vw;
   background-color: white !important;
   display: flex !important;
   position: absolute;
-  bottom: 120px;
+  bottom: 140px;
+  border: none;
+  margin-left: 5vw;
+  width: 90vw;
   justify-content: center;
   align-items: center;
   z-index: 10;
@@ -135,9 +136,7 @@ a:hover {
   border-radius: 0;
   position: absolute !important;
   max-height: 75px;
-  width: 45vw !important;
-  background-color: white;
-  left: 25%;
+  width: 100vw !important;
   padding: 18px;
   margin-top: unset;
   bottom: 8vh;
@@ -243,10 +242,6 @@ a:hover {
   font-size: 15px;
 }
 
-.change-style-button {
-  bottom: 180px !important;
-}
-
 .tag-wrapper {
   display: flex;
   flex-direction: column;
@@ -299,8 +294,8 @@ a:hover {
 }
 
 button.view-button {
-  width: 8vw;
-  height: 8vw;
+  width: 5vw;
+  height: 5vw;
   opacity: 0.8;
   border-radius: 50px;
   position: absolute;
@@ -308,4 +303,13 @@ button.view-button {
   right: 17px;
   z-index: 10;
   border: none;
+  background-color: rgb(71, 71, 71);
 }
+
+button.next-button {
+  border: none;
+  width: 90vw;
+  height: 60px;
+  background-color: white;
+}
+

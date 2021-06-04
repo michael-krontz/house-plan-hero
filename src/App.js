@@ -31,11 +31,18 @@ function ViewModal() {
 }
 
 function ViewModalButton() {
+  const stackOver = useRecoilValue(isStackOver);
+
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
   function ToggleViewButton() {
-    return <button className="view-button" onClick={ToggleViewAction}></button>
+    if (stackOver == false) {
+      return <button className="view-button" onClick={ToggleViewAction}></button>
+    }
+
+    else 
+    return <p></p>
   }
 
   ToggleViewButton.defaultProps = {
@@ -149,7 +156,7 @@ function StyleSelection() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const stackOver = useRecoilValue(isStackOver);
   if (stackOver === true) {
-    return <button className="change-style-button" onClick={ChangeStyle}>View Different Style</button>
+    return <button className="change-style-button" onClick={ChangeStyle}>Change Home Style</button>
   }
 
   else {
@@ -637,11 +644,6 @@ const isStackOver = atom({
 const isBottomSheetOpen = atom({
   key: 'isBottomSheetOpen', // unique ID (with respect to other atoms/selectors)
   default: false, // default value (aka initial value)
-});
-
-const viewToggle = atom({
-  key: 'viewToggle', // unique ID (with respect to other atoms/selectors)
-  default: 'auto 100%', // default value (aka initial value)
 });
 
 const isViewToggleActive = atom({
