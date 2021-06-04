@@ -35,7 +35,7 @@ function ViewModalButton() {
   const voop = () => {};
 
   function ToggleViewButton() {
-    return <button className="view-button" onClick={ToggleViewAction}>[View Icon]</button>
+    return <button className="view-button" onClick={ToggleViewAction}></button>
   }
 
   ToggleViewButton.defaultProps = {

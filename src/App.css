@@ -281,17 +281,16 @@ a:hover {
 .modal-wrapper {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 45px);
   position: absolute;
-  background-color: #838383;
+  background-color: #c7c7c7;
   z-index: 10;
-  top: 0;
+  bottom: 0;
   justify-content: center;
   align-items: center;
 }
 
 .modal-image {
-  transform: rotate(90deg);
   width: 100vw;
   height: 100vw;
   background-size: 100%;
@@ -300,8 +299,8 @@ a:hover {
 }
 
 button.view-button {
-  width: 15vw;
-  height: 15vw;
+  width: 8vw;
+  height: 8vw;
   opacity: 0.4;
   border-radius: 50px;
   position: absolute;
