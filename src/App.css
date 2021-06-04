@@ -301,7 +301,7 @@ a:hover {
 button.view-button {
   width: 8vw;
   height: 8vw;
-  opacity: 0.4;
+  opacity: 0.8;
   border-radius: 50px;
   position: absolute;
   top: 60px;
