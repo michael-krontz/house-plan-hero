@@ -273,7 +273,7 @@ a:hover {
   width: 100vw;
   height: calc(100vh - 45px);
   position: absolute;
-  background-color: #c7c7c7;
+  background-color: #000000c0;
   z-index: 10;
   bottom: 0;
   justify-content: center;
@@ -298,11 +298,12 @@ button.view-button {
   font-size: 28px;
   border-radius: 50px;
   position: absolute;
-  bottom: 18vh;
-  left: 49vw;
+  bottom: 0;
+  left: 44%;
   z-index: 10;
   border: none;
   color: white;
+  padding-bottom: 8vh;
   background-color: transparent;
 }
 
