@@ -168,8 +168,6 @@ a:hover {
 .Stats {
   display: flex;
   justify-content: space-between;
-  padding-left: 7%;
-  padding-right: 7%;
   margin-left: auto;
   background-color: transparent !important;
   border-color: transparent !important;
@@ -178,37 +176,34 @@ a:hover {
 .Bed-icon {
   width: 15px;
   height: 15px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 99px;
-  margin-right: 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .Bath-icon {
   width: 15px;
   height: 15px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 99px;
   margin-right: 5px;
+  margin-bottom: 10px;
 }
 
 .Sqft-icon {
   width: 15px;
   height: 15px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 99px;
   margin-right: 5px;
+  margin-bottom: 10px;
 }
 
 .Beds {
   display: flex;
   align-items: center;
-  margin-right: 7px;
+  margin-right: 12px;
 }
 
 .Baths {
   display: flex;
   align-items: center;
-  margin-right: 7px;
+  margin-right: 12px;
 }
 
 .Sqft {
@@ -294,16 +289,21 @@ a:hover {
 }
 
 button.view-button {
-  width: 5vw;
-  height: 5vw;
-  opacity: 0.8;
+  width: 7vw;
+  height: 7vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  font-size: 28px;
   border-radius: 50px;
   position: absolute;
-  top: 60px;
-  right: 17px;
+  bottom: 18vh;
+  left: 49vw;
   z-index: 10;
   border: none;
-  background-color: rgb(71, 71, 71);
+  color: white;
+  background-color: transparent;
 }
 
 button.next-button {

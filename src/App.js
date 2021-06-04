@@ -9,6 +9,19 @@ import useDoubleClick from 'use-double-click'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState, useRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { faBed } from '@fortawesome/free-solid-svg-icons'
+import { faBath } from '@fortawesome/free-solid-svg-icons'
+import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
+
+
+const eyeIcon = <FontAwesomeIcon icon={faEye} />
+const bedIcon = <FontAwesomeIcon icon={faBed} />
+const bathIcon = <FontAwesomeIcon icon={faBath} />
+const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
+
+
 
 function ViewModal() {
   const cardId = useRecoilValue(currentCardId);
@@ -32,13 +45,12 @@ function ViewModal() {
 
 function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
-
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
   function ToggleViewButton() {
     if (stackOver == false) {
-      return <button className="view-button" onClick={ToggleViewAction}></button>
+      return <button className="view-button" onClick={ToggleViewAction}>{eyeIcon}</button>
     }
 
     else 
@@ -84,15 +96,15 @@ function Logo() {
         <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState[cardId - 1]}</Link>
         <div className = "Stats">
             <div className = "Beds">
-              <div className = "Bed-icon"></div>
+              <div className = "Bed-icon">{bedIcon}</div>
               <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState[cardId - 1]}</h4>
             </div>
             <div className = "Baths">
-              <div className = "Bath-icon"></div>
+              <div className = "Bath-icon">{bathIcon}</div>
               <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState[cardId - 1]}</h4>
             </div>
             <div className = "Sqft">
-              <div className = "Sqft-icon"></div>
+              <div className = "Sqft-icon">{sqftIcon}</div>
               <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState[cardId - 1]}</h4>
             </div>
           </div>
