@@ -202,13 +202,16 @@ var hpLinkArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
-var currentDetailCardCount = 1
+var currentDetailCardCount = 2
 var z = 0
 var _ = require('lodash')
 
 function DetailDeckBuild() {
   const cardState = useRecoilValue(detailState);
-  const setDetailCardId = useSetRecoilState(currentDetailCard);
+  // const detailCardState = useRecoilValue(currentDetailCard);
+  // const setDetailCardId = useSetRecoilState(currentDetailCard);
+
+
   // const detailcardcount = useRecoilValue(detailCount)
   // const detailCountVal = useRecoilValue(detailCount);
   // const resetCurrentDetailCard = useResetRecoilState(currentDetailCard)
@@ -217,6 +220,7 @@ function DetailDeckBuild() {
   const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
   
     function DetailDeck() {
+      const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
       const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
       const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     
@@ -234,15 +238,11 @@ function DetailDeckBuild() {
           const scale = down ? 1 : 1 // Active cards lift up a bit
           
           if (isGone === true) {
-            currentDetailCardCount ++
+            currentDetailCardCount++
             setDetailCardId(currentDetailCardCount)
-
-            // if (detailCountVal == currentDetailCardCount) {
-            //   setTimeout(detailResetter, 250)
-            // }
-            // console.log(detailcardcount)
-            console.log("Detail Card" + currentDetailCard)
-            console.log(cardState)
+            
+            console.log("Detail Card ID: " + detailCardId)
+            console.log("Card State: " + cardState)
           }
               // function detailResetter() {
               //   resetCurrentDetailCard(currentDetailCard)
@@ -279,7 +279,6 @@ function DetailDeckBuild() {
     const descState = useRecoilValue(currentDesc);
     const linkState = useRecoilValue(currentLink);
     const cardId = useRecoilValue(currentCardId);
-    const setDetailCardId = useSetRecoilState(currentDetailCard);
 
     // console.log("Info Card State: " + cardState)
     const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
@@ -288,6 +287,7 @@ function DetailDeckBuild() {
     
       function InfoDeck() {
         const resetInfo = useResetRecoilState(infoState)
+        const resetDetailCard = useResetRecoilState(currentDetailCard)
         const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
         const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
 
@@ -305,14 +305,14 @@ function DetailDeckBuild() {
             const scale = down ? 1 : 1 // Active cards lift up a bit
 
             if (isGone === true) {
-              setDetailCardId(1)
-
-              console.log("cock")
 
               setTimeout(resetter, 250)
 
               function resetter() {
                 resetInfo(infoState)
+                currentDetailCardCount = 1
+                resetDetailCard(currentDetailCard)
+                console.log("cock")
               }
             }
 
@@ -592,6 +592,7 @@ const DoubleClickEvent = () => {
   const setDetailCards = useSetRecoilState(detailState)
   const setInfoCard = useSetRecoilState(infoState)
   const buttonRef = useRef();
+  const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
 
  
   useDoubleClick({
@@ -613,10 +614,12 @@ const DoubleClickEvent = () => {
 
     setDetailCards(newArray)
     setInfoCard([currentCardId])
+    setDetailCardId(currentDetailCardCount)
 
     console.log(newArray)
     console.log("Card ID: " + cardId);
     console.log("Detail Count: " + detailcardcount);
+    console.log("Detail Card ID: " + detailCardId)
   }
   
   return <div className="tap-area" ref={buttonRef}></div>
