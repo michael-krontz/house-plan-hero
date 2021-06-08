@@ -26,18 +26,34 @@ const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 function ViewModal() {
   const cardId = useRecoilValue(currentCardId);
   const cardState = useRecoilValue(detailState);
+  const currentDetailCardNum = useRecoilValue(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
 
   console.log(cardState)
-console.log(detailState)
+  console.log("THIS ONE" + currentDetailCardNum)
+console.log("Detail State: " + detailState)
 
   if (viewToggleActive === true) {
-    return (
-      <div className = "modal-wrapper">
-        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+
+    if (currentDetailCardNum == 0) {
+      return (
+        <div className = "modal-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+
+    else if (currentDetailCardNum >= 1) {
+      return (
+        <div className = "modal-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[currentDetailCardNum - 1]})`}}>
+          </div>
+        </div>
+      )
+    }
+
+
   }
 
   else {
@@ -208,13 +224,6 @@ var _ = require('lodash')
 
 function DetailDeckBuild() {
   const cardState = useRecoilValue(detailState);
-  // const detailCardState = useRecoilValue(currentDetailCard);
-  // const setDetailCardId = useSetRecoilState(currentDetailCard);
-
-
-  // const detailcardcount = useRecoilValue(detailCount)
-  // const detailCountVal = useRecoilValue(detailCount);
-  // const resetCurrentDetailCard = useResetRecoilState(currentDetailCard)
   const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -242,12 +251,7 @@ function DetailDeckBuild() {
             setDetailCardId(currentDetailCardCount)
             
             console.log("Detail Card Count: " + currentDetailCardCount)
-            // console.log("Detail Card ID " + detailCardId)
-            // console.log("Card State: " + cardState)
           }
-              // function detailResetter() {
-              //   resetCurrentDetailCard(currentDetailCard)
-              // }
 
             // Reload function
             // gone.clear() || set(i => to(i)), 600)
@@ -611,6 +615,7 @@ const DoubleClickEvent = () => {
 
     else {
       newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+      _.reverse( newArray )
     }
 
     setDetailCards(newArray)
@@ -634,7 +639,7 @@ const detailState = atom({
 
 const currentDetailCard = atom({
   key: 'currentDetailCard', // unique ID (with respect to other atoms/selectors)
-  default: 1, // default value (aka initial value)
+  default: 0, // default value (aka initial value)
 });
 
 const infoState = atom({
