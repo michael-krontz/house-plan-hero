@@ -15,23 +15,16 @@ import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 
-
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 
-
-
 function ViewModal() {
   const cardId = useRecoilValue(currentCardId);
-  const cardState = useRecoilValue(detailState);
+  const cardState = useRecoilValue(detailStateReverse);
   const currentDetailCardNum = useRecoilValue(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
-
-  console.log(cardState)
-  console.log("THIS ONE" + currentDetailCardNum)
-console.log("Detail State: " + detailState)
 
   if (viewToggleActive === true) {
 
@@ -52,8 +45,6 @@ console.log("Detail State: " + detailState)
         </div>
       )
     }
-
-
   }
 
   else {
@@ -277,7 +268,6 @@ function DetailDeckBuild() {
     </>
     )
   }
-
 
   function InfoDeckBuild() {
     const cardState = useRecoilValue(infoState);
@@ -595,6 +585,7 @@ const DoubleClickEvent = () => {
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const setDetailCards = useSetRecoilState(detailState)
+  const setDetailCardsReverse = useSetRecoilState(detailStateReverse)
   const setInfoCard = useSetRecoilState(infoState)
   const buttonRef = useRef();
   const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
@@ -615,22 +606,25 @@ const DoubleClickEvent = () => {
 
     else {
       newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
-      _.reverse( newArray )
+      newArray.reverse()
+      setDetailCards(newArray)
+      var reversedNewArray = [...newArray]
+      reversedNewArray.reverse()
+      newArray = reversedNewArray
     }
 
-    setDetailCards(newArray)
+    setDetailCardsReverse(newArray)
     setInfoCard([currentCardId])
     setDetailCardId(currentDetailCardCount)
-
-    console.log(newArray)
-    console.log("Card ID: " + cardId);
-    console.log("Detail Count: " + detailcardcount);
-    console.log("Detail Card ID: " + detailCardId)
   }
   
   return <div className="tap-area" ref={buttonRef}></div>
 }
 
+const detailStateReverse = atom({
+  key: 'detailStateReverse', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
 
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
