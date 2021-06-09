@@ -15,25 +15,36 @@ import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 
-
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 
-
-
 function ViewModal() {
   const cardId = useRecoilValue(currentCardId);
+  const cardState = useRecoilValue(detailStateReverse);
+  const currentDetailCardNum = useRecoilValue(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
 
   if (viewToggleActive === true) {
-    return (
-      <div className = "modal-wrapper">
-        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+
+    if (currentDetailCardNum == 0) {
+      return (
+        <div className = "modal-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+
+    else if (currentDetailCardNum >= 1) {
+      return (
+        <div className = "modal-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[currentDetailCardNum - 1]})`}}>
+          </div>
+        </div>
+      )
+    }
   }
 
   else {
@@ -198,6 +209,7 @@ var hpLinkArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
+var currentDetailCardCount = 1
 var z = 0
 var _ = require('lodash')
 
@@ -208,6 +220,7 @@ function DetailDeckBuild() {
   const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
   
     function DetailDeck() {
+      const setDetailCardId = useSetRecoilState(currentDetailCard)
       const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
       const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     
@@ -223,7 +236,14 @@ function DetailDeckBuild() {
           const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
           const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
           const scale = down ? 1 : 1 // Active cards lift up a bit
-          
+
+          if (isGone === true) {
+            currentDetailCardCount++
+            setDetailCardId(currentDetailCardCount)
+            
+            console.log("Detail Card Count: " + currentDetailCardCount)
+          }
+
             // Reload function
             // gone.clear() || set(i => to(i)), 600)
             return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
@@ -249,7 +269,6 @@ function DetailDeckBuild() {
     )
   }
 
-
   function InfoDeckBuild() {
     const cardState = useRecoilValue(infoState);
     const descState = useRecoilValue(currentDesc);
@@ -263,6 +282,7 @@ function DetailDeckBuild() {
     
       function InfoDeck() {
         const resetInfo = useResetRecoilState(infoState)
+        const resetDetailCard = useResetRecoilState(currentDetailCard)
         const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
         const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
 
@@ -280,10 +300,14 @@ function DetailDeckBuild() {
             const scale = down ? 1 : 1 // Active cards lift up a bit
 
             if (isGone === true) {
+
               setTimeout(resetter, 250)
 
               function resetter() {
                 resetInfo(infoState)
+                currentDetailCardCount = 1
+                resetDetailCard(currentDetailCard)
+                console.log("reset")
               }
             }
 
@@ -561,8 +585,10 @@ const DoubleClickEvent = () => {
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const setDetailCards = useSetRecoilState(detailState)
+  const setDetailCardsReverse = useSetRecoilState(detailStateReverse)
   const setInfoCard = useSetRecoilState(infoState)
   const buttonRef = useRef();
+  const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
 
  
   useDoubleClick({
@@ -580,22 +606,34 @@ const DoubleClickEvent = () => {
 
     else {
       newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+      newArray.reverse()
+      setDetailCards(newArray)
+      var reversedNewArray = [...newArray]
+      reversedNewArray.reverse()
+      newArray = reversedNewArray
     }
 
-    setDetailCards(newArray)
+    setDetailCardsReverse(newArray)
     setInfoCard([currentCardId])
-
-    console.log(newArray)
-    console.log("Card ID: " + cardId);
-    console.log("Detail Count: " + detailcardcount);
+    setDetailCardId(currentDetailCardCount)
   }
   
   return <div className="tap-area" ref={buttonRef}></div>
 }
 
+const detailStateReverse = atom({
+  key: 'detailStateReverse', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
+});
+
+const currentDetailCard = atom({
+  key: 'currentDetailCard', // unique ID (with respect to other atoms/selectors)
+  default: 0, // default value (aka initial value)
 });
 
 const infoState = atom({
