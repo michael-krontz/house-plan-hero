@@ -132,14 +132,23 @@ a:hover {
   justify-content: center;
 }
 
+.info-box-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
 .info-box {
   border-radius: 0;
-  position: absolute !important;
-  max-height: 75px;
   width: 100vw !important;
   padding: 18px;
+  padding-top: 1px;
   margin-top: unset;
   bottom: 8vh;
+}
+
+.cta-wrapper {
+  height: 82px;
+  margin-top: 15px;
 }
 
 .tap-area {
@@ -217,20 +226,18 @@ a:hover {
 }
 
 .Info-cta {
-  width: 100%;
+  width: 75%;
   height: 65px;
-  position: absolute;
   bottom: 0;
 }
 
 .Description {
   display: flex;
-  width: 90%;
+  width: 100%;
   margin: auto;
   margin-top: 10px;
   flex-direction: column;
-  height: 135px;
-  overflow: scroll;
+  height: 100%;
 }
 
 .Description-h5 {
@@ -268,22 +275,29 @@ a:hover {
   right: 10px;
 }
 
+.modal-inner-wrapper {
+  height: 100vh;
+  width: 100vw;
+}
+
 .modal-wrapper {
   display: flex;
   width: 100vw;
-  height: 100vh;
   position: absolute;
   background-color: #000000c0;
   z-index: 10;
-  bottom: 0;
-  justify-content: center;
+  top: 44px;
+  justify-content: flex-start;
   align-items: center;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .modal-image {
   width: 100vw;
-  height: 100vw;
-  background-size: 100%;
+  height: 275px;
+  margin-bottom: 1vh;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -299,7 +313,7 @@ button.view-button {
   border-radius: 50px;
   position: absolute;
   bottom: 0;
-  left: 44%;
+  right: 42.5%;
   z-index: 10;
   border: none;
   color: white;
@@ -314,3 +328,8 @@ button.next-button {
   background-color: white;
 }
 
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

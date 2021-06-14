@@ -1,50 +1,221 @@
 import './App.css';
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
-import useDoubleClick from 'use-double-click'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useResetRecoilState, useRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
+const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 
 function ViewModal() {
+  const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
-  const cardState = useRecoilValue(detailStateReverse);
+  const cardState = useRecoilValue(detailState);
   const currentDetailCardNum = useRecoilValue(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
+  const descState = useRecoilValue(currentDesc);
+  const linkState = useRecoilValue(currentLink);
+  console.log("cock" + detailcardcount)
 
-  if (viewToggleActive === true) {
 
-    if (currentDetailCardNum == 0) {
-      return (
-        <div className = "modal-wrapper">
-          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}>
+console.log(cardState)
+console.log(currentDetailCardNum)
+
+
+  if (viewToggleActive === true && detailcardcount === 0){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
 
-    else if (currentDetailCardNum >= 1) {
-      return (
-        <div className = "modal-wrapper">
-          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[currentDetailCardNum - 1]})`}}>
+  else if (viewToggleActive === true && detailcardcount === 1){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
+  }
+
+  else if (viewToggleActive === true && detailcardcount === 2){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  else if (viewToggleActive === true && detailcardcount === 3){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">        
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  else if (viewToggleActive === true && detailcardcount === 4){
+    return (
+      <div className = "modal-wrapper">
+      <div className = "modal-inner-wrapper">
+        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
+        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[3]})`}}></div>
+        <div className = " info-box-wrapper">
+          <div className = "info-box">
+            <div className = "Description">
+            <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+            <div className = " cta-wrapper">
+              <div className = "cta">
+                <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                <ViewModalButton></ViewModalButton>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    )
+  }
+
+  else if (viewToggleActive === true && detailcardcount === 5){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[3]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[4]})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  else if (viewToggleActive === true && detailcardcount === 6){
+    return (
+      <div className = "modal-wrapper">
+        <div className = "modal-inner-wrapper">
+          <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[3]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[4]})`}}></div>
+          <div className = "modal-image" style={{ backgroundImage: `url(${cardState[5]})`}}></div>
+          <div className = " info-box-wrapper">
+            <div className = "info-box">
+              <div className = "Description">
+              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <div className = " cta-wrapper">
+                <div className = "cta">
+                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <ViewModalButton></ViewModalButton>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    )
   }
 
   else {
@@ -56,12 +227,21 @@ function ViewModal() {
 
 function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
+  const detailcardcount = useRecoilValue(detailCount)
+  const cardId = useRecoilValue(currentCardId);
+  const setDetailCards = useSetRecoilState(detailState)
+  const setInfoCard = useSetRecoilState(infoState)
+  const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
   function ToggleViewButton() {
-    if (stackOver == false) {
+    if (stackOver === false && viewToggleActive === false) {
       return <button className="view-button" onClick={ToggleViewAction}>{eyeIcon}</button>
+    }
+
+    else if (stackOver === false && viewToggleActive === true) {
+      return <button className="view-button" onClick={ToggleViewAction} style={{ position: 'relative', paddingBottom: '0', right: '7%' }}>{eyeSlashIcon}</button>
     }
 
     else 
@@ -73,6 +253,20 @@ function ViewModalButton() {
   };
 
   function ToggleViewAction() {
+      var newArray = []
+  
+      if (detailcardcount < 1) {
+        newArray = [];
+      }
+  
+      else {
+        newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
+        setDetailCards(newArray)
+      }
+  
+      setInfoCard([currentCardId])
+      setDetailCardId(currentDetailCardCount)
+  
     if (viewToggleActive === false) {
       setViewToggleActive(true)
   
@@ -212,144 +406,6 @@ var currentHand = 1
 var currentDetailCardCount = 1
 var z = 0
 var _ = require('lodash')
-
-function DetailDeckBuild() {
-  const cardState = useRecoilValue(detailState);
-  const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
-  const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
-  const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
-  
-    function DetailDeck() {
-      const setDetailCardId = useSetRecoilState(currentDetailCard)
-      const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-      const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
-    
-      // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-      const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-        const trigger = velocity > 0.1 // If you flick hard enough it should trigger the card to fly out
-        const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
-        if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-        
-        set(i => {
-          if (index !== i) return // We're only interested in changing spring-data for the current spring
-          const isGone = gone.has(index)
-          const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-          const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
-          const scale = down ? 1 : 1 // Active cards lift up a bit
-
-          if (isGone === true) {
-            currentDetailCardCount++
-            setDetailCardId(currentDetailCardCount)
-            
-            console.log("Detail Card Count: " + currentDetailCardCount)
-          }
-
-            // Reload function
-            // gone.clear() || set(i => to(i)), 600)
-            return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
-        })  
-      })
-
-      // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-     return (
-       props.map(({ x, y, rot, scale }, i) => (
-         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cardState[i]})` }}>
-           </animated.div>
-         </animated.div>
-       ))
-     )
-    } 
-
-    return (
-    <>
-      <DetailDeck></DetailDeck>
-    </>
-    )
-  }
-
-  function InfoDeckBuild() {
-    const cardState = useRecoilValue(infoState);
-    const descState = useRecoilValue(currentDesc);
-    const linkState = useRecoilValue(currentLink);
-    const cardId = useRecoilValue(currentCardId);
-
-    // console.log("Info Card State: " + cardState)
-    const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
-    const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
-    const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
-    
-      function InfoDeck() {
-        const resetInfo = useResetRecoilState(infoState)
-        const resetDetailCard = useResetRecoilState(currentDetailCard)
-        const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
-        const [props, set] = useSprings(cardState.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
-
-        // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-        const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-          const trigger = velocity > 0.1 // If you flick hard enough it should trigger the card to fly out
-          const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
-          if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-          
-          set(i => {
-            if (index !== i) return // We're only interested in changing spring-data for the current spring
-            const isGone = gone.has(index)
-            const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-            const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
-            const scale = down ? 1 : 1 // Active cards lift up a bit
-
-            if (isGone === true) {
-
-              setTimeout(resetter, 250)
-
-              function resetter() {
-                resetInfo(infoState)
-                currentDetailCardCount = 1
-                resetDetailCard(currentDetailCard)
-                console.log("reset")
-              }
-            }
-
-              // Reload function
-              // gone.clear() || set(i => to(i)), 600)
-              return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
-          })  
-        })
-  
-        // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-       return (
-         props.map(({ x, y, rot, scale }, i) => (
-           <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-             {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-             <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cardState[i]})` }}>
-              <InfoContent></InfoContent>
-             </animated.div>
-           </animated.div>
-         ))
-       )
-      } 
-
-      function InfoContent() {
-        const cardId = useRecoilValue(currentCardId);
-
-        return (
-          <>
-            <div className = "Floor-plan" style={{ backgroundImage: `url(${'images/fp_' + cardId + '.png'})` }}></div>
-            <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
-            </div>
-            <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
-         </>
-        )
-      }
-
-      return (
-      <>
-        <InfoDeck></InfoDeck>
-      </>
-      )
-    }
 
 function DeckBuild() {
   var allCards = []
@@ -560,7 +616,8 @@ setCurrentLink(hpLinkArray)
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`}}>
-          <DoubleClickEvent></DoubleClickEvent>
+          {/* <DoubleClickEvent></DoubleClickEvent> */}
+          <ViewModalButton></ViewModalButton>
           </animated.div>
         </animated.div>
       ))
@@ -580,51 +637,6 @@ setCurrentLink(hpLinkArray)
     </>
   )
 }
-
-const DoubleClickEvent = () => {
-  const detailcardcount = useRecoilValue(detailCount)
-  const cardId = useRecoilValue(currentCardId);
-  const setDetailCards = useSetRecoilState(detailState)
-  const setDetailCardsReverse = useSetRecoilState(detailStateReverse)
-  const setInfoCard = useSetRecoilState(infoState)
-  const buttonRef = useRef();
-  const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
-
- 
-  useDoubleClick({
-    onDoubleClick: e => DoubleClick(),
-    ref: buttonRef,
-    latency: 350,
-  });
-  
-  function DoubleClick() {
-    var newArray = []
-
-    if (detailcardcount < 1) {
-      newArray = [];
-    }
-
-    else {
-      newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
-      newArray.reverse()
-      setDetailCards(newArray)
-      var reversedNewArray = [...newArray]
-      reversedNewArray.reverse()
-      newArray = reversedNewArray
-    }
-
-    setDetailCardsReverse(newArray)
-    setInfoCard([currentCardId])
-    setDetailCardId(currentDetailCardCount)
-  }
-  
-  return <div className="tap-area" ref={buttonRef}></div>
-}
-
-const detailStateReverse = atom({
-  key: 'detailStateReverse', // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
-});
 
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
@@ -648,7 +660,7 @@ const currentCardId = atom({
 
 const detailCount = atom({
   key: 'detailCount', // unique ID (with respect to other atoms/selectors)
-  default: [4], // default value (aka initial value)
+  default: 4, // default value (aka initial value)
 });
 
 const currentTitle = atom({
@@ -705,21 +717,15 @@ function App() {
   return (
     <Router>
     <>
-
-
         <RecoilRoot>
           <header className = "App-header">
             <ViewModal></ViewModal>
-            <ViewModalButton></ViewModalButton>
             <Logo></Logo>
             <NavBar></NavBar>
           </header>
           <StyleSelectionBottomSheet></StyleSelectionBottomSheet>
-          {/* <TitleDisplay isStackOver={false} /> */}
           <DeckBuild></DeckBuild>
-          <InfoDeckBuild></InfoDeckBuild>        
           <StyleSelection></StyleSelection>
-          <DetailDeckBuild></DetailDeckBuild>
         </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
     </>
