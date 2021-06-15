@@ -25,18 +25,11 @@ function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const cardState = useRecoilValue(detailState);
-  const currentDetailCardNum = useRecoilValue(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
-  console.log("cock" + detailcardcount)
 
-
-console.log(cardState)
-console.log(currentDetailCardNum)
-
-
-  if (viewToggleActive === true && detailcardcount === 0){
+  if (viewToggleActive === true && detailcardcount < 1){
     return (
       <div className = "modal-wrapper">
         <div className = "modal-inner-wrapper">
@@ -231,7 +224,6 @@ function ViewModalButton() {
   const cardId = useRecoilValue(currentCardId);
   const setDetailCards = useSetRecoilState(detailState)
   const setInfoCard = useSetRecoilState(infoState)
-  const [detailCardId, setDetailCardId] = useRecoilState(currentDetailCard);
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
@@ -265,7 +257,6 @@ function ViewModalButton() {
       }
   
       setInfoCard([currentCardId])
-      setDetailCardId(currentDetailCardCount)
   
     if (viewToggleActive === false) {
       setViewToggleActive(true)
@@ -372,6 +363,7 @@ function StyleSelection() {
   const BottomSheetState = useRecoilValue(isBottomSheetOpen)
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const stackOver = useRecoilValue(isStackOver);
+  
   if (stackOver === true) {
     return <button className="change-style-button" onClick={ChangeStyle}>Change Home Style</button>
   }
@@ -403,7 +395,6 @@ var hpLinkArray = []
 var lowercase
 var currentCard = 1
 var currentHand = 1
-var currentDetailCardCount = 1
 var z = 0
 var _ = require('lodash')
 
@@ -499,8 +490,8 @@ function DeckBuild() {
   }
 
 
-console.log(hptCardArray)
-console.log(hpLinkArray)
+// console.log(hptCardArray)
+// console.log(hpLinkArray)
 setCurrentTitle(hptCardArray)
 setCurrentDesigner(hpdeCardArray)
 setCurrentBed(hpBedArray)
@@ -641,11 +632,6 @@ setCurrentLink(hpLinkArray)
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
-});
-
-const currentDetailCard = atom({
-  key: 'currentDetailCard', // unique ID (with respect to other atoms/selectors)
-  default: 0, // default value (aka initial value)
 });
 
 const infoState = atom({
