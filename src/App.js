@@ -332,6 +332,7 @@ function BottomSheetContent() {
     <>
       <div>
         <div className = "tag-wrapper">
+          <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Farmhouse</h2></div>
@@ -422,76 +423,84 @@ function DeckBuild() {
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
   const [{ data, loading, error }, refetch] = useAxios(
-    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
+    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/coastal.json'
   )
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error!</p>
 
   var cardData = data
+
+console.log(cardData)
+
     /* eslint-disable */
   var x
   for (x=0; x < cardData.length; x++) {
-    cardData.filter(houseplan => houseplan.id === x).map(hp => (
-      charext = hp.designer.substring(0, 0),
-      lowercase = charext.toLowerCase(),
-      hpCardId = lowercase + x,
+    // cardData.filter(coastal => coastal.id === x).map(hp => (
+    //   hpCardId = x,
+    //   allCardIds.push(hpCardId),
+    //   cardUrl = "images/" + hpCardId + ".jpg",
+    //   allCards.push(cardUrl)
+    // ));
+
+    cardData.filter(coastal => coastal.id).map(hp => (
+      hpCardId = hp.id,
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
     ));
-      
-    cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
+
+    cardData.filter(coastal => coastal.detailCards).map(hpd => (
       hpdCardArrayItem = hpd.detailCards,
       hpdCardArray.push(hpdCardArrayItem)
     ));
       
     hptCardArray = []
-    cardData.filter(houseplan => houseplan.name).map(hpt => (
+    cardData.filter(coastal => coastal.name).map(hpt => (
       hptCardArrayItem = hpt.name,
       hptCardArray.push(hptCardArrayItem)
     ));
     
     hpdeCardArray = []
-    cardData.filter(houseplan => houseplan.designer).map(hpde => (
+    cardData.filter(coastal => coastal.designer).map(hpde => (
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
     ));
 
     hpBedArray = []
-    cardData.filter(houseplan => houseplan.bed).map(hpBed => (
+    cardData.filter(coastal => coastal.bed).map(hpBed => (
       hpBedArrayItem = hpBed.bed,
       hpBedArray.push(hpBedArrayItem)
     ));
 
     hpBathArray = []
-    cardData.filter(houseplan => houseplan.bath).map(hpBath => (
+    cardData.filter(coastal => coastal.bath).map(hpBath => (
       hpBathArrayItem = hpBath.bath,
       hpBathArray.push(hpBathArrayItem)
     ));
 
     hpSqftArray = []
-    cardData.filter(houseplan => houseplan.sqft).map(hpSqft => (
+    cardData.filter(coastal => coastal.sqft).map(hpSqft => (
       hpSqftArrayItem = hpSqft.sqft,
       hpSqftArray.push(hpSqftArrayItem)
     ));
 
     hpDescArray = []
-    cardData.filter(houseplan => houseplan.desc).map(hpDesc => (
+    cardData.filter(coastal => coastal.desc).map(hpDesc => (
       hpDescArrayItem = hpDesc.desc,
       hpDescArray.push(hpDescArrayItem)
     ));
     
     hpLinkArray = []
-    cardData.filter(houseplan => houseplan.linkurl).map(hpLink => (
+    cardData.filter(coastal => coastal.linkurl).map(hpLink => (
       hpLinkArrayItem = hpLink.linkurl,
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
 
 
-// console.log(hptCardArray)
-// console.log(hpLinkArray)
+console.log(hptCardArray)
+console.log(hpLinkArray)
 setCurrentTitle(hptCardArray)
 setCurrentDesigner(hpdeCardArray)
 setCurrentBed(hpBedArray)
@@ -500,9 +509,14 @@ setCurrentSqft(hpSqftArray)
 setCurrentDesc(hpDescArray)
 setCurrentLink(hpLinkArray)
 
+
   var newArray = _.chunk(allCards, [5])
   var cards = newArray[z]
   cards.reverse();
+
+  console.log("COCK" + cards[0])
+
+
 
   const zoop = () => {};
 
