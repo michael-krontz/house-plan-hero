@@ -412,6 +412,7 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
 
+  const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
@@ -423,7 +424,7 @@ function DeckBuild() {
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
   const [{ data, loading, error }, refetch] = useAxios(
-    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/coastal.json'
+    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/' + houseStyle + '.json'
   )
 
   if (loading) return <p>Loading...</p>
@@ -642,6 +643,12 @@ setCurrentLink(hpLinkArray)
     </>
   )
 }
+
+const styleState = atom({
+  key: 'styleState', // unique ID (with respect to other atoms/selectors)
+  default: 'craftsman', // default value (aka initial value)
+});
+
 
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
