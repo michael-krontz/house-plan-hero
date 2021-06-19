@@ -327,15 +327,31 @@ function NavBar() {
   );
 }
 
-function BottomSheetContent() {
+function StyleSelectionBottomSheet() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+  const setHomeStyle = useSetRecoilState(styleState);
+  const setStackOver = useSetRecoilState(isStackOver);
+
+  function closeBottomSheet() {
+    openBottomSheet(false)
+  }
+
+  function changeStyle() {
+    setStackOver(false)
+    setHomeStyle('modernFarmhouse')
+    closeBottomSheet()
+    console.log("ballz")
+  }
+
   return (
-    <>
-      <div>
+    <BottomSheet open={BottomSheetState}>
+      <button className = "close-button" onClick={closeBottomSheet}>Close</button>
         <div className = "tag-wrapper">
           <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Farmhouse</h2></div>
+          <div className = "homestyle-tag"><h2 className = "tag">Coastal</h2></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick = {changeStyle}>Modern Farmhouse</button></div>
           <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Craftsman</h2></div>
@@ -344,20 +360,9 @@ function BottomSheetContent() {
           <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
         </div>
-      </div>
-    </>
+    </BottomSheet>
   )
-}
-
-function StyleSelectionBottomSheet() {
-  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
-  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
-
-  function closeBottomSheet() {
-    openBottomSheet(false)
-  }
-
-  return <BottomSheet open={BottomSheetState}><button className = "close-button" onClick={closeBottomSheet}>Close</button><BottomSheetContent></BottomSheetContent></BottomSheet>
+    
 }
 
 function StyleSelection() {
@@ -646,9 +651,8 @@ setCurrentLink(hpLinkArray)
 
 const styleState = atom({
   key: 'styleState', // unique ID (with respect to other atoms/selectors)
-  default: 'craftsman', // default value (aka initial value)
+  default: 'coastal', // default value (aka initial value)
 });
-
 
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
