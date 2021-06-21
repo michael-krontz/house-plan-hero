@@ -341,7 +341,6 @@ function StyleSelectionBottomSheet() {
     setStackOver(false)
     setHomeStyle('modernFarmhouse')
     closeBottomSheet()
-    console.log("ballz")
   }
 
   return (
@@ -362,7 +361,6 @@ function StyleSelectionBottomSheet() {
         </div>
     </BottomSheet>
   )
-    
 }
 
 function StyleSelection() {
@@ -437,76 +435,82 @@ function DeckBuild() {
 
   var cardData = data
 
-console.log(cardData)
+  console.log("This is the Card Data")
+  console.log(cardData)
+
+  console.log("This is the Card Data Length")
+  console.log(cardData.length)
+
+  console.log("This is the Card Data for Object 1")
+  console.log(cardData[0])
 
     /* eslint-disable */
   var x
-  for (x=0; x < cardData.length; x++) {
-    // cardData.filter(coastal => coastal.id === x).map(hp => (
+  for (x=0; x < 1; x++) {
+    // cardData.filter(cardData => cardData.id === x).map(hp => (
     //   hpCardId = x,
     //   allCardIds.push(hpCardId),
     //   cardUrl = "images/" + hpCardId + ".jpg",
     //   allCards.push(cardUrl)
     // ));
 
-    cardData.filter(coastal => coastal.id).map(hp => (
+    cardData.filter(cardData => cardData.id).map(hp => (
       hpCardId = hp.id,
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
     ));
 
-    cardData.filter(coastal => coastal.detailCards).map(hpd => (
+    cardData.filter(cardData => cardData.detailCards).map(hpd => (
       hpdCardArrayItem = hpd.detailCards,
       hpdCardArray.push(hpdCardArrayItem)
     ));
       
     hptCardArray = []
-    cardData.filter(coastal => coastal.name).map(hpt => (
+    cardData.filter(cardData => cardData.name).map(hpt => (
       hptCardArrayItem = hpt.name,
       hptCardArray.push(hptCardArrayItem)
     ));
     
     hpdeCardArray = []
-    cardData.filter(coastal => coastal.designer).map(hpde => (
+    cardData.filter(cardData => cardData.designer).map(hpde => (
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
     ));
 
     hpBedArray = []
-    cardData.filter(coastal => coastal.bed).map(hpBed => (
+    cardData.filter(cardData => cardData.bed).map(hpBed => (
       hpBedArrayItem = hpBed.bed,
       hpBedArray.push(hpBedArrayItem)
     ));
 
     hpBathArray = []
-    cardData.filter(coastal => coastal.bath).map(hpBath => (
+    cardData.filter(cardData => cardData.bath).map(hpBath => (
       hpBathArrayItem = hpBath.bath,
       hpBathArray.push(hpBathArrayItem)
     ));
 
     hpSqftArray = []
-    cardData.filter(coastal => coastal.sqft).map(hpSqft => (
+    cardData.filter(cardData => cardData.sqft).map(hpSqft => (
       hpSqftArrayItem = hpSqft.sqft,
       hpSqftArray.push(hpSqftArrayItem)
     ));
 
     hpDescArray = []
-    cardData.filter(coastal => coastal.desc).map(hpDesc => (
+    cardData.filter(cardData => cardData.desc).map(hpDesc => (
       hpDescArrayItem = hpDesc.desc,
       hpDescArray.push(hpDescArrayItem)
     ));
     
     hpLinkArray = []
-    cardData.filter(coastal => coastal.linkurl).map(hpLink => (
+    cardData.filter(cardData => cardData.linkurl).map(hpLink => (
       hpLinkArrayItem = hpLink.linkurl,
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
 
 
-console.log(hptCardArray)
-console.log(hpLinkArray)
+
 setCurrentTitle(hptCardArray)
 setCurrentDesigner(hpdeCardArray)
 setCurrentBed(hpBedArray)
@@ -520,9 +524,7 @@ setCurrentLink(hpLinkArray)
   var cards = newArray[z]
   cards.reverse();
 
-  console.log("COCK" + cards[0])
-
-
+console.log("all cards" + allCards)
 
   const zoop = () => {};
 
@@ -541,12 +543,13 @@ setCurrentLink(hpLinkArray)
   const NextDeckAction = () => {
     if (z < (newArray.length)) {
       z ++
+
       cards = newArray[z]
       setStateVal(cards)
       currentHand = 1
       stackOver(false)
+      console.log("new array z " + newArray[z])
       console.log("new array: " + newArray.length)
-      console.log("z: " + z)
       console.log("newarray - 1: " + (newArray.length - 1))
 
       if (z === (newArray.length - 1)) {
@@ -610,7 +613,13 @@ setCurrentLink(hpLinkArray)
         currentCard ++
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
-        console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
+        // console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
+        console.log("current title " + hptCardArray[currentCard - 1])
+        console.log("current bed " + hpBedArray[currentCard - 1])
+        console.log("current bath " + hpBathArray[currentCard - 1])
+        console.log("current sqft " + hpSqftArray[currentCard - 1])
+        console.log("current description " + hpDescArray[currentCard - 1])
+        console.log("current link url " + hpLinkArray[currentCard - 1])
       }
 
       if (currentHand == 6) {
