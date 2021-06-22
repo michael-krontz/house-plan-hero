@@ -5,7 +5,7 @@ import AuthContent from './AuthContent'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import useAxios from 'axios-hooks'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -332,6 +332,7 @@ function StyleSelectionBottomSheet() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
+  const resetCardId = useSetRecoilState(currentCardId);
 
   function closeBottomSheet() {
     openBottomSheet(false)
@@ -340,6 +341,7 @@ function StyleSelectionBottomSheet() {
   function changeStyle() {
     setStackOver(false)
     setHomeStyle('modernFarmhouse')
+    resetCardId(1)
     closeBottomSheet()
   }
 
@@ -614,6 +616,8 @@ console.log("all cards" + allCards)
         setCardId(currentCard)
         setDetailCount(hpdCardArray[currentCard - 1])
         // console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
+
+        console.log("Card ID" + cardId)
         console.log("current title " + hptCardArray[currentCard - 1])
         console.log("current bed " + hpBedArray[currentCard - 1])
         console.log("current bath " + hpBathArray[currentCard - 1])
