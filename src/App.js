@@ -20,6 +20,20 @@ const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
+var cardUrl
+var hpCardId
+var hpdCardArray = []
+var hptCardArray = []
+var hpdeCardArray = []
+var hpBedArray = []
+var hpBathArray = []
+var hpSqftArray = []
+var hpDescArray = []
+var hpLinkArray = []
+var currentCard = 1
+var currentHand = 1
+var z = 0
+var _ = require('lodash')
 
 function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
@@ -287,6 +301,8 @@ function Logo() {
   const stackOver = useRecoilValue(isStackOver);
 
   if (stackOver === false) {
+    console.log("current title state: " + currentTitleState)
+    console.log("Card ID: " + cardId)
     return (
       <div className = "Logo-wrapper">
         <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState[cardId - 1]}</Link>
@@ -333,6 +349,10 @@ function StyleSelectionBottomSheet() {
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
   const resetCardId = useSetRecoilState(currentCardId);
+  const resetTitle = useSetRecoilState(currentTitle)
+  const resetBed = useSetRecoilState(currentBed)
+  const resetBath = useSetRecoilState(currentBath)
+  const resetSqft = useSetRecoilState(currentSqft)
 
   function closeBottomSheet() {
     openBottomSheet(false)
@@ -342,6 +362,8 @@ function StyleSelectionBottomSheet() {
     setStackOver(false)
     setHomeStyle('modernFarmhouse')
     resetCardId(1)
+    currentHand = 1
+    currentCard = 1
     closeBottomSheet()
   }
 
@@ -387,22 +409,6 @@ function StyleSelection() {
   }
 }
 
-var cardUrl
-var charext
-var hpCardId
-var hpdCardArray = []
-var hptCardArray = []
-var hpdeCardArray = []
-var hpBedArray = []
-var hpBathArray = []
-var hpSqftArray = []
-var hpDescArray = []
-var hpLinkArray = []
-var lowercase
-var currentCard = 1
-var currentHand = 1
-var z = 0
-var _ = require('lodash')
 
 function DeckBuild() {
   var allCards = []
@@ -428,24 +434,18 @@ function DeckBuild() {
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
-  const [{ data, loading, error }, refetch] = useAxios(
+  const [{ data: getData, loading: getLoading, error: getError }] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/' + houseStyle + '.json'
   )
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error!</p>
+  if (getLoading) return <p>Loading...</p>
+  if (getError) return <p>Error!</p>
+  if (getData) {
+    fetchData()
+  }
 
-  var cardData = data
-
-  console.log("This is the Card Data")
-  console.log(cardData)
-
-  console.log("This is the Card Data Length")
-  console.log(cardData.length)
-
-  console.log("This is the Card Data for Object 1")
-  console.log(cardData[0])
-
+function fetchData() {
+  var cardData = getData  
     /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
@@ -455,14 +455,14 @@ function DeckBuild() {
     //   cardUrl = "images/" + hpCardId + ".jpg",
     //   allCards.push(cardUrl)
     // ));
-
+  
     cardData.filter(cardData => cardData.id).map(hp => (
       hpCardId = hp.id,
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
     ));
-
+  
     cardData.filter(cardData => cardData.detailCards).map(hpd => (
       hpdCardArrayItem = hpd.detailCards,
       hpdCardArray.push(hpdCardArrayItem)
@@ -479,25 +479,25 @@ function DeckBuild() {
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
     ));
-
+  
     hpBedArray = []
     cardData.filter(cardData => cardData.bed).map(hpBed => (
       hpBedArrayItem = hpBed.bed,
       hpBedArray.push(hpBedArrayItem)
     ));
-
+  
     hpBathArray = []
     cardData.filter(cardData => cardData.bath).map(hpBath => (
       hpBathArrayItem = hpBath.bath,
       hpBathArray.push(hpBathArrayItem)
     ));
-
+  
     hpSqftArray = []
     cardData.filter(cardData => cardData.sqft).map(hpSqft => (
       hpSqftArrayItem = hpSqft.sqft,
       hpSqftArray.push(hpSqftArrayItem)
     ));
-
+  
     hpDescArray = []
     cardData.filter(cardData => cardData.desc).map(hpDesc => (
       hpDescArrayItem = hpDesc.desc,
@@ -510,16 +510,19 @@ function DeckBuild() {
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
+  
+  setCurrentTitle(hptCardArray)
+  setCurrentDesigner(hpdeCardArray)
+  setCurrentBed(hpBedArray)
+  setCurrentBath(hpBathArray)
+  setCurrentSqft(hpSqftArray)
+  setCurrentDesc(hpDescArray)
+  setCurrentLink(hpLinkArray)
+}
 
 
 
-setCurrentTitle(hptCardArray)
-setCurrentDesigner(hpdeCardArray)
-setCurrentBed(hpBedArray)
-setCurrentBath(hpBathArray)
-setCurrentSqft(hpSqftArray)
-setCurrentDesc(hpDescArray)
-setCurrentLink(hpLinkArray)
+
 
 
   var newArray = _.chunk(allCards, [5])
