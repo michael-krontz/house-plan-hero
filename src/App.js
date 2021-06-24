@@ -23,6 +23,7 @@ const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
+var hpidCardArray = []
 var hptCardArray = []
 var hpdeCardArray = []
 var hpBedArray = []
@@ -51,10 +52,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -75,10 +76,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -100,10 +101,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -126,10 +127,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -153,10 +154,10 @@ function ViewModal() {
         <div className = " info-box-wrapper">
           <div className = "info-box">
             <div className = "Description">
-            <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+            <h5 className = "Description-h5">{descState}</h5>
             <div className = " cta-wrapper">
               <div className = "cta">
-                <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                 <ViewModalButton></ViewModalButton>
               </div>
             </div>
@@ -181,10 +182,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -210,10 +211,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -271,6 +272,8 @@ function ViewModalButton() {
       }
   
       setInfoCard([currentCardId])
+
+      console.log("CURRENTCardID" + cardId)
   
     if (viewToggleActive === false) {
       setViewToggleActive(true)
@@ -303,21 +306,22 @@ function Logo() {
   if (stackOver === false) {
     console.log("current title state: " + currentTitleState)
     console.log("Card ID: " + cardId)
+
     return (
       <div className = "Logo-wrapper">
-        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState[cardId - 1]}</Link>
+        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState}</Link>
         <div className = "Stats">
             <div className = "Beds">
               <div className = "Bed-icon">{bedIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
             </div>
             <div className = "Baths">
               <div className = "Bath-icon">{bathIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
             </div>
             <div className = "Sqft">
               <div className = "Sqft-icon">{sqftIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
             </div>
           </div>
       </div>
@@ -360,10 +364,10 @@ function StyleSelectionBottomSheet() {
 
   function changeStyle() {
     setStackOver(false)
-    setHomeStyle('modernFarmhouse')
     resetCardId(1)
     currentHand = 1
     currentCard = 1
+    setHomeStyle('modernFarmhouse')
     closeBottomSheet()
   }
 
@@ -422,6 +426,7 @@ function DeckBuild() {
   var hpSqftArrayItem
   var hpDescArrayItem
   var hpLinkArrayItem
+  var hpidCardArrayItem
 
   const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
@@ -431,6 +436,8 @@ function DeckBuild() {
   const setCurrentSqft = useSetRecoilState(currentSqft);
   const setCurrentDesc = useSetRecoilState(currentDesc);
   const setCurrentLink = useSetRecoilState(currentLink);
+  const setCardId = useSetRecoilState(currentCardId)
+  const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const [isDeckOver, setDeckOver] = useState(false); 
   const [stateVal, setStateVal] = useState([cards]); 
@@ -461,6 +468,11 @@ function fetchData() {
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
+    ));
+
+    cardData.filter(cardData => cardData.id).map(hpid => (
+      hpidCardArrayItem = hpid.id,
+      hpidCardArray.push(hpidCardArrayItem)
     ));
   
     cardData.filter(cardData => cardData.detailCards).map(hpd => (
@@ -511,13 +523,15 @@ function fetchData() {
     ));
   }
   
-  setCurrentTitle(hptCardArray)
-  setCurrentDesigner(hpdeCardArray)
-  setCurrentBed(hpBedArray)
-  setCurrentBath(hpBathArray)
-  setCurrentSqft(hpSqftArray)
-  setCurrentDesc(hpDescArray)
-  setCurrentLink(hpLinkArray)
+  setCurrentTitle(hptCardArray[currentCard - 1])
+  setCurrentDesigner(hpdeCardArray[currentCard - 1])
+  setCurrentBed(hpBedArray[currentCard - 1])
+  setCurrentBath(hpBathArray[currentCard - 1])
+  setCurrentSqft(hpSqftArray[currentCard - 1])
+  setCurrentDesc(hpDescArray[currentCard - 1])
+  setCurrentLink(hpLinkArray[currentCard - 1])
+  setCardId(hpidCardArray[currentCard - 1])
+  setDetailCount(hpdCardArray[currentCard - 1])
 }
 
 
@@ -590,6 +604,12 @@ console.log("all cards" + allCards)
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
+  const setCurrentTitle = useSetRecoilState(currentTitle);
+  const setCurrentBed = useSetRecoilState(currentBed);
+  const setCurrentBath = useSetRecoilState(currentBath);
+  const setCurrentSqft = useSetRecoilState(currentSqft);
+  const setCurrentDesc = useSetRecoilState(currentDesc);
+  const setCurrentLink = useSetRecoilState(currentLink);
   const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -616,8 +636,15 @@ console.log("all cards" + allCards)
       
       if (isGone === true) {
         currentCard ++
-        setCardId(currentCard)
+        setCardId(hpidCardArray[currentCard - 1])
         setDetailCount(hpdCardArray[currentCard - 1])
+        setCurrentTitle(hptCardArray[currentCard - 1])
+        setCurrentDesigner(hpdeCardArray[currentCard - 1])
+        setCurrentBed(hpBedArray[currentCard - 1])
+        setCurrentBath(hpBathArray[currentCard - 1])
+        setCurrentSqft(hpSqftArray[currentCard - 1])
+        setCurrentDesc(hpDescArray[currentCard - 1])
+        setCurrentLink(hpLinkArray[currentCard - 1])
         // console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
 
         console.log("Card ID" + cardId)
