@@ -364,11 +364,10 @@ function StyleSelectionBottomSheet() {
   }
 
   function changeStyle() {
-    setHomeStyle('modernFarmhouse')
-    setStackOver(false)
-    // setCardId(cardId)
     currentHand = 1
     currentCard = 1
+    setStackOver(false)
+    setHomeStyle('modernFarmhouse')
     closeBottomSheet()
   }
 
@@ -457,12 +456,6 @@ function fetchData() {
     /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
-    // cardData.filter(cardData => cardData.id === x).map(hp => (
-    //   hpCardId = x,
-    //   allCardIds.push(hpCardId),
-    //   cardUrl = "images/" + hpCardId + ".jpg",
-    //   allCards.push(cardUrl)
-    // ));
   
     cardData.filter(cardData => cardData.id).map(hp => (
       hpCardId = hp.id,
