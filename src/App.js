@@ -352,7 +352,8 @@ function StyleSelectionBottomSheet() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
-  const resetCardId = useSetRecoilState(currentCardId);
+  const setCardId = useSetRecoilState(currentCardId);
+  const cardId = useRecoilValue(currentCardId)
   const resetTitle = useSetRecoilState(currentTitle)
   const resetBed = useSetRecoilState(currentBed)
   const resetBath = useSetRecoilState(currentBath)
@@ -363,11 +364,11 @@ function StyleSelectionBottomSheet() {
   }
 
   function changeStyle() {
+    setHomeStyle('modernFarmhouse')
     setStackOver(false)
-    resetCardId(1)
+    // setCardId(cardId)
     currentHand = 1
     currentCard = 1
-    setHomeStyle('modernFarmhouse')
     closeBottomSheet()
   }
 
