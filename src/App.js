@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import useAxios from 'axios-hooks'
+import useAxios, { configure } from 'axios-hooks'
+import Axios from 'axios'
+import LRU from 'lru-cache'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
@@ -35,6 +37,13 @@ var currentCard = 1
 var currentHand = 1
 var z = 0
 var _ = require('lodash')
+
+const axios = Axios.create({
+  baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/',
+})
+
+const cache = new LRU({ max: 10 })
+configure({ axios, cache })
 
 function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
@@ -239,7 +248,7 @@ function ViewModalButton() {
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId)
   const setDetailCards = useSetRecoilState(detailState)
-  const setInfoCard = useSetRecoilState(infoState)
+  // const setInfoCard = useSetRecoilState(infoState)
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
@@ -261,11 +270,6 @@ function ViewModalButton() {
   };
 
   function ToggleViewAction() {
-
-
-
-
-
       var newArray = []
   
       if (detailcardcount < 1) {
@@ -277,7 +281,7 @@ function ViewModalButton() {
         setDetailCards(newArray)
       }
   
-      setInfoCard(cardId)
+      // setInfoCard(cardId)
 
       console.log("CURRENTCardID" + cardId)
   
@@ -355,7 +359,7 @@ function StyleSelectionBottomSheet() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
-  const cardArray = useRecoilValue(currentCardArray);
+  const setCardId = useSetRecoilState(currentCardId)
 
   // const setCardId = useSetRecoilState(currentCardId);
   // const cardId = useRecoilValue(currentCardId)
@@ -369,23 +373,12 @@ function StyleSelectionBottomSheet() {
   }
 
   function changeStyle() {
+    setHomeStyle('modernFarmhouse')
     currentHand = 1
     currentCard = 1
-    hpidCardArray = []
-
-
+    console.log("HPID Card Array: " + hpidCardArray)
     setStackOver(false)
-    setHomeStyle('modernFarmhouse')
     closeBottomSheet()
-    console.log("current Card" + currentCard)
-    setTimeout(ballz, 1000)
-
-      function ballz() {
-        console.log("cardArray ballz " + cardArray)        
-      }
-
-
-    return <DeckBuild></DeckBuild>
   }
 
   return (
@@ -458,9 +451,8 @@ function DeckBuild() {
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const setDeckOver = useSetRecoilState(isDeckOver)
   const setCards = useSetRecoilState(currentCardArray)
-  const [{ data: getData, loading: getLoading, error: getError }] = useAxios(
-    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/' + houseStyle + '.json'
-  )
+  // const setInfoCard = useSetRecoilState(infoState)
+  const [{ data: getData, loading: getLoading, error: getError }, refetch] = useAxios(houseStyle + '.json')
 
 
   if (getLoading) return <p>Loading...</p>
@@ -545,14 +537,14 @@ function fetchData() {
   setCurrentLink(hpLinkArray[currentCard - 1])
   setCardId(hpidCardArray[currentCard - 1])
   setDetailCount(hpdCardArray[currentCard - 1])
-
 }
 
 var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
-console.log("allCards: " + allCards)
+console.log("allCardz: " + allCards)
+
 
   const zoop = () => {};
 
@@ -701,6 +693,7 @@ console.log("allCards: " + allCards)
   )
 }
 
+
 const currentCardArray = atom({
   key: 'currentCardArray', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
@@ -721,10 +714,10 @@ const detailState = atom({
   default: [], // default value (aka initial value)
 });
 
-const infoState = atom({
-  key: 'infoState', // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
-});
+// const infoState = atom({
+//   key: 'infoState', // unique ID (with respect to other atoms/selectors)
+//   default: [], // default value (aka initial value)
+// });
 
 const currentCardId = atom({
   key: 'currentCardId', // unique ID (with respect to other atoms/selectors)
