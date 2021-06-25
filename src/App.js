@@ -237,6 +237,7 @@ function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
+  const setCardId = useSetRecoilState(currentCardId)
   const setDetailCards = useSetRecoilState(detailState)
   const setInfoCard = useSetRecoilState(infoState)
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
@@ -260,6 +261,11 @@ function ViewModalButton() {
   };
 
   function ToggleViewAction() {
+
+
+
+
+
       var newArray = []
   
       if (detailcardcount < 1) {
@@ -271,7 +277,7 @@ function ViewModalButton() {
         setDetailCards(newArray)
       }
   
-      setInfoCard([currentCardId])
+      setInfoCard(cardId)
 
       console.log("CURRENTCardID" + cardId)
   
@@ -304,9 +310,6 @@ function Logo() {
   const stackOver = useRecoilValue(isStackOver);
 
   if (stackOver === false) {
-    console.log("current title state: " + currentTitleState)
-    console.log("Card ID: " + cardId)
-
     return (
       <div className = "Logo-wrapper">
         <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState}</Link>
@@ -352,12 +355,14 @@ function StyleSelectionBottomSheet() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
-  const setCardId = useSetRecoilState(currentCardId);
-  const cardId = useRecoilValue(currentCardId)
-  const resetTitle = useSetRecoilState(currentTitle)
-  const resetBed = useSetRecoilState(currentBed)
-  const resetBath = useSetRecoilState(currentBath)
-  const resetSqft = useSetRecoilState(currentSqft)
+  const cardArray = useRecoilValue(currentCardArray);
+
+  // const setCardId = useSetRecoilState(currentCardId);
+  // const cardId = useRecoilValue(currentCardId)
+  // const resetTitle = useSetRecoilState(currentTitle)
+  // const resetBed = useSetRecoilState(currentBed)
+  // const resetBath = useSetRecoilState(currentBath)
+  // const resetSqft = useSetRecoilState(currentSqft)
 
   function closeBottomSheet() {
     openBottomSheet(false)
@@ -366,9 +371,21 @@ function StyleSelectionBottomSheet() {
   function changeStyle() {
     currentHand = 1
     currentCard = 1
+    hpidCardArray = []
+
+
     setStackOver(false)
     setHomeStyle('modernFarmhouse')
     closeBottomSheet()
+    console.log("current Card" + currentCard)
+    setTimeout(ballz, 1000)
+
+      function ballz() {
+        console.log("cardArray ballz " + cardArray)        
+      }
+
+
+    return <DeckBuild></DeckBuild>
   }
 
   return (
@@ -416,7 +433,7 @@ function StyleSelection() {
 
 function DeckBuild() {
   var allCards = []
-  var cards = []
+  // var cards = []
   var allCardIds = []
   var hpdCardArrayItem
   var hptCardArrayItem
@@ -439,11 +456,12 @@ function DeckBuild() {
   const setCardId = useSetRecoilState(currentCardId)
   const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  const [isDeckOver, setDeckOver] = useState(false); 
-  const [stateVal, setStateVal] = useState([cards]); 
+  const setDeckOver = useSetRecoilState(isDeckOver)
+  const setCards = useSetRecoilState(currentCardArray)
   const [{ data: getData, loading: getLoading, error: getError }] = useAxios(
     'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/' + houseStyle + '.json'
   )
+
 
   if (getLoading) return <p>Loading...</p>
   if (getError) return <p>Error!</p>
@@ -453,6 +471,7 @@ function DeckBuild() {
 
 function fetchData() {
   var cardData = getData  
+  setCards(cardData)
     /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
@@ -526,18 +545,14 @@ function fetchData() {
   setCurrentLink(hpLinkArray[currentCard - 1])
   setCardId(hpidCardArray[currentCard - 1])
   setDetailCount(hpdCardArray[currentCard - 1])
+
 }
 
-
-
-
-
-
-  var newArray = _.chunk(allCards, [5])
-  var cards = newArray[z]
-  cards.reverse();
-
-console.log("all cards" + allCards)
+var newArray = _.chunk(allCards, [5])
+var cardArray = newArray[z]
+cardArray.reverse();
+setCards(cardArray)
+console.log("allCards: " + allCards)
 
   const zoop = () => {};
 
@@ -557,8 +572,8 @@ console.log("all cards" + allCards)
     if (z < (newArray.length)) {
       z ++
 
-      cards = newArray[z]
-      setStateVal(cards)
+      // cards = newArray[z]
+      setCards(newArray[z])
       currentHand = 1
       stackOver(false)
       console.log("new array z " + newArray[z])
@@ -594,6 +609,7 @@ console.log("all cards" + allCards)
   }
 
   function Deck() {
+  const cards = useRecoilValue(currentCardArray);
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
@@ -639,14 +655,13 @@ console.log("all cards" + allCards)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
-        // console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
 
+        console.log("[cards] " + cards)
         console.log("Card ID" + cardId)
         console.log("current title " + hptCardArray[currentCard - 1])
         console.log("current bed " + hpBedArray[currentCard - 1])
         console.log("current bath " + hpBathArray[currentCard - 1])
         console.log("current sqft " + hpSqftArray[currentCard - 1])
-        console.log("current description " + hpDescArray[currentCard - 1])
         console.log("current link url " + hpLinkArray[currentCard - 1])
       }
 
@@ -685,6 +700,16 @@ console.log("all cards" + allCards)
     </>
   )
 }
+
+const currentCardArray = atom({
+  key: 'currentCardArray', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const isDeckOver = atom({
+  key: 'isDeckOver', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
 
 const styleState = atom({
   key: 'styleState', // unique ID (with respect to other atoms/selectors)
