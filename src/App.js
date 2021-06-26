@@ -376,7 +376,7 @@ function StyleSelectionBottomSheet() {
     setHomeStyle('modernFarmhouse')
     currentHand = 1
     currentCard = 1
-    console.log("HPID Card Array: " + hpidCardArray)
+    // console.log("HPID Card Array: " + hpidCardArray)
     setStackOver(false)
     closeBottomSheet()
   }
@@ -633,7 +633,7 @@ console.log("allCardz: " + allCards)
       
       if (isGone === true) {
         currentHand ++
-        console.log("CURRENT HAND" + currentHand)
+        // console.log("CURRENT HAND" + currentHand)
       }
       
       if (isGone === true) {
@@ -648,13 +648,13 @@ console.log("allCardz: " + allCards)
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
 
-        console.log("[cards] " + cards)
-        console.log("Card ID" + cardId)
-        console.log("current title " + hptCardArray[currentCard - 1])
-        console.log("current bed " + hpBedArray[currentCard - 1])
-        console.log("current bath " + hpBathArray[currentCard - 1])
-        console.log("current sqft " + hpSqftArray[currentCard - 1])
-        console.log("current link url " + hpLinkArray[currentCard - 1])
+        // console.log("[cards] " + cards)
+        // console.log("Card ID" + cardId)
+        // console.log("current title " + hptCardArray[currentCard - 1])
+        // console.log("current bed " + hpBedArray[currentCard - 1])
+        // console.log("current bath " + hpBathArray[currentCard - 1])
+        // console.log("current sqft " + hpSqftArray[currentCard - 1])
+        // console.log("current link url " + hpLinkArray[currentCard - 1])
       }
 
       if (currentHand == 6) {
