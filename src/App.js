@@ -4,9 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import useAxios, { configure } from 'axios-hooks'
-import Axios from 'axios'
-import LRU from 'lru-cache'
+import useAxios from 'axios-hooks'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
@@ -37,13 +35,6 @@ var currentCard = 1
 var currentHand = 1
 var z = 0
 var _ = require('lodash')
-
-const axios = Axios.create({
-  baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/',
-})
-
-const cache = new LRU({ max: 10 })
-configure({ axios, cache })
 
 function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
@@ -437,6 +428,8 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
   var hpidCardArrayItem
+  const cardId = useRecoilValue(currentCardId);
+  const cardIdArray = useRecoilValue(currentCardArray)
 
   const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
@@ -452,92 +445,91 @@ function DeckBuild() {
   const setDeckOver = useSetRecoilState(isDeckOver)
   const setCards = useSetRecoilState(currentCardArray)
   // const setInfoCard = useSetRecoilState(infoState)
-  const [{ data: getData, loading: getLoading, error: getError }, refetch] = useAxios(houseStyle + '.json')
-
+  const [{ data: getData, loading: getLoading, error: getError }] = useAxios('https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/' + houseStyle + '.json')
 
   if (getLoading) return <p>Loading...</p>
   if (getError) return <p>Error!</p>
   if (getData) {
-    fetchData()
-  }
-
-function fetchData() {
-  var cardData = getData  
-  setCards(cardData)
-    /* eslint-disable */
-  var x
-  for (x=0; x < 1; x++) {
+    var cardData = getData  
+    setCards(cardData)
+      /* eslint-disable */
+    var x
+    for (x=0; x < 1; x++) {
+    
+      cardData.filter(cardData => cardData.id).map(hp => (
+        hpCardId = hp.id,
+        allCardIds.push(hpCardId),
+        cardUrl = "images/" + hpCardId + ".jpg",
+        allCards.push(cardUrl)
+      ));
   
-    cardData.filter(cardData => cardData.id).map(hp => (
-      hpCardId = hp.id,
-      allCardIds.push(hpCardId),
-      cardUrl = "images/" + hpCardId + ".jpg",
-      allCards.push(cardUrl)
-    ));
-
-    cardData.filter(cardData => cardData.id).map(hpid => (
-      hpidCardArrayItem = hpid.id,
-      hpidCardArray.push(hpidCardArrayItem)
-    ));
-  
-    cardData.filter(cardData => cardData.detailCards).map(hpd => (
-      hpdCardArrayItem = hpd.detailCards,
-      hpdCardArray.push(hpdCardArrayItem)
-    ));
+      cardData.filter(cardData => cardData.id).map(hpid => (
+        hpidCardArrayItem = hpid.id,
+        hpidCardArray.push(hpidCardArrayItem)
+      ));
+    
+      cardData.filter(cardData => cardData.detailCards).map(hpd => (
+        hpdCardArrayItem = hpd.detailCards,
+        hpdCardArray.push(hpdCardArrayItem)
+      ));
+        
+      hptCardArray = []
+      cardData.filter(cardData => cardData.name).map(hpt => (
+        hptCardArrayItem = hpt.name,
+        hptCardArray.push(hptCardArrayItem)
+      ));
       
-    hptCardArray = []
-    cardData.filter(cardData => cardData.name).map(hpt => (
-      hptCardArrayItem = hpt.name,
-      hptCardArray.push(hptCardArrayItem)
-    ));
+      hpdeCardArray = []
+      cardData.filter(cardData => cardData.designer).map(hpde => (
+        hpdeCardArrayItem = hpde.designer,
+        hpdeCardArray.push(hpdeCardArrayItem)
+      ));
     
-    hpdeCardArray = []
-    cardData.filter(cardData => cardData.designer).map(hpde => (
-      hpdeCardArrayItem = hpde.designer,
-      hpdeCardArray.push(hpdeCardArrayItem)
-    ));
-  
-    hpBedArray = []
-    cardData.filter(cardData => cardData.bed).map(hpBed => (
-      hpBedArrayItem = hpBed.bed,
-      hpBedArray.push(hpBedArrayItem)
-    ));
-  
-    hpBathArray = []
-    cardData.filter(cardData => cardData.bath).map(hpBath => (
-      hpBathArrayItem = hpBath.bath,
-      hpBathArray.push(hpBathArrayItem)
-    ));
-  
-    hpSqftArray = []
-    cardData.filter(cardData => cardData.sqft).map(hpSqft => (
-      hpSqftArrayItem = hpSqft.sqft,
-      hpSqftArray.push(hpSqftArrayItem)
-    ));
-  
-    hpDescArray = []
-    cardData.filter(cardData => cardData.desc).map(hpDesc => (
-      hpDescArrayItem = hpDesc.desc,
-      hpDescArray.push(hpDescArrayItem)
-    ));
+      hpBedArray = []
+      cardData.filter(cardData => cardData.bed).map(hpBed => (
+        hpBedArrayItem = hpBed.bed,
+        hpBedArray.push(hpBedArrayItem)
+      ));
     
-    hpLinkArray = []
-    cardData.filter(cardData => cardData.linkurl).map(hpLink => (
-      hpLinkArrayItem = hpLink.linkurl,
-      hpLinkArray.push(hpLinkArrayItem)
-    ));
+      hpBathArray = []
+      cardData.filter(cardData => cardData.bath).map(hpBath => (
+        hpBathArrayItem = hpBath.bath,
+        hpBathArray.push(hpBathArrayItem)
+      ));
+    
+      hpSqftArray = []
+      cardData.filter(cardData => cardData.sqft).map(hpSqft => (
+        hpSqftArrayItem = hpSqft.sqft,
+        hpSqftArray.push(hpSqftArrayItem)
+      ));
+    
+      hpDescArray = []
+      cardData.filter(cardData => cardData.desc).map(hpDesc => (
+        hpDescArrayItem = hpDesc.desc,
+        hpDescArray.push(hpDescArrayItem)
+      ));
+      
+      hpLinkArray = []
+      cardData.filter(cardData => cardData.linkurl).map(hpLink => (
+        hpLinkArrayItem = hpLink.linkurl,
+        hpLinkArray.push(hpLinkArrayItem)
+      ));
+    }
+    
+    setCurrentTitle(hptCardArray[currentCard - 1])
+    setCurrentDesigner(hpdeCardArray[currentCard - 1])
+    setCurrentBed(hpBedArray[currentCard - 1])
+    setCurrentBath(hpBathArray[currentCard - 1])
+    setCurrentSqft(hpSqftArray[currentCard - 1])
+    setCurrentDesc(hpDescArray[currentCard - 1])
+    setCurrentLink(hpLinkArray[currentCard - 1])
+    setCardId(hpidCardArray[currentCard - 1])
+    setDetailCount(hpdCardArray[currentCard - 1])
+  
+    console.log("fetch")
+    console.log("[cards] " + cardIdArray)
+    console.log("Card ID" + cardId)
   }
-  
-  setCurrentTitle(hptCardArray[currentCard - 1])
-  setCurrentDesigner(hpdeCardArray[currentCard - 1])
-  setCurrentBed(hpBedArray[currentCard - 1])
-  setCurrentBath(hpBathArray[currentCard - 1])
-  setCurrentSqft(hpSqftArray[currentCard - 1])
-  setCurrentDesc(hpDescArray[currentCard - 1])
-  setCurrentLink(hpLinkArray[currentCard - 1])
-  setCardId(hpidCardArray[currentCard - 1])
-  setDetailCount(hpdCardArray[currentCard - 1])
-}
 
 var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
@@ -647,9 +639,10 @@ console.log("allCardz: " + allCards)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
+        
 
-        // console.log("[cards] " + cards)
-        // console.log("Card ID" + cardId)
+        console.log("[cards] " + cards)
+        console.log("Card ID" + cardId)
         // console.log("current title " + hptCardArray[currentCard - 1])
         // console.log("current bed " + hpBedArray[currentCard - 1])
         // console.log("current bath " + hpBathArray[currentCard - 1])
