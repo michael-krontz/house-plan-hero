@@ -360,6 +360,7 @@ function StyleSelectionBottomSheet() {
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
   const setCardId = useSetRecoilState(currentCardId)
+  const setCurrentCardArray = useSetRecoilState(currentCardArray)
 
   // const setCardId = useSetRecoilState(currentCardId);
   // const cardId = useRecoilValue(currentCardId)
@@ -372,8 +373,9 @@ function StyleSelectionBottomSheet() {
     openBottomSheet(false)
   }
 
-  function changeStyle() {
-    setHomeStyle('modernFarmhouse')
+  function changeStyle(style) {
+    setCurrentCardArray([])
+    setHomeStyle(style)
     currentHand = 1
     currentCard = 1
     // console.log("HPID Card Array: " + hpidCardArray)
@@ -381,17 +383,19 @@ function StyleSelectionBottomSheet() {
     closeBottomSheet()
   }
 
+  
+
   return (
     <BottomSheet open={BottomSheetState}>
       <button className = "close-button" onClick={closeBottomSheet}>Close</button>
         <div className = "tag-wrapper">
           <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Coastal</h2></div>
-          <div className = "homestyle-tag"><button className = "tag"  onClick = {changeStyle}>Modern Farmhouse</button></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</button></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</button></div>
           <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Craftsman</h2></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</button></div>
           <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
@@ -661,7 +665,7 @@ console.log("hpidCardArray: " + hpidCardArray)
         // console.log("current link url " + hpLinkArray[currentCard - 1])
       }
 
-      if (currentHand == 6) {
+      if (currentHand === (cards.length + 1)) {
         setStackOver(true)
       }
 
