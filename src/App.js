@@ -578,7 +578,9 @@ console.log("hpidCardArray: " + hpidCardArray)
       z ++
 
       // cards = newArray[z]
-      setCards(newArray[z])
+      var cardArray = newArray[z]
+      cardArray.reverse();
+      setCards(cardArray)
       currentCard = 1
       setCurrentHand(currentCard)
       stackOver(false)
