@@ -34,7 +34,7 @@ var hpSqftArray = []
 var hpDescArray = []
 var hpLinkArray = []
 var currentCard = 1
-var currentHand = 1
+// var currentHand = 1
 var z = 0
 var _ = require('lodash')
 
@@ -361,6 +361,8 @@ function StyleSelectionBottomSheet() {
   const setStackOver = useSetRecoilState(isStackOver);
   const setCardId = useSetRecoilState(currentCardId)
   const setCurrentCardArray = useSetRecoilState(currentCardArray)
+  const setCurrentHand = useSetRecoilState(currentHand)
+
 
   // const setCardId = useSetRecoilState(currentCardId);
   // const cardId = useRecoilValue(currentCardId)
@@ -376,8 +378,8 @@ function StyleSelectionBottomSheet() {
   function changeStyle(style) {
     setCurrentCardArray([])
     setHomeStyle(style)
-    currentHand = 1
-    currentCard = 1
+    setCurrentHand(1)
+    // currentCard = 1
     // console.log("HPID Card Array: " + hpidCardArray)
     setStackOver(false)
     closeBottomSheet()
@@ -455,6 +457,8 @@ function DeckBuild() {
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const setDeckOver = useSetRecoilState(isDeckOver)
   const setCards = useSetRecoilState(currentCardArray)
+  const setCurrentHand = useSetRecoilState(currentHand);
+  const currentHandVal = useRecoilValue(currentHand);
   // const setInfoCard = useSetRecoilState(infoState)
   const [{ data: getData, loading: getLoading, error: getError }, refetch] = useAxios(houseStyle + '.json')
 
@@ -551,6 +555,7 @@ var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
+console.log("current hand 1: " + currentHand)
 console.log("hpidCardArray: " + hpidCardArray)
 
 
@@ -574,16 +579,19 @@ console.log("hpidCardArray: " + hpidCardArray)
 
       // cards = newArray[z]
       setCards(newArray[z])
-      currentHand = 1
+      currentCard = 1
+      setCurrentHand(currentCard)
       stackOver(false)
-      console.log("new array z " + newArray[z])
-      console.log("new array: " + newArray.length)
-      console.log("newarray - 1: " + (newArray.length - 1))
+      // console.log("new array z " + newArray[z])
+      // console.log("new array: " + newArray.length)
+      // console.log("newarray - 1: " + (newArray.length - 1))
+      // console.log("ZZZ: " + z)
+      console.log("current hand: " + currentHandVal)
 
       if (z === (newArray.length - 1)) {
         console.log("z: " + z)
         console.log("No More Cards")
-        setDeckOver(true)
+        // setDeckOver(true)
       }
     }
   };
@@ -610,6 +618,8 @@ console.log("hpidCardArray: " + hpidCardArray)
 
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
+  const currentHandVal = useRecoilValue(currentHand);
+  const setCurrentHand = useSetRecoilState(currentHand);
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
@@ -636,15 +646,16 @@ console.log("hpidCardArray: " + hpidCardArray)
       if (index !== i) return // We're only interested in changing spring-data for the current spring
       const isGone = gone.has(index)
       const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-      const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
+      const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, xsflicking it harder makes it rotate faster
       const scale = down ? 1 : 1 // Active cards lift up a bit
       
-      if (isGone === true) {
-        currentHand ++
-        // console.log("CURRENT HAND" + currentHand)
-      }
+      // if (isGone === true) {
+      //   console.log("CURRENT HAND" + currentHand)
+      // }
       
       if (isGone === true) {
+        console.log("xxx: " + x)
+        // currentHand ++
         currentCard ++
         setCardId(hpidCardArray[currentCard - 1])
         setDetailCount(hpdCardArray[currentCard - 1])
@@ -655,6 +666,11 @@ console.log("hpidCardArray: " + hpidCardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
+        console.log("CURRENT CARD" + currentCard)
+
+        console.log("current hand val: " + currentHandVal)
+        console.log("cards length " + cards.length)
+
 
         // console.log("[cards] " + cards)
         // console.log("Card ID" + cardId)
@@ -663,11 +679,17 @@ console.log("hpidCardArray: " + hpidCardArray)
         // console.log("current bath " + hpBathArray[currentCard - 1])
         // console.log("current sqft " + hpSqftArray[currentCard - 1])
         // console.log("current link url " + hpLinkArray[currentCard - 1])
+
+        
       }
 
-      if (currentHand === (cards.length + 1)) {
+      if (currentCard === (cards.length + 1)) {
+        // console.log("current hand: " + currentHand)
+        // console.log("cards length " + cards.length)
         setStackOver(true)
       }
+
+
 
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
@@ -714,7 +736,7 @@ const isDeckOver = atom({
 
 const styleState = atom({
   key: 'styleState', // unique ID (with respect to other atoms/selectors)
-  default: 'coastal', // default value (aka initial value)
+  default: 'craftsman', // default value (aka initial value)
 });
 
 const detailState = atom({
@@ -722,10 +744,10 @@ const detailState = atom({
   default: [], // default value (aka initial value)
 });
 
-// const infoState = atom({
-//   key: 'infoState', // unique ID (with respect to other atoms/selectors)
-//   default: [], // default value (aka initial value)
-// });
+const currentHand = atom({
+  key: 'currentHand', // unique ID (with respect to other atoms/selectors)
+  default: 1, // default value (aka initial value)
+});
 
 const currentCardId = atom({
   key: 'currentCardId', // unique ID (with respect to other atoms/selectors)
