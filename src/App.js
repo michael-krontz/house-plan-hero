@@ -34,6 +34,7 @@ var hpSqftArray = []
 var hpDescArray = []
 var hpLinkArray = []
 var currentCard = 1
+var nextDeckCounter = 1
 // var currentHand = 1
 var z = 0
 var _ = require('lodash')
@@ -52,6 +53,10 @@ function ViewModal() {
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
+
+  // console.log("cardId: " + cardId)
+  // console.log("HPID Card Array: " + hpidCardArray)
+
 
   if (viewToggleActive === true && detailcardcount < 1){
     return (
@@ -271,6 +276,7 @@ function ViewModalButton() {
 
   function ToggleViewAction() {
       var newArray = []
+      console.log("cardId: " + cardId)
   
       if (detailcardcount < 1) {
         newArray = [];
@@ -283,7 +289,7 @@ function ViewModalButton() {
   
       // setInfoCard(cardId)
 
-      console.log("CURRENTCardID" + cardId)
+      // console.log("CURRENTCardID" + cardId)
   
     if (viewToggleActive === false) {
       setViewToggleActive(true)
@@ -359,28 +365,18 @@ function StyleSelectionBottomSheet() {
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const setHomeStyle = useSetRecoilState(styleState);
   const setStackOver = useSetRecoilState(isStackOver);
-  const setCardId = useSetRecoilState(currentCardId)
   const setCurrentCardArray = useSetRecoilState(currentCardArray)
   const setCurrentHand = useSetRecoilState(currentHand)
-
-
-  // const setCardId = useSetRecoilState(currentCardId);
-  // const cardId = useRecoilValue(currentCardId)
-  // const resetTitle = useSetRecoilState(currentTitle)
-  // const resetBed = useSetRecoilState(currentBed)
-  // const resetBath = useSetRecoilState(currentBath)
-  // const resetSqft = useSetRecoilState(currentSqft)
-
   function closeBottomSheet() {
     openBottomSheet(false)
   }
 
   function changeStyle(style) {
     setCurrentCardArray([])
+    // setCardId(1)
     setHomeStyle(style)
     setCurrentHand(1)
-    // currentCard = 1
-    // console.log("HPID Card Array: " + hpidCardArray)
+    currentCard = 1
     setStackOver(false)
     closeBottomSheet()
   }
@@ -456,7 +452,9 @@ function DeckBuild() {
   const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
   const setDeckOver = useSetRecoilState(isDeckOver)
+  const isDeckOverState = useRecoilValue(isDeckOver);
   const setCards = useSetRecoilState(currentCardArray)
+  const setRawCardArray = useSetRecoilState(rawCardArray)
   const setCurrentHand = useSetRecoilState(currentHand);
   const currentHandVal = useRecoilValue(currentHand);
   // const setInfoCard = useSetRecoilState(infoState)
@@ -472,7 +470,8 @@ function DeckBuild() {
 function fetchData() {
   var cardData = getData  
   setCards(cardData)
-  console.log("fetch")
+  setRawCardArray(cardData)
+  console.log("fetching")
 
     /* eslint-disable */
   var x
@@ -555,14 +554,11 @@ var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
-console.log("current hand 1: " + currentHand)
-console.log("hpidCardArray: " + hpidCardArray)
-
 
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <button className="next-button" onClick={onClick}>[Deck Icon]</button>
+    <button className="next-button" onClick={onClick} disabled={isDeckOverState}>[Deck Icon]</button>
   )
 
   NextDeckButton.defaultProps = {
@@ -574,21 +570,20 @@ console.log("hpidCardArray: " + hpidCardArray)
   };
 
   const NextDeckAction = () => {
+    nextDeckCounter = 1
+
     if (z < (newArray.length)) {
       z ++
 
       // cards = newArray[z]
+      // currentCard = 1
       var cardArray = newArray[z]
       cardArray.reverse();
+      console.log("next cardArray" + cardArray)
+      setCardId(hpidCardArray[currentCard - 1])
       setCards(cardArray)
-      currentCard = 1
       setCurrentHand(currentCard)
       stackOver(false)
-      // console.log("new array z " + newArray[z])
-      // console.log("new array: " + newArray.length)
-      // console.log("newarray - 1: " + (newArray.length - 1))
-      // console.log("ZZZ: " + z)
-      console.log("current hand: " + currentHandVal)
 
       if (z === (newArray.length - 1)) {
         console.log("z: " + z)
@@ -620,6 +615,7 @@ console.log("hpidCardArray: " + hpidCardArray)
 
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
+  const rawCards = useRecoilValue(rawCardArray);
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
   const cardId = useRecoilValue(currentCardId);
@@ -656,8 +652,7 @@ console.log("hpidCardArray: " + hpidCardArray)
       // }
       
       if (isGone === true) {
-        console.log("xxx: " + x)
-        // currentHand ++
+        nextDeckCounter ++
         currentCard ++
         setCardId(hpidCardArray[currentCard - 1])
         setDetailCount(hpdCardArray[currentCard - 1])
@@ -668,26 +663,20 @@ console.log("hpidCardArray: " + hpidCardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
-        console.log("CURRENT CARD" + currentCard)
-
-        console.log("current hand val: " + currentHandVal)
-        console.log("cards length " + cards.length)
-
-
-        // console.log("[cards] " + cards)
-        // console.log("Card ID" + cardId)
-        // console.log("current title " + hptCardArray[currentCard - 1])
-        // console.log("current bed " + hpBedArray[currentCard - 1])
-        // console.log("current bath " + hpBathArray[currentCard - 1])
-        // console.log("current sqft " + hpSqftArray[currentCard - 1])
-        // console.log("current link url " + hpLinkArray[currentCard - 1])
-
-        
+        console.log("cards length " + cards.length)     
       }
 
       if (currentCard === (cards.length + 1)) {
         // console.log("current hand: " + currentHand)
         // console.log("cards length " + cards.length)
+        setStackOver(true)
+      }
+      
+      else if (currentCard === (rawCards.length + 1)) {
+        // setDeckOver(true)
+      }
+
+      else if (nextDeckCounter === (cards.length + 1)) {
         setStackOver(true)
       }
 
@@ -725,6 +714,10 @@ console.log("hpidCardArray: " + hpidCardArray)
   )
 }
 
+const rawCardArray = atom({
+  key: 'rawCardArray', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
 
 const currentCardArray = atom({
   key: 'currentCardArray', // unique ID (with respect to other atoms/selectors)
