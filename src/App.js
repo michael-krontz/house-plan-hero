@@ -7,7 +7,7 @@ import { useDrag } from 'react-use-gesture'
 import useAxios, { configure } from 'axios-hooks'
 import Axios from 'axios'
 import LRU from 'lru-cache'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,7 +35,6 @@ var hpDescArray = []
 var hpLinkArray = []
 var currentCard = 1
 var nextDeckCounter = 1
-// var currentHand = 1
 var z = 0
 var _ = require('lodash')
 
@@ -50,13 +49,10 @@ function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const cardState = useRecoilValue(detailState);
+  /* eslint-disable */
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
-
-  // console.log("cardId: " + cardId)
-  // console.log("HPID Card Array: " + hpidCardArray)
-
 
   if (viewToggleActive === true && detailcardcount < 1){
     return (
@@ -242,7 +238,7 @@ function ViewModal() {
 
   else {
     return (
-      <h1></h1>
+      <p></p>
     )
   }
 }
@@ -251,7 +247,7 @@ function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
-  const setCardId = useSetRecoilState(currentCardId)
+  // const setCardId = useSetRecoilState(currentCardId)
   const setDetailCards = useSetRecoilState(detailState)
   // const setInfoCard = useSetRecoilState(infoState)
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
@@ -276,7 +272,6 @@ function ViewModalButton() {
 
   function ToggleViewAction() {
       var newArray = []
-      console.log("cardId: " + cardId)
   
       if (detailcardcount < 1) {
         newArray = [];
@@ -286,11 +281,7 @@ function ViewModalButton() {
         newArray =_.take(['images/' + cardId + '-1.jpeg', 'images/' + cardId + '-2.jpeg', 'images/' + cardId + '-3.jpeg', 'images/' + cardId + '-4.jpeg', 'images/' + cardId + '-5.jpeg', 'images/' + cardId + '-6.jpeg'], detailcardcount);
         setDetailCards(newArray)
       }
-  
-      // setInfoCard(cardId)
-
-      // console.log("CURRENTCardID" + cardId)
-  
+    
     if (viewToggleActive === false) {
       setViewToggleActive(true)
   
@@ -313,7 +304,7 @@ function ViewModalButton() {
 
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
-  const cardId = useRecoilValue(currentCardId);
+  // const cardId = useRecoilValue(currentCardId);
   const currentBedState = useRecoilValue(currentBed);
   const currentBathState = useRecoilValue(currentBath);
   const currentSqftState = useRecoilValue(currentSqft);
@@ -343,7 +334,7 @@ function Logo() {
 
   else {
     return (
-      <h1></h1>
+      <p></p>
     )
   }
 };
@@ -404,7 +395,6 @@ function StyleSelectionBottomSheet() {
 }
 
 function StyleSelection() {
-  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
   const stackOver = useRecoilValue(isStackOver);
   
@@ -419,16 +409,11 @@ function StyleSelection() {
   function ChangeStyle() {
     openBottomSheet(true)
   }
-  
-  function ChangeStyleBack() {
-    openBottomSheet(false)
-  }
 }
 
 
 function DeckBuild() {
   var allCards = []
-  // var cards = []
   var allCardIds = []
   var hpdCardArrayItem
   var hptCardArrayItem
@@ -451,14 +436,13 @@ function DeckBuild() {
   const setCardId = useSetRecoilState(currentCardId)
   const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  const setDeckOver = useSetRecoilState(isDeckOver)
   const isDeckOverState = useRecoilValue(isDeckOver);
   const setCards = useSetRecoilState(currentCardArray)
   const setRawCardArray = useSetRecoilState(rawCardArray)
   const setCurrentHand = useSetRecoilState(currentHand);
+  /* eslint-disable */
   const currentHandVal = useRecoilValue(currentHand);
-  // const setInfoCard = useSetRecoilState(infoState)
-  const [{ data: getData, loading: getLoading, error: getError }, refetch] = useAxios(houseStyle + '.json')
+  const [{ data: getData, loading: getLoading, error: getError }] = useAxios(houseStyle + '.json')
 
 
   if (getLoading) return <p>Loading...</p>
@@ -473,7 +457,7 @@ function fetchData() {
   setRawCardArray(cardData)
   console.log("fetching")
 
-    /* eslint-disable */
+  /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
   
@@ -574,12 +558,8 @@ setCards(cardArray)
 
     if (z < (newArray.length)) {
       z ++
-
-      // cards = newArray[z]
-      // currentCard = 1
       var cardArray = newArray[z]
       cardArray.reverse();
-      console.log("next cardArray" + cardArray)
       setCardId(hpidCardArray[currentCard - 1])
       setCards(cardArray)
       setCurrentHand(currentCard)
@@ -647,10 +627,6 @@ setCards(cardArray)
       const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, xsflicking it harder makes it rotate faster
       const scale = down ? 1 : 1 // Active cards lift up a bit
       
-      // if (isGone === true) {
-      //   console.log("CURRENT HAND" + currentHand)
-      // }
-      
       if (isGone === true) {
         nextDeckCounter ++
         currentCard ++
@@ -663,12 +639,9 @@ setCards(cardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
-        console.log("cards length " + cards.length)     
       }
 
       if (currentCard === (cards.length + 1)) {
-        // console.log("current hand: " + currentHand)
-        // console.log("cards length " + cards.length)
         setStackOver(true)
       }
       
@@ -692,7 +665,6 @@ setCards(cardArray)
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`}}>
-          {/* <DoubleClickEvent></DoubleClickEvent> */}
           <ViewModalButton></ViewModalButton>
           </animated.div>
         </animated.div>
