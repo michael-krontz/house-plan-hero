@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import useAxios from 'axios-hooks'
-import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import useAxios, { configure } from 'axios-hooks'
+import Axios from 'axios'
+import LRU from 'lru-cache'
+import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,6 +22,29 @@ const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
+var cardUrl
+var hpCardId
+var hpdCardArray = []
+var hpidCardArray = []
+var hptCardArray = []
+var hpdeCardArray = []
+var hpBedArray = []
+var hpBathArray = []
+var hpSqftArray = []
+var hpDescArray = []
+var hpLinkArray = []
+var currentCard = 1
+var nextDeckCounter = 1
+// var currentHand = 1
+var z = 0
+var _ = require('lodash')
+
+const axios = Axios.create({
+  baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/',
+})
+
+const cache = new LRU({ max: 10 })
+configure({ axios, cache })
 
 function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
@@ -29,6 +54,10 @@ function ViewModal() {
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
 
+  // console.log("cardId: " + cardId)
+  // console.log("HPID Card Array: " + hpidCardArray)
+
+
   if (viewToggleActive === true && detailcardcount < 1){
     return (
       <div className = "modal-wrapper">
@@ -37,10 +66,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -61,10 +90,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -86,10 +115,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -112,10 +141,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -139,10 +168,10 @@ function ViewModal() {
         <div className = " info-box-wrapper">
           <div className = "info-box">
             <div className = "Description">
-            <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+            <h5 className = "Description-h5">{descState}</h5>
             <div className = " cta-wrapper">
               <div className = "cta">
-                <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                 <ViewModalButton></ViewModalButton>
               </div>
             </div>
@@ -167,10 +196,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -196,10 +225,10 @@ function ViewModal() {
           <div className = " info-box-wrapper">
             <div className = "info-box">
               <div className = "Description">
-              <h5 className = "Description-h5">{descState[cardId - 1]}</h5>
+              <h5 className = "Description-h5">{descState}</h5>
               <div className = " cta-wrapper">
                 <div className = "cta">
-                  <button className = "Info-cta" onClick={()=> window.open(linkState[cardId - 1], "_blank")}>View on Truoba</button>
+                  <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
@@ -222,8 +251,9 @@ function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
+  const setCardId = useSetRecoilState(currentCardId)
   const setDetailCards = useSetRecoilState(detailState)
-  const setInfoCard = useSetRecoilState(infoState)
+  // const setInfoCard = useSetRecoilState(infoState)
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
@@ -246,6 +276,7 @@ function ViewModalButton() {
 
   function ToggleViewAction() {
       var newArray = []
+      console.log("cardId: " + cardId)
   
       if (detailcardcount < 1) {
         newArray = [];
@@ -256,7 +287,9 @@ function ViewModalButton() {
         setDetailCards(newArray)
       }
   
-      setInfoCard([currentCardId])
+      // setInfoCard(cardId)
+
+      // console.log("CURRENTCardID" + cardId)
   
     if (viewToggleActive === false) {
       setViewToggleActive(true)
@@ -289,19 +322,19 @@ function Logo() {
   if (stackOver === false) {
     return (
       <div className = "Logo-wrapper">
-        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState[cardId - 1]}</Link>
+        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState}</Link>
         <div className = "Stats">
             <div className = "Beds">
               <div className = "Bed-icon">{bedIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
             </div>
             <div className = "Baths">
               <div className = "Bath-icon">{bathIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
             </div>
             <div className = "Sqft">
               <div className = "Sqft-icon">{sqftIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState[cardId - 1]}</h4>
+              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
             </div>
           </div>
       </div>
@@ -327,36 +360,47 @@ function NavBar() {
   );
 }
 
-function BottomSheetContent() {
+function StyleSelectionBottomSheet() {
+  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+  const setHomeStyle = useSetRecoilState(styleState);
+  const setStackOver = useSetRecoilState(isStackOver);
+  const setCurrentCardArray = useSetRecoilState(currentCardArray)
+  const setCurrentHand = useSetRecoilState(currentHand)
+  function closeBottomSheet() {
+    openBottomSheet(false)
+  }
+
+  function changeStyle(style) {
+    setCurrentCardArray([])
+    // setCardId(1)
+    setHomeStyle(style)
+    setCurrentHand(1)
+    currentCard = 1
+    setStackOver(false)
+    closeBottomSheet()
+  }
+
+  
+
   return (
-    <>
-      <div>
+    <BottomSheet open={BottomSheetState}>
+      <button className = "close-button" onClick={closeBottomSheet}>Close</button>
         <div className = "tag-wrapper">
+          <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Farmhouse</h2></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</button></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</button></div>
           <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Craftsman</h2></div>
+          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</button></div>
           <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
           <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
         </div>
-      </div>
-    </>
+    </BottomSheet>
   )
-}
-
-function StyleSelectionBottomSheet() {
-  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
-  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
-
-  function closeBottomSheet() {
-    openBottomSheet(false)
-  }
-
-  return <BottomSheet open={BottomSheetState}><button className = "close-button" onClick={closeBottomSheet}>Close</button><BottomSheetContent></BottomSheetContent></BottomSheet>
 }
 
 function StyleSelection() {
@@ -381,26 +425,10 @@ function StyleSelection() {
   }
 }
 
-var cardUrl
-var charext
-var hpCardId
-var hpdCardArray = []
-var hptCardArray = []
-var hpdeCardArray = []
-var hpBedArray = []
-var hpBathArray = []
-var hpSqftArray = []
-var hpDescArray = []
-var hpLinkArray = []
-var lowercase
-var currentCard = 1
-var currentHand = 1
-var z = 0
-var _ = require('lodash')
 
 function DeckBuild() {
   var allCards = []
-  var cards = []
+  // var cards = []
   var allCardIds = []
   var hpdCardArrayItem
   var hptCardArrayItem
@@ -410,7 +438,9 @@ function DeckBuild() {
   var hpSqftArrayItem
   var hpDescArrayItem
   var hpLinkArrayItem
+  var hpidCardArrayItem
 
+  const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
@@ -418,96 +448,117 @@ function DeckBuild() {
   const setCurrentSqft = useSetRecoilState(currentSqft);
   const setCurrentDesc = useSetRecoilState(currentDesc);
   const setCurrentLink = useSetRecoilState(currentLink);
+  const setCardId = useSetRecoilState(currentCardId)
+  const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  const [isDeckOver, setDeckOver] = useState(false); 
-  const [stateVal, setStateVal] = useState([cards]); 
-  const [{ data, loading, error }, refetch] = useAxios(
-    'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans.json'
-  )
+  const setDeckOver = useSetRecoilState(isDeckOver)
+  const isDeckOverState = useRecoilValue(isDeckOver);
+  const setCards = useSetRecoilState(currentCardArray)
+  const setRawCardArray = useSetRecoilState(rawCardArray)
+  const setCurrentHand = useSetRecoilState(currentHand);
+  const currentHandVal = useRecoilValue(currentHand);
+  // const setInfoCard = useSetRecoilState(infoState)
+  const [{ data: getData, loading: getLoading, error: getError }, refetch] = useAxios(houseStyle + '.json')
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error!</p>
 
-  var cardData = data
+  if (getLoading) return <p>Loading...</p>
+  if (getError) return <p>Error!</p>
+  if (getData) {
+    fetchData()
+  }
+
+function fetchData() {
+  var cardData = getData  
+  setCards(cardData)
+  setRawCardArray(cardData)
+  console.log("fetching")
+
     /* eslint-disable */
   var x
-  for (x=0; x < cardData.length; x++) {
-    cardData.filter(houseplan => houseplan.id === x).map(hp => (
-      charext = hp.designer.substring(0, 0),
-      lowercase = charext.toLowerCase(),
-      hpCardId = lowercase + x,
+  for (x=0; x < 1; x++) {
+  
+    cardData.filter(cardData => cardData.id).map(hp => (
+      hpCardId = hp.id,
       allCardIds.push(hpCardId),
       cardUrl = "images/" + hpCardId + ".jpg",
       allCards.push(cardUrl)
     ));
-      
-    cardData.filter(houseplan => houseplan.detailCards).map(hpd => (
+
+    hpidCardArray = []
+    cardData.filter(cardData => cardData.id).map(hpid => (
+      hpidCardArrayItem = hpid.id,
+      hpidCardArray.push(hpidCardArrayItem)
+    ));
+  
+    hpdCardArray = []
+    cardData.filter(cardData => cardData.detailCards).map(hpd => (
       hpdCardArrayItem = hpd.detailCards,
       hpdCardArray.push(hpdCardArrayItem)
     ));
       
     hptCardArray = []
-    cardData.filter(houseplan => houseplan.name).map(hpt => (
+    cardData.filter(cardData => cardData.name).map(hpt => (
       hptCardArrayItem = hpt.name,
       hptCardArray.push(hptCardArrayItem)
     ));
     
     hpdeCardArray = []
-    cardData.filter(houseplan => houseplan.designer).map(hpde => (
+    cardData.filter(cardData => cardData.designer).map(hpde => (
       hpdeCardArrayItem = hpde.designer,
       hpdeCardArray.push(hpdeCardArrayItem)
     ));
-
+  
     hpBedArray = []
-    cardData.filter(houseplan => houseplan.bed).map(hpBed => (
+    cardData.filter(cardData => cardData.bed).map(hpBed => (
       hpBedArrayItem = hpBed.bed,
       hpBedArray.push(hpBedArrayItem)
     ));
-
+  
     hpBathArray = []
-    cardData.filter(houseplan => houseplan.bath).map(hpBath => (
+    cardData.filter(cardData => cardData.bath).map(hpBath => (
       hpBathArrayItem = hpBath.bath,
       hpBathArray.push(hpBathArrayItem)
     ));
-
+  
     hpSqftArray = []
-    cardData.filter(houseplan => houseplan.sqft).map(hpSqft => (
+    cardData.filter(cardData => cardData.sqft).map(hpSqft => (
       hpSqftArrayItem = hpSqft.sqft,
       hpSqftArray.push(hpSqftArrayItem)
     ));
-
+  
     hpDescArray = []
-    cardData.filter(houseplan => houseplan.desc).map(hpDesc => (
+    cardData.filter(cardData => cardData.desc).map(hpDesc => (
       hpDescArrayItem = hpDesc.desc,
       hpDescArray.push(hpDescArrayItem)
     ));
     
     hpLinkArray = []
-    cardData.filter(houseplan => houseplan.linkurl).map(hpLink => (
+    cardData.filter(cardData => cardData.linkurl).map(hpLink => (
       hpLinkArrayItem = hpLink.linkurl,
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
+  
+  setCurrentTitle(hptCardArray[currentCard - 1])
+  setCurrentDesigner(hpdeCardArray[currentCard - 1])
+  setCurrentBed(hpBedArray[currentCard - 1])
+  setCurrentBath(hpBathArray[currentCard - 1])
+  setCurrentSqft(hpSqftArray[currentCard - 1])
+  setCurrentDesc(hpDescArray[currentCard - 1])
+  setCurrentLink(hpLinkArray[currentCard - 1])
+  setCardId(hpidCardArray[currentCard - 1])
+  setDetailCount(hpdCardArray[currentCard - 1])
+}
 
-
-// console.log(hptCardArray)
-// console.log(hpLinkArray)
-setCurrentTitle(hptCardArray)
-setCurrentDesigner(hpdeCardArray)
-setCurrentBed(hpBedArray)
-setCurrentBath(hpBathArray)
-setCurrentSqft(hpSqftArray)
-setCurrentDesc(hpDescArray)
-setCurrentLink(hpLinkArray)
-
-  var newArray = _.chunk(allCards, [5])
-  var cards = newArray[z]
-  cards.reverse();
+var newArray = _.chunk(allCards, [5])
+var cardArray = newArray[z]
+cardArray.reverse();
+setCards(cardArray)
 
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <button className="next-button" onClick={onClick}>[Deck Icon]</button>
+    <button className="next-button" onClick={onClick} disabled={isDeckOverState}>[Deck Icon]</button>
   )
 
   NextDeckButton.defaultProps = {
@@ -519,20 +570,25 @@ setCurrentLink(hpLinkArray)
   };
 
   const NextDeckAction = () => {
+    nextDeckCounter = 1
+
     if (z < (newArray.length)) {
       z ++
-      cards = newArray[z]
-      setStateVal(cards)
-      currentHand = 1
+
+      // cards = newArray[z]
+      // currentCard = 1
+      var cardArray = newArray[z]
+      cardArray.reverse();
+      console.log("next cardArray" + cardArray)
+      setCardId(hpidCardArray[currentCard - 1])
+      setCards(cardArray)
+      setCurrentHand(currentCard)
       stackOver(false)
-      console.log("new array: " + newArray.length)
-      console.log("z: " + z)
-      console.log("newarray - 1: " + (newArray.length - 1))
 
       if (z === (newArray.length - 1)) {
         console.log("z: " + z)
         console.log("No More Cards")
-        setDeckOver(true)
+        // setDeckOver(true)
       }
     }
   };
@@ -558,10 +614,20 @@ setCurrentLink(hpLinkArray)
   }
 
   function Deck() {
+  const cards = useRecoilValue(currentCardArray);
+  const rawCards = useRecoilValue(rawCardArray);
+  const currentHandVal = useRecoilValue(currentHand);
+  const setCurrentHand = useSetRecoilState(currentHand);
   const cardId = useRecoilValue(currentCardId);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
+  const setCurrentTitle = useSetRecoilState(currentTitle);
+  const setCurrentBed = useSetRecoilState(currentBed);
+  const setCurrentBath = useSetRecoilState(currentBath);
+  const setCurrentSqft = useSetRecoilState(currentSqft);
+  const setCurrentDesc = useSetRecoilState(currentDesc);
+  const setCurrentLink = useSetRecoilState(currentLink);
   const to = i => ({ x: 0, y: 0, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })  // These two are just helpers, they curate spring data, values that are later being interpolated into css
   const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
   const trans = (r, s) => `perspective(1100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(${s})`   // This is being used down there in the view, it interpolates rotation and scale into a css transform
@@ -578,24 +644,43 @@ setCurrentLink(hpLinkArray)
       if (index !== i) return // We're only interested in changing spring-data for the current spring
       const isGone = gone.has(index)
       const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-      const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
+      const rot = xDelta / 10 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, xsflicking it harder makes it rotate faster
       const scale = down ? 1 : 1 // Active cards lift up a bit
       
-      if (isGone === true) {
-        currentHand ++
-        console.log("CURRENT HAND" + currentHand)
-      }
+      // if (isGone === true) {
+      //   console.log("CURRENT HAND" + currentHand)
+      // }
       
       if (isGone === true) {
+        nextDeckCounter ++
         currentCard ++
-        setCardId(currentCard)
+        setCardId(hpidCardArray[currentCard - 1])
         setDetailCount(hpdCardArray[currentCard - 1])
-        console.log("HDP CARD ARRAY" + hpdCardArray[currentCard - 1])
+        setCurrentTitle(hptCardArray[currentCard - 1])
+        setCurrentDesigner(hpdeCardArray[currentCard - 1])
+        setCurrentBed(hpBedArray[currentCard - 1])
+        setCurrentBath(hpBathArray[currentCard - 1])
+        setCurrentSqft(hpSqftArray[currentCard - 1])
+        setCurrentDesc(hpDescArray[currentCard - 1])
+        setCurrentLink(hpLinkArray[currentCard - 1])
+        console.log("cards length " + cards.length)     
       }
 
-      if (currentHand == 6) {
+      if (currentCard === (cards.length + 1)) {
+        // console.log("current hand: " + currentHand)
+        // console.log("cards length " + cards.length)
         setStackOver(true)
       }
+      
+      else if (currentCard === (rawCards.length + 1)) {
+        // setDeckOver(true)
+      }
+
+      else if (nextDeckCounter === (cards.length + 1)) {
+        setStackOver(true)
+      }
+
+
 
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
@@ -629,14 +714,34 @@ setCurrentLink(hpLinkArray)
   )
 }
 
+const rawCardArray = atom({
+  key: 'rawCardArray', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const currentCardArray = atom({
+  key: 'currentCardArray', // unique ID (with respect to other atoms/selectors)
+  default: [], // default value (aka initial value)
+});
+
+const isDeckOver = atom({
+  key: 'isDeckOver', // unique ID (with respect to other atoms/selectors)
+  default: false, // default value (aka initial value)
+});
+
+const styleState = atom({
+  key: 'styleState', // unique ID (with respect to other atoms/selectors)
+  default: 'craftsman', // default value (aka initial value)
+});
+
 const detailState = atom({
   key: 'detailState', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
 });
 
-const infoState = atom({
-  key: 'infoState', // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
+const currentHand = atom({
+  key: 'currentHand', // unique ID (with respect to other atoms/selectors)
+  default: 1, // default value (aka initial value)
 });
 
 const currentCardId = atom({

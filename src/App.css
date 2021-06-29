@@ -248,8 +248,9 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 450px;
-  overflow: auto;
+  /* max-height: 450px;
+  height: 65vh; */
+  overflow: scroll;
 }
 
 .homestyle-tag {
@@ -271,7 +272,6 @@ a:hover {
 
 .close-button {
   position: absolute;
-  top: -40px;
   right: 10px;
 }
 
