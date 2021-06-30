@@ -16,6 +16,7 @@ import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
+import { useScrollToBottom } from "use-scroll-to-bottom";
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
@@ -53,6 +54,18 @@ function ViewModal() {
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
+  const [setBottomRef, isBottom] = useScrollToBottom();
+
+  React.useEffect(() => {
+    if (isBottom) {
+      console.log("cock");
+      setViewToggleActive(false)
+    }
+
+    else {
+      console.log("ballz")
+    }
+  }, [isBottom]);
 
   if (viewToggleActive === true && detailcardcount < 1){
     return (
@@ -174,6 +187,8 @@ function ViewModal() {
           </div>
           </div>
         </div>
+        <div className="bottom-flag-wrapper"></div>
+        <div className="bottom-flag" ref={setBottomRef}></div>
       </div>
       </div>
     )
