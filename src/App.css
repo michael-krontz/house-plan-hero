@@ -276,9 +276,10 @@ a:hover {
 }
 
 .modal-inner-wrapper {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
-  overflow-y: auto;
+  background-color: #000000c0;
+  /* overflow-y: auto; */
 }
 
 .modal-wrapper {
@@ -286,13 +287,12 @@ a:hover {
   width: 100vw;
   height: 100%;
   position: absolute;
-  background-color: #000000c0;
   z-index: 10;
   top: 44px;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .modal-image {
@@ -336,15 +336,19 @@ button.next-button {
   justify-content: space-between;
 }
 
-.bottom-flag {
+/* .bottom-flag {
   width: 100vw;
   height: 25px;
   margin-bottom: 10vh;
 }
 
-.bottom-flag-wrapper {
+.bottom-flag-bumper {
   height: 50vh;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
+} */
+
+.bottom-bumper {
+  height: 100vh;
 }
