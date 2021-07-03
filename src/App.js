@@ -55,7 +55,25 @@ function ScrollFade({ children, offset, pos, start, end }) {
 
 function ViewModal() {
   const [{ scroll }, set] = useSpring(() => ({ scroll: 0 }))
-  const onScroll = useCallback((e) => void set({ scroll: e.target.scrollTop / (window.innerHeight / .40) }), [])
+  const onScroll = useCallback((e) => void set({ scroll: e.target.scrollTop / (window.innerHeight / .40) }), []
+  )
+
+
+
+// function onScroll() {
+//   if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight)) {
+//     console.log("cock")
+//   }
+// }
+
+
+  // function scrolledBottom() {
+  //     var obj = document.getElementById("modal-wrapper")
+
+  //   if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight)) {
+  //     console.log("bottom")
+  //   }
+  // }
 
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
@@ -165,9 +183,9 @@ function ViewModal() {
 
   else if (viewToggleActive === true && detailcardcount === 4){
     return (
-      <div className = "modal-wrapper" onScroll={onScroll}>
+      <div className = "modal-wrapper" id="modal-wrapper" onScroll={onScroll}>
         <ScrollFade offset={scroll} pos={0.75} start={1} end={0.5}>
-          <div className = "modal-inner-wrapper" >
+          <div className = "modal-inner-wrapper">
             <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
             <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
             <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
