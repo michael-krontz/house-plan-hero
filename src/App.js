@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState,useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
 import { useSpring, useSprings, animated, interpolate } from 'react-spring'
@@ -57,23 +57,6 @@ function ViewModal() {
   const [{ scroll }, set] = useSpring(() => ({ scroll: 0 }))
   const onScroll = useCallback((e) => void set({ scroll: e.target.scrollTop / (window.innerHeight / .40) }), []
   )
-
-
-
-// function onScroll() {
-//   if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight)) {
-//     console.log("cock")
-//   }
-// }
-
-
-  // function scrolledBottom() {
-  //     var obj = document.getElementById("modal-wrapper")
-
-  //   if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight)) {
-  //     console.log("bottom")
-  //   }
-  // }
 
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
@@ -204,7 +187,8 @@ function ViewModal() {
               </div>
               </div>
             </div>
-            <div className="bottom-bumper"></div>
+            <div className="bottom-bumper">
+            </div>
           </div>
         </ScrollFade>
       </div>
