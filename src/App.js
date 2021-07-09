@@ -241,11 +241,11 @@ function ViewModal() {
                 </div>
               </div>
             </div>
-            </div>
-          </div>
           <div className="bottom-bumper">
               <Waypoint onLeave={() => setViewToggleActive(false)}/>
             </div>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -273,11 +273,11 @@ function ViewModal() {
                 </div>
               </div>
             </div>
-            </div>
-          </div>
           <div className="bottom-bumper">
               <Waypoint onLeave={() => setViewToggleActive(false)}/>
             </div>
+            </div>
+          </div>
           </div>
       </div>
     )
