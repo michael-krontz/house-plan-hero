@@ -97,8 +97,10 @@ function ViewModal() {
             </div>
           </div>
           <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
             </div>
+          </div>
         </div>
       </div>
     )
@@ -124,8 +126,10 @@ function ViewModal() {
             </div>
           </div>
           <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
             </div>
+          </div>
         </div>
       </div>
     )
@@ -152,7 +156,9 @@ function ViewModal() {
             </div>
           </div>
           <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
             </div>
         </div>
       </div>
@@ -181,8 +187,10 @@ function ViewModal() {
             </div>
           </div>
           <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
             </div>
+          </div>
         </div>
       </div>
     )
@@ -213,7 +221,9 @@ function ViewModal() {
               </div>
             </div>
             <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+              <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+              </div>
             </div>
           </div>
       </div>
@@ -274,8 +284,10 @@ function ViewModal() {
               </div>
             </div>
           <div className="bottom-bumper">
-              <Waypoint onLeave={() => setViewToggleActive(false)}/>
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
             </div>
+          </div>
             </div>
           </div>
           </div>
