@@ -1,9 +1,10 @@
 import './App.css';
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import AuthContent from './AuthContent'
-import { useSprings, animated, interpolate } from 'react-spring'
+import { useSpring, useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
+import { Waypoint } from "react-waypoint";
 import useAxios, { configure } from 'axios-hooks'
 import Axios from 'axios'
 import LRU from 'lru-cache'
@@ -38,6 +39,8 @@ var nextDeckCounter = 1
 var z = 0
 var _ = require('lodash')
 
+
+
 const axios = Axios.create({
   baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/',
 })
@@ -45,7 +48,21 @@ const axios = Axios.create({
 const cache = new LRU({ max: 10 })
 configure({ axios, cache })
 
+// function ScrollFade({ children, offset, pos, start, end }) {
+//   const [transform] = useState(() =>
+//     offset.interpolate({ range: [start, end], output: [100, 0], extrapolate: 'clamp' }).interpolate((s) => `translate3d(${s}px,0,0)`),
+//   )
+//   const [opacity] = useState(() => offset.interpolate([start, end], [0, 1]))
+//   return <animated.div style={{ position: 'absolute', left: 0, top: `${pos * 0}vh`, transform, opacity }}>{children}</animated.div>
+// }
+
+
+
 function ViewModal() {
+  // const [{ scroll }, set] = useSpring(() => ({ scroll: 0 }))
+  // const onScroll = useCallback((e) => void set({ scroll: e.target.scrollTop / (window.innerHeight / .40) }), []
+  // )
+
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
   const cardState = useRecoilValue(detailState);
@@ -53,10 +70,17 @@ function ViewModal() {
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
+  
+  // document.getElementsById("modal-wrapper").addEventListener('scroll', AutoClose);
+
+
+
+
+
 
   if (viewToggleActive === true && detailcardcount < 1){
     return (
-      <div className = "modal-wrapper">
+      <div className = "modal-wrapper" id = "modal-wrapper">
         <div className = "modal-inner-wrapper">
           <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
           <div className = " info-box-wrapper">
@@ -72,6 +96,11 @@ function ViewModal() {
             </div>
             </div>
           </div>
+          <div className="bottom-bumper">
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -79,7 +108,7 @@ function ViewModal() {
 
   else if (viewToggleActive === true && detailcardcount === 1){
     return (
-      <div className = "modal-wrapper">
+      <div className = "modal-wrapper" id = "modal-wrapper">
         <div className = "modal-inner-wrapper">
           <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
           <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
@@ -96,6 +125,11 @@ function ViewModal() {
             </div>
             </div>
           </div>
+          <div className="bottom-bumper">
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -103,7 +137,7 @@ function ViewModal() {
 
   else if (viewToggleActive === true && detailcardcount === 2){
     return (
-      <div className = "modal-wrapper">
+      <div className = "modal-wrapper" id = "modal-wrapper">
         <div className = "modal-inner-wrapper">
           <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
           <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
@@ -121,6 +155,11 @@ function ViewModal() {
             </div>
             </div>
           </div>
+          <div className="bottom-bumper">
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
+            </div>
         </div>
       </div>
     )
@@ -128,7 +167,7 @@ function ViewModal() {
 
   else if (viewToggleActive === true && detailcardcount === 3){
     return (
-      <div className = "modal-wrapper">
+      <div className = "modal-wrapper" id = "modal-wrapper">
         <div className = "modal-inner-wrapper">        
           <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
           <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
@@ -147,34 +186,46 @@ function ViewModal() {
             </div>
             </div>
           </div>
+          <div className="bottom-bumper">
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 
   else if (viewToggleActive === true && detailcardcount === 4){
+
+
     return (
-      <div className = "modal-wrapper">
-      <div className = "modal-inner-wrapper">
-        <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
-        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
-        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
-        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
-        <div className = "modal-image" style={{ backgroundImage: `url(${cardState[3]})`}}></div>
-        <div className = " info-box-wrapper">
-          <div className = "info-box">
-            <div className = "Description">
-            <h5 className = "Description-h5">{descState}</h5>
-            <div className = " cta-wrapper">
-              <div className = "cta">
-                <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                <ViewModalButton></ViewModalButton>
+      <div className = "modal-wrapper" id="modal-wrapper">
+          <div className = "modal-inner-wrapper">
+            <div className = "modal-image" style={{ backgroundImage: `url(${'images/' + cardId + '.jpg'})`}}></div>
+            <div className = "modal-image" style={{ backgroundImage: `url(${cardState[0]})`}}></div>
+            <div className = "modal-image" style={{ backgroundImage: `url(${cardState[1]})`}}></div>
+            <div className = "modal-image" style={{ backgroundImage: `url(${cardState[2]})`}}></div>
+            <div className = "modal-image" style={{ backgroundImage: `url(${cardState[3]})`}}></div>
+            <div className = " info-box-wrapper">
+              <div className = "info-box">
+                <div className = "Description">
+                <h5 className = "Description-h5">{descState}</h5>
+                <div className = " cta-wrapper">
+                  <div className = "cta">
+                    <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
+                    <ViewModalButton></ViewModalButton>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div className="bottom-bumper">
+              <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
               </div>
             </div>
           </div>
-          </div>
-        </div>
-      </div>
       </div>
     )
   }
@@ -199,6 +250,9 @@ function ViewModal() {
                   <ViewModalButton></ViewModalButton>
                 </div>
               </div>
+            </div>
+          <div className="bottom-bumper">
+              <Waypoint onLeave={() => setViewToggleActive(false)}/>
             </div>
             </div>
           </div>
@@ -229,6 +283,11 @@ function ViewModal() {
                 </div>
               </div>
             </div>
+          <div className="bottom-bumper">
+            <div className="bumper-bottom">
+              <Waypoint onEnter={() => setViewToggleActive(false)}/>
+            </div>
+          </div>
             </div>
           </div>
           </div>

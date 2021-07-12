@@ -134,7 +134,9 @@ a:hover {
 
 .info-box-wrapper {
   width: 100%;
-  height: 100%;
+  background: rgb(0, 0, 0);
+  border-bottom:  1px solid black;
+  /* height: 100%; */
 }
 
 .info-box {
@@ -276,30 +278,33 @@ a:hover {
 }
 
 .modal-inner-wrapper {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  background: rgb(41,41,41);
+  /* overflow-y: auto; */
 }
 
 .modal-wrapper {
   display: flex;
   width: 100vw;
+  height: 100%;
   position: absolute;
-  background-color: #000000c0;
   z-index: 10;
   top: 44px;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .modal-image {
   width: 100vw;
   height: 275px;
-  margin-bottom: 1vh;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  border-bottom: 7px solid rgb(8, 8, 8);
+
 }
 
 button.view-button {
@@ -332,4 +337,18 @@ button.next-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.bottom-bumper {
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgba(41,41,41,0.8144215210355987) 29%, rgba(41,41,41,0) 54%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bumper-bottom {
+  height: 25px;
+  margin-bottom: 5vh;
 }
