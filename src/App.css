@@ -297,6 +297,11 @@ a:hover {
   overflow: scroll;
 }
 
+@keyframes modal-wrapper-fade {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
 .modal-image {
   width: 100vw;
   height: 275px;
