@@ -228,7 +228,7 @@ a:hover {
 }
 
 .Info-cta {
-  width: 75%;
+  width: 80%;
   height: 65px;
   bottom: 0;
 }
@@ -309,21 +309,14 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center center;
   border-bottom: 7px solid rgb(8, 8, 8);
-
 }
 
 button.view-button {
-  width: 7vw;
-  height: 7vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 10px;
+  height: 10px;
   opacity: 0.5;
   font-size: 28px;
   border-radius: 50px;
-  position: absolute;
-  bottom: 0;
-  right: 42.5%;
   z-index: 10;
   border: none;
   color: white;
@@ -356,4 +349,33 @@ button.next-button {
 .bumper-bottom {
   height: 25px;
   margin-bottom: 5vh;
+}
+
+button.like-button {
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 40px;
+}
+
+button.small-like-button {
+  width: 10px;
+  height: 10px;
+  opacity: 0.5;
+  font-size: 28px;
+  border-radius: 50px;
+  z-index: 10;
+  border: none;
+  color: white;
+  padding-bottom: 6vh;
+  background-color: transparent;
+}
+
+.like-view-button-wrapper {
+  width: 87%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }

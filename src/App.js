@@ -17,12 +17,14 @@ import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
+const heartIcon = <FontAwesomeIcon icon={faHeart} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
@@ -46,6 +48,19 @@ const axios = Axios.create({
 const cache = new LRU({ max: 10 })
 configure({ axios, cache })
 
+function LikeButton() {
+  return (
+    <button className = "like-button">{heartIcon}</button>
+  )
+}
+
+function SmallLikeButton() {
+  return (
+    <button className = "small-like-button">{heartIcon}</button>
+  )
+}
+
+
 function ViewModal() {
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
@@ -56,7 +71,6 @@ function ViewModal() {
   const linkState = useRecoilValue(currentLink);
 
   function fadeOpacity() {
-    console.log("Cock")
     document.getElementById("modal-wrapper").style.animation = "modal-wrapper-fade .5s 1";
     setTimeout(toggleModal, 350)
   }
@@ -78,7 +92,7 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
@@ -86,7 +100,7 @@ function ViewModal() {
           </div>
           <div className="bottom-bumper">
             <div className="bumper-bottom">
-            <Waypoint onEnter={() => fadeOpacity()}/>
+              <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
           </div>
         </div>
@@ -107,7 +121,7 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
@@ -115,7 +129,7 @@ function ViewModal() {
           </div>
           <div className="bottom-bumper">
             <div className="bumper-bottom">
-            <Waypoint onEnter={() => fadeOpacity()}/>
+              <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
           </div>
         </div>
@@ -137,7 +151,7 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
@@ -145,9 +159,9 @@ function ViewModal() {
           </div>
           <div className="bottom-bumper">
             <div className="bumper-bottom">
-            <Waypoint onEnter={() => fadeOpacity()}/>
+              <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     )
@@ -168,7 +182,7 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
@@ -176,7 +190,7 @@ function ViewModal() {
           </div>
           <div className="bottom-bumper">
             <div className="bumper-bottom">
-            <Waypoint onEnter={() => fadeOpacity()}/>
+              <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
           </div>
         </div>
@@ -200,7 +214,7 @@ function ViewModal() {
                 <div className = " cta-wrapper">
                   <div className = "cta">
                     <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                    <ViewModalButton></ViewModalButton>
+                    <LikeButton></LikeButton>
                   </div>
                 </div>
               </div>
@@ -208,11 +222,11 @@ function ViewModal() {
             </div>
             <div className="bottom-bumper">
               <div className="bumper-bottom">
-              <Waypoint onEnter={() => fadeOpacity()}/>
-              </div>
+                <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
           </div>
-      </div>
+        </div>
+    </div>
     )
   }
 
@@ -233,14 +247,16 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
+            </div>
+            </div>
             <div className="bottom-bumper">
-            <Waypoint onEnter={() => fadeOpacity()}/>
-            </div>
-            </div>
+              <div className="bumper-bottom">
+                <Waypoint onEnter={() => fadeOpacity()}/>
+              </div>
           </div>
         </div>
       </div>
@@ -265,18 +281,18 @@ function ViewModal() {
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
-                  <ViewModalButton></ViewModalButton>
+                  <LikeButton></LikeButton>
                 </div>
               </div>
             </div>
+          </div>
+          </div>
           <div className="bottom-bumper">
             <div className="bumper-bottom">
-            <Waypoint onEnter={() => fadeOpacity()}/>
+              <Waypoint onEnter={() => fadeOpacity()}/>
             </div>
           </div>
-            </div>
-          </div>
-          </div>
+        </div>
       </div>
     )
   }
@@ -292,9 +308,7 @@ function ViewModalButton() {
   const stackOver = useRecoilValue(isStackOver);
   const detailcardcount = useRecoilValue(detailCount)
   const cardId = useRecoilValue(currentCardId);
-  // const setCardId = useSetRecoilState(currentCardId)
   const setDetailCards = useSetRecoilState(detailState)
-  // const setInfoCard = useSetRecoilState(infoState)
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const voop = () => {};
 
@@ -304,7 +318,7 @@ function ViewModalButton() {
     }
 
     else if (stackOver === false && viewToggleActive === true) {
-      return <button className="view-button" onClick={ToggleViewAction} style={{ position: 'relative', paddingBottom: '0', right: '7%' }}>{eyeSlashIcon}</button>
+      return <button className="view-button" onClick={ToggleViewAction} style={{ opacity: 0.5 }}>{eyeIcon}</button>
     }
 
     else 
@@ -710,7 +724,10 @@ setCards(cardArray)
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans), backgroundImage: `url(${cards[i]})`}}>
-          <ViewModalButton></ViewModalButton>
+            <div className="like-view-button-wrapper">
+              <SmallLikeButton></SmallLikeButton>
+              <ViewModalButton></ViewModalButton>
+            </div>
           </animated.div>
         </animated.div>
       ))
