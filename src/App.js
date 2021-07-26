@@ -9,22 +9,26 @@ import useAxios, { configure } from 'axios-hooks'
 import Axios from 'axios'
 import LRU from 'lru-cache'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-import { BottomSheet } from 'react-spring-bottom-sheet'
+// import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
-const eyeSlashIcon = <FontAwesomeIcon icon={faEyeSlash} />
+const nextIcon = <FontAwesomeIcon icon={faLayerGroup} />
 const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 const heartIcon = <FontAwesomeIcon icon={faHeart} />
+const homeIcon = <FontAwesomeIcon icon={faHome} />
+const closeIcon = <FontAwesomeIcon icon={faTimes} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
@@ -410,63 +414,113 @@ function NavBar() {
   );
 }
 
-function StyleSelectionBottomSheet() {
-  const BottomSheetState = useRecoilValue(isBottomSheetOpen)
-  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
-  const setHomeStyle = useSetRecoilState(styleState);
-  const setStackOver = useSetRecoilState(isStackOver);
-  const setCurrentCardArray = useSetRecoilState(currentCardArray)
-  const setCurrentHand = useSetRecoilState(currentHand)
-  function closeBottomSheet() {
-    openBottomSheet(false)
-  }
+// function StyleSelectionBottomSheet() {
+//   const BottomSheetState = useRecoilValue(isBottomSheetOpen)
+//   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
+//   const setHomeStyle = useSetRecoilState(styleState);
+//   const setStackOver = useSetRecoilState(isStackOver);
+//   const setCurrentCardArray = useSetRecoilState(currentCardArray)
+//   const setCurrentHand = useSetRecoilState(currentHand)
+//   function closeBottomSheet() {
+//     openBottomSheet(false)
+//   }
 
-  function changeStyle(style) {
-    setCurrentCardArray([])
-    // setCardId(1)
-    setHomeStyle(style)
-    setCurrentHand(1)
-    currentCard = 1
-    setStackOver(false)
-    closeBottomSheet()
-  }
+//   function changeStyle(style) {
+//     setCurrentCardArray([])
+//     // setCardId(1)
+//     setHomeStyle(style)
+//     setCurrentHand(1)
+//     currentCard = 1
+//     setStackOver(false)
+//     closeBottomSheet()
+//   }
 
   
 
+//   return (
+//     <BottomSheet open={BottomSheetState}>
+//       <button className = "close-button" onClick={closeBottomSheet}>Close</button>
+//         <div className = "tag-wrapper">
+//           <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
+//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</button></div>
+//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</button></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
+//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</button></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
+//           <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
+//         </div>
+//     </BottomSheet>
+//   )
+// }
+
+function HouseStyleMenu() {
+  const styleMenuOpenState = useRecoilValue(isStyleMenuOpen)
+  // const setHomeStyle = useSetRecoilState(styleState);
+  // const setStackOver = useSetRecoilState(isStackOver);
+  // const setCurrentCardArray = useSetRecoilState(currentCardArray)
+  // const setCurrentHand = useSetRecoilState(currentHand)
+  // function closeBottomSheet() {
+  //   openBottomSheet(false)
+
+
+  // function changeStyle(style) {
+  //   setCurrentCardArray([])
+  //   // setCardId(1)
+  //   setHomeStyle(style)
+  //   setCurrentHand(1)
+  //   currentCard = 1
+  //   setStackOver(false)
+  //   closeBottomSheet()
+  // }
+
+
+
   return (
-    <BottomSheet open={BottomSheetState}>
-      <button className = "close-button" onClick={closeBottomSheet}>Close</button>
-        <div className = "tag-wrapper">
-          <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
-          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</button></div>
-          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</button></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-          <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</button></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
-          <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
+          <div className = "tag-wrapper" style={{ transform: `translate3d(${styleMenuOpenState}, 0, 0)`}}>
+            <div className = "homestyle-tag"><h3 className = "tag">Tiny Home</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Dutch Colonial</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Greek Revival</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Mid-Century Modern</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Victorian</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Modern</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Colonial</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Contemporary</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Cape Cod</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Tudor</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Cottage</h3></div>
+            <div className = "homestyle-tag"><h3 className = "tag">Random</h3></div>
         </div>
-    </BottomSheet>
   )
 }
 
-function StyleSelection() {
-  const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
-  const stackOver = useRecoilValue(isStackOver);
-  
-  if (stackOver === true) {
-    return <button className="change-style-button" onClick={ChangeStyle}>Change Home Style</button>
+function ChangeStyle() {
+  const styleMenuOpenState = useRecoilValue(isStyleMenuOpen)
+  const openStyleMenu = useSetRecoilState(isStyleMenuOpen)
+
+  if (styleMenuOpenState === '-100vw') {
+    return <button className="change-style-button" onClick={ChangeStyle}>{homeIcon}</button>
   }
 
-  else {
-    return <p></p>
+  else if (styleMenuOpenState === '0') {
+    return <button className="change-style-button" onClick={ChangeStyle}>{closeIcon}</button>
   }
+
 
   function ChangeStyle() {
-    openBottomSheet(true)
+    if (styleMenuOpenState === '-100vw') {
+      openStyleMenu('0')
+    }
+
+    else if (styleMenuOpenState === '0') {
+      openStyleMenu('-100vw')
+    }
   }
 }
 
@@ -495,7 +549,8 @@ function DeckBuild() {
   const setCardId = useSetRecoilState(currentCardId)
   const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  const isDeckOverState = useRecoilValue(isDeckOver);
+  const nextButtonVisible = useRecoilValue(isNextButtonVisible);
+  const setNextButtonVisible = useSetRecoilState(isNextButtonVisible)
   const setCards = useSetRecoilState(currentCardArray)
   const setRawCardArray = useSetRecoilState(rawCardArray)
   const setCurrentHand = useSetRecoilState(currentHand);
@@ -598,10 +653,11 @@ var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
 
+
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <button className="next-button" onClick={onClick} disabled={isDeckOverState}>[Deck Icon]</button>
+    <button className="next-button" onClick={onClick} style={{ display: `${nextButtonVisible}` }}>{nextIcon}</button>
   )
 
   NextDeckButton.defaultProps = {
@@ -627,37 +683,31 @@ setCards(cardArray)
       if (z === (newArray.length - 1)) {
         console.log("z: " + z)
         console.log("No More Cards")
-        // setDeckOver(true)
+        setNextButtonVisible('none')
       }
     }
   };
 
   function VisibleInfoBox(props) {
-    return <div className="info-box">
-      <NextDeck></NextDeck>      
+    return <div className="button-box">
+      <NextDeck></NextDeck>
+      <ChangeStyle></ChangeStyle>      
       </div>;
-  }
-  
-  function HiddenInfoBox(props) {
-    return <h1></h1>;
   }
   
   function InfoBox(props) {
     const stackOver = useRecoilValue(isStackOver);
-
-    if (stackOver === false) {
-      
-      return <HiddenInfoBox />;
-    }
     return <VisibleInfoBox />;
   }
 
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
   const rawCards = useRecoilValue(rawCardArray);
+  const isDeckOverState = useRecoilValue(isDeckOver);
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
   const cardId = useRecoilValue(currentCardId);
+  const setDeckOver = useSetRecoilState(isDeckOver)
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
@@ -705,7 +755,8 @@ setCards(cardArray)
       }
       
       else if (currentCard === (rawCards.length + 1)) {
-        // setDeckOver(true)
+        setDeckOver(true)
+        console.log("Deck Over")
       }
 
       else if (nextDeckCounter === (cards.length + 1)) {
@@ -828,9 +879,14 @@ const isStackOver = atom({
   default: false, // default value (aka initial value)
 });
 
-const isBottomSheetOpen = atom({
-  key: 'isBottomSheetOpen', // unique ID (with respect to other atoms/selectors)
-  default: false, // default value (aka initial value)
+const isStyleMenuOpen = atom({
+  key: 'isStyleMenuOpen', // unique ID (with respect to other atoms/selectors)
+  default: '-100vw', // default value (aka initial value)
+});
+
+const isNextButtonVisible = atom({
+  key: 'isNextButtonVisible', // unique ID (with respect to other atoms/selectors)
+  default: 'block', // default value (aka initial value)
 });
 
 const isViewToggleActive = atom({
@@ -848,9 +904,10 @@ function App() {
             <Logo></Logo>
             <NavBar></NavBar>
           </header>
-          <StyleSelectionBottomSheet></StyleSelectionBottomSheet>
+          {/* <StyleSelectionBottomSheet></StyleSelectionBottomSheet> */}
           <DeckBuild></DeckBuild>
-          <StyleSelection></StyleSelection>
+          <HouseStyleMenu></HouseStyleMenu>
+          {/* <StyleSelection></StyleSelection> */}
         </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
     </>
