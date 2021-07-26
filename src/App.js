@@ -549,7 +549,8 @@ function DeckBuild() {
   const setCardId = useSetRecoilState(currentCardId)
   const setDetailCount = useSetRecoilState(detailCount)
   const setCurrentDesigner = useSetRecoilState(currentDesigner);
-  // const isDeckOverState = useRecoilValue(isDeckOver);
+  const nextButtonVisible = useRecoilValue(isNextButtonVisible);
+  const setNextButtonVisible = useSetRecoilState(isNextButtonVisible)
   const setCards = useSetRecoilState(currentCardArray)
   const setRawCardArray = useSetRecoilState(rawCardArray)
   const setCurrentHand = useSetRecoilState(currentHand);
@@ -656,7 +657,7 @@ setCards(cardArray)
   const zoop = () => {};
 
   const NextDeckButton = ({ onClick }) => (
-    <button className="next-button" onClick={onClick}>{nextIcon}</button>
+    <button className="next-button" onClick={onClick} style={{ display: `${nextButtonVisible}` }}>{nextIcon}</button>
   )
 
   NextDeckButton.defaultProps = {
@@ -682,7 +683,7 @@ setCards(cardArray)
       if (z === (newArray.length - 1)) {
         console.log("z: " + z)
         console.log("No More Cards")
-        // setDeckOver(true)
+        setNextButtonVisible('none')
       }
     }
   };
@@ -881,6 +882,11 @@ const isStackOver = atom({
 const isStyleMenuOpen = atom({
   key: 'isStyleMenuOpen', // unique ID (with respect to other atoms/selectors)
   default: '-100vw', // default value (aka initial value)
+});
+
+const isNextButtonVisible = atom({
+  key: 'isNextButtonVisible', // unique ID (with respect to other atoms/selectors)
+  default: 'block', // default value (aka initial value)
 });
 
 const isViewToggleActive = atom({
