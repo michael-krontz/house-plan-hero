@@ -331,7 +331,7 @@ a:hover {
 }
 
 button.view-button {
-  width: 10px;
+  width: unset;
   height: 10px;
   opacity: 0.5;
   font-size: 28px;
@@ -396,7 +396,7 @@ button.like-button {
 }
 
 button.small-like-button {
-  width: 10px;
+  width: unset;
   height: 10px;
   opacity: 0.5;
   font-size: 28px;
@@ -409,7 +409,7 @@ button.small-like-button {
 }
 
 .like-view-button-wrapper {
-  width: 90%;
+  width: 100%;
   position: absolute;
   bottom: 0;
   display: flex;

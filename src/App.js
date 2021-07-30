@@ -459,23 +459,24 @@ function NavBar() {
 
 function HouseStyleMenu() {
   const styleMenuOpenState = useRecoilValue(isStyleMenuOpen)
-  // const setHomeStyle = useSetRecoilState(styleState);
+  const setHomeStyle = useSetRecoilState(styleState);
   // const setStackOver = useSetRecoilState(isStackOver);
-  // const setCurrentCardArray = useSetRecoilState(currentCardArray)
+  const setCurrentCardArray = useSetRecoilState(currentCardArray)
   // const setCurrentHand = useSetRecoilState(currentHand)
+  const setOpenStyleMenu = useSetRecoilState(isStyleMenuOpen)
   // function closeBottomSheet() {
   //   openBottomSheet(false)
 
 
-  // function changeStyle(style) {
-  //   setCurrentCardArray([])
-  //   // setCardId(1)
-  //   setHomeStyle(style)
-  //   setCurrentHand(1)
-  //   currentCard = 1
-  //   setStackOver(false)
-  //   closeBottomSheet()
-  // }
+  function changeStyle(style) {
+    setCurrentCardArray([])
+    // setCardId(1)
+    setHomeStyle(style)
+    // setCurrentHand(1)
+    // currentCard = 1
+    setOpenStyleMenu('-100vw')
+    // closeBottomSheet()
+  }
 
 
 
@@ -636,7 +637,8 @@ function fetchData() {
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
-  
+    console.log("cardData" + cardData)
+
   setCurrentTitle(hptCardArray[currentCard - 1])
   setCurrentDesigner(hpdeCardArray[currentCard - 1])
   setCurrentBed(hpBedArray[currentCard - 1])
@@ -886,7 +888,7 @@ const isStyleMenuOpen = atom({
 
 const isNextButtonVisible = atom({
   key: 'isNextButtonVisible', // unique ID (with respect to other atoms/selectors)
-  default: 'block', // default value (aka initial value)
+  default: 'flex', // default value (aka initial value)
 });
 
 const isViewToggleActive = atom({
