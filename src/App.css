@@ -65,7 +65,7 @@ a:hover {
 }
 
 #root {
-  background: #8e8e8e;
+  background-image: linear-gradient(120deg, #89f6feab 0%, #66a6ffd0 100%);
   position: fixed;
   overflow: hidden;
   width: 100%;
@@ -350,10 +350,14 @@ button.next-button {
   border-radius: 30px;
   background-color: white;
   font-size: 26px;
+  color: #3e3e3e;
   display: flex;
   justify-content: center;
   margin-top: 10px;
   align-items: center;
+  box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
+  -webkit-box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
+  -moz-box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
 }
 
 button.change-style-button {
@@ -363,9 +367,13 @@ button.change-style-button {
   border-radius: 30px;
   background-color: white;
   font-size: 26px;
+  color: #3e3e3e;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
+  -webkit-box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
+  -moz-box-shadow: 1px 1px 5px -1px rgba(0,0,0,0.65);
 }
 
 .cta {
