@@ -189,8 +189,6 @@ a:hover {
 
 .Stats {
   display: flex;
-  justify-content: space-between;
-  margin-left: auto;
   background-color: transparent !important;
   border-color: transparent !important;
 }
