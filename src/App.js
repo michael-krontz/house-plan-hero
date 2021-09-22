@@ -73,6 +73,9 @@ function ViewModal() {
   const [viewToggleActive, setViewToggleActive] = useRecoilState(isViewToggleActive);
   const descState = useRecoilValue(currentDesc);
   const linkState = useRecoilValue(currentLink);
+  const currentBedState = useRecoilValue(currentBed);
+  const currentBathState = useRecoilValue(currentBath);
+  const currentSqftState = useRecoilValue(currentSqft);
 
   function fadeOpacity() {
     document.getElementById("modal-wrapper").style.animation = "modal-wrapper-fade .5s 1";
@@ -93,6 +96,22 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -122,6 +141,22 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+              
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -152,6 +187,22 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -183,6 +234,22 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+              
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+              
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -215,6 +282,24 @@ function ViewModal() {
               <div className = "info-box">
                 <div className = "Description">
                 <h5 className = "Description-h5">{descState}</h5>
+
+
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+
+                
                 <div className = " cta-wrapper">
                   <div className = "cta">
                     <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -248,6 +333,22 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+              
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>              
+              
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -282,6 +383,24 @@ function ViewModal() {
             <div className = "info-box">
               <div className = "Description">
               <h5 className = "Description-h5">{descState}</h5>
+              
+              
+              <div className = "Stats">
+                <div className = "Beds">
+                  <div className = "Bed-icon">{bedIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
+                </div>
+                <div className = "Baths">
+                  <div className = "Bath-icon">{bathIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
+                </div>
+                <div className = "Sqft">
+                  <div className = "Sqft-icon">{sqftIcon}</div>
+                  <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
+                </div>
+              </div>
+
+
               <div className = " cta-wrapper">
                 <div className = "cta">
                   <button className = "Info-cta" onClick={()=> window.open(linkState, "_blank")}>View on Truoba</button>
@@ -368,34 +487,9 @@ function ViewModalButton() {
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
   // const cardId = useRecoilValue(currentCardId);
-  const currentBedState = useRecoilValue(currentBed);
-  const currentBathState = useRecoilValue(currentBath);
-  const currentSqftState = useRecoilValue(currentSqft);
   const stackOver = useRecoilValue(isStackOver);
 
   if (stackOver === false) {
-    return (
-      <div className = "Logo-wrapper">
-        <Link to={'/deck'}  style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentTitleState}</Link>
-        <div className = "Stats">
-            <div className = "Beds">
-              <div className = "Bed-icon">{bedIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBedState}</h4>
-            </div>
-            <div className = "Baths">
-              <div className = "Bath-icon">{bathIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentBathState}</h4>
-            </div>
-            <div className = "Sqft">
-              <div className = "Sqft-icon">{sqftIcon}</div>
-              <h4 className = "Stats-h4" style={{ marginBottom: '0', textDecoration: 'none', color: 'white', fontSize: '16px' }}>{currentSqftState}</h4>
-            </div>
-          </div>
-      </div>
-    );
-  }
-
-  else {
     return (
       <p></p>
     )
