@@ -20,6 +20,7 @@ import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const nextIcon = <FontAwesomeIcon icon={faLayerGroup} />
@@ -29,6 +30,7 @@ const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 const heartIcon = <FontAwesomeIcon icon={faHeart} />
 const homeIcon = <FontAwesomeIcon icon={faHome} />
 const closeIcon = <FontAwesomeIcon icon={faTimes} />
+const userIcon = <FontAwesomeIcon icon={faUserCircle} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
@@ -486,14 +488,16 @@ function ViewModalButton() {
 
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
+  const currentDesignerState = useRecoilValue(currentDesigner);
+
   // const cardId = useRecoilValue(currentCardId);
   const stackOver = useRecoilValue(isStackOver);
-
-  if (stackOver === false) {
     return (
-      <p></p>
+      <div className = "Header-content">
+        <div>{currentTitleState}</div>
+        <div className = "Header-content-style">{currentDesignerState}</div>
+      </div>
     )
-  }
 };
 
 function NavBar() {
@@ -501,7 +505,7 @@ function NavBar() {
       <div className = "Nav-wrapper">
           <ul className = "Nav">
             <li>
-              <Link to={'/authcontent'} style={{ textDecoration: 'none', color: 'white' }}>Login</Link>
+              <Link to={'/authcontent'} style={{ textDecoration: 'none', color: 'white' }}>{userIcon}</Link>
             </li>
           </ul>
       </div>
