@@ -433,16 +433,7 @@ function ViewModalButton() {
   const voop = () => {};
 
   function ToggleViewButton() {
-    if (stackOver === false && viewToggleActive === false) {
       return <button className="view-button" onClick={ToggleViewAction}>{eyeIcon}</button>
-    }
-
-    else if (stackOver === false && viewToggleActive === true) {
-      return <button className="view-button" onClick={ToggleViewAction} style={{ opacity: 0.5 }}>{eyeIcon}</button>
-    }
-
-    else 
-    return <p></p>
   }
 
   ToggleViewButton.defaultProps = {
@@ -552,7 +543,6 @@ function fetchData() {
   setCards(cardData)
   setRawCardArray(cardData)
   console.log("fetching")
-
   /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
@@ -685,7 +675,6 @@ setCards(cardArray)
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
   const rawCards = useRecoilValue(rawCardArray);
-  const ccId = useRecoilValue(currentCardId)
   const isDeckOverState = useRecoilValue(isDeckOver);
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
@@ -731,11 +720,6 @@ setCards(cardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
-
-        // console.log(cardArray)
-        console.log("Current Card: " + currentCard)
-        console.log("Current Card ID: " + hpidCardArray)
-        console.log("Cards Length: " + cards.length + 1)
       }
 
       if (nextDeckCounter % 6 === 0) {
@@ -747,7 +731,6 @@ setCards(cardArray)
       }
       
       else if (currentCard === (rawCards.length + 1)) {
-        setDeckOver(true)
         console.log("Deck Over")
       }
 
