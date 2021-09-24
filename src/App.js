@@ -9,17 +9,14 @@ import useAxios, { configure } from 'axios-hooks'
 import Axios from 'axios'
 import LRU from 'lru-cache'
 import { RecoilRoot, atom, useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
-// import { BottomSheet } from 'react-spring-bottom-sheet'
 import 'react-spring-bottom-sheet/dist/style.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { faBed } from '@fortawesome/free-solid-svg-icons'
 import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
@@ -28,8 +25,6 @@ const bedIcon = <FontAwesomeIcon icon={faBed} />
 const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 const heartIcon = <FontAwesomeIcon icon={faHeart} />
-const homeIcon = <FontAwesomeIcon icon={faHome} />
-const closeIcon = <FontAwesomeIcon icon={faTimes} />
 const userIcon = <FontAwesomeIcon icon={faUserCircle} />
 var cardUrl
 var hpCardId
@@ -48,7 +43,7 @@ var z = 0
 var _ = require('lodash')
 
 const axios = Axios.create({
-  baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/houseplans/0/',
+  baseURL: 'https://house-plan-hero-default-rtdb.firebaseio.com/',
 })
 
 const cache = new LRU({ max: 10 })
@@ -512,118 +507,6 @@ function NavBar() {
   );
 }
 
-// function StyleSelectionBottomSheet() {
-//   const BottomSheetState = useRecoilValue(isBottomSheetOpen)
-//   const openBottomSheet = useSetRecoilState(isBottomSheetOpen)
-//   const setHomeStyle = useSetRecoilState(styleState);
-//   const setStackOver = useSetRecoilState(isStackOver);
-//   const setCurrentCardArray = useSetRecoilState(currentCardArray)
-//   const setCurrentHand = useSetRecoilState(currentHand)
-//   function closeBottomSheet() {
-//     openBottomSheet(false)
-//   }
-
-//   function changeStyle(style) {
-//     setCurrentCardArray([])
-//     // setCardId(1)
-//     setHomeStyle(style)
-//     setCurrentHand(1)
-//     currentCard = 1
-//     setStackOver(false)
-//     closeBottomSheet()
-//   }
-
-  
-
-//   return (
-//     <BottomSheet open={BottomSheetState}>
-//       <button className = "close-button" onClick={closeBottomSheet}>Close</button>
-//         <div className = "tag-wrapper">
-//           <div className = "homestyle-tag"><h2 className = "tag">Featured</h2></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Modern</h2></div>
-//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</button></div>
-//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</button></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Colonial</h2></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Contemporary</h2></div>
-//           <div className = "homestyle-tag"><button className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</button></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Cape Cod</h2></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Tudor</h2></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Cottage</h2></div>
-//           <div className = "homestyle-tag"><h2 className = "tag">Tiny Home</h2></div>
-//         </div>
-//     </BottomSheet>
-//   )
-// }
-
-function HouseStyleMenu() {
-  const styleMenuOpenState = useRecoilValue(isStyleMenuOpen)
-  const setHomeStyle = useSetRecoilState(styleState);
-  // const setStackOver = useSetRecoilState(isStackOver);
-  const setCurrentCardArray = useSetRecoilState(currentCardArray)
-  // const setCurrentHand = useSetRecoilState(currentHand)
-  const setOpenStyleMenu = useSetRecoilState(isStyleMenuOpen)
-  // function closeBottomSheet() {
-  //   openBottomSheet(false)
-
-
-  function changeStyle(style) {
-    setCurrentCardArray([])
-    // setCardId(1)
-    setHomeStyle(style)
-    // setCurrentHand(1)
-    // currentCard = 1
-    setOpenStyleMenu('-100vw')
-    // closeBottomSheet()
-  }
-
-
-
-  return (
-          <div className = "tag-wrapper" style={{ transform: `translate3d(${styleMenuOpenState}, 0, 0)`}}>
-            <div className = "homestyle-tag"><h3 className = "tag">Tiny Home</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Dutch Colonial</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Greek Revival</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Mid-Century Modern</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Victorian</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Modern</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('coastal')}>Coastal</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('modernFarmhouse')}>Modern Farmhouse</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag"  onClick={() => changeStyle('craftsman')}>Craftsman</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Colonial</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Contemporary</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Cape Cod</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Tudor</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Cottage</h3></div>
-            <div className = "homestyle-tag"><h3 className = "tag">Random</h3></div>
-        </div>
-  )
-}
-
-function ChangeStyle() {
-  const styleMenuOpenState = useRecoilValue(isStyleMenuOpen)
-  const openStyleMenu = useSetRecoilState(isStyleMenuOpen)
-
-  if (styleMenuOpenState === '-100vw') {
-    return <button className="change-style-button" onClick={ChangeStyle}>{homeIcon}</button>
-  }
-
-  else if (styleMenuOpenState === '0') {
-    return <button className="change-style-button" onClick={ChangeStyle}>{closeIcon}</button>
-  }
-
-
-  function ChangeStyle() {
-    if (styleMenuOpenState === '-100vw') {
-      openStyleMenu('0')
-    }
-
-    else if (styleMenuOpenState === '0') {
-      openStyleMenu('-100vw')
-    }
-  }
-}
-
-
 function DeckBuild() {
   var allCards = []
   var allCardIds = []
@@ -655,7 +538,7 @@ function DeckBuild() {
   const setCurrentHand = useSetRecoilState(currentHand);
   /* eslint-disable */
   const currentHandVal = useRecoilValue(currentHand);
-  const [{ data: getData, loading: getLoading, error: getError }] = useAxios(houseStyle + '.json')
+  const [{ data: getData, loading: getLoading, error: getError }] = useAxios('houseplans.json')
 
 
   if (getLoading) return <p>Loading...</p>
@@ -735,7 +618,6 @@ function fetchData() {
       hpLinkArray.push(hpLinkArrayItem)
     ));
   }
-    console.log("cardData" + cardData)
 
   setCurrentTitle(hptCardArray[currentCard - 1])
   setCurrentDesigner(hpdeCardArray[currentCard - 1])
@@ -748,11 +630,13 @@ function fetchData() {
   setDetailCount(hpdCardArray[currentCard - 1])
 }
 
+// var shuffledCards = _.shuffle(allCards)
+// console.log("SHUFFLED" + shuffledCards)
+console.log("All Card IDs: " + allCardIds)
 var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
-
 
   const zoop = () => {};
 
@@ -790,9 +674,7 @@ setCards(cardArray)
 
   function VisibleInfoBox(props) {
     return <div className="button-box">
-      <NextDeck></NextDeck>
-      <ChangeStyle></ChangeStyle>      
-      </div>;
+      </div>
   }
   
   function InfoBox(props) {
@@ -803,6 +685,7 @@ setCards(cardArray)
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
   const rawCards = useRecoilValue(rawCardArray);
+  const ccId = useRecoilValue(currentCardId)
   const isDeckOverState = useRecoilValue(isDeckOver);
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
@@ -848,6 +731,15 @@ setCards(cardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
+
+        // console.log(cardArray)
+        console.log("Current Card: " + currentCard)
+        console.log("Current Card ID: " + hpidCardArray)
+        console.log("Cards Length: " + cards.length + 1)
+      }
+
+      if (nextDeckCounter % 6 === 0) {
+        setTimeout(NextDeckAction, 500)
       }
 
       if (currentCard === (cards.length + 1)) {
@@ -862,8 +754,6 @@ setCards(cardArray)
       else if (nextDeckCounter === (cards.length + 1)) {
         setStackOver(true)
       }
-
-
 
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })  
@@ -1004,10 +894,7 @@ function App() {
             <Logo></Logo>
             <NavBar></NavBar>
           </header>
-          {/* <StyleSelectionBottomSheet></StyleSelectionBottomSheet> */}
           <DeckBuild></DeckBuild>
-          <HouseStyleMenu></HouseStyleMenu>
-          {/* <StyleSelection></StyleSelection> */}
         </RecoilRoot>
         <Route path='/authcontent' component={AuthContent}/>
     </>
