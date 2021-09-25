@@ -475,8 +475,6 @@ function ViewModalButton() {
 function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
   const currentDesignerState = useRecoilValue(currentDesigner);
-
-  // const cardId = useRecoilValue(currentCardId);
   const stackOver = useRecoilValue(isStackOver);
     return (
       <div className = "Header-content">
@@ -540,9 +538,12 @@ function DeckBuild() {
 
 function fetchData() {
   var cardData = getData  
+  cardData = _.shuffle(cardData)
+  console.log(cardData)
   setCards(cardData)
   setRawCardArray(cardData)
   console.log("fetching")
+  console.log()
   /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
@@ -622,7 +623,7 @@ function fetchData() {
 
 // var shuffledCards = _.shuffle(allCards)
 // console.log("SHUFFLED" + shuffledCards)
-console.log("All Card IDs: " + allCardIds)
+console.log("All Card IDs: " + allCards)
 var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
@@ -675,6 +676,7 @@ setCards(cardArray)
   function Deck() {
   const cards = useRecoilValue(currentCardArray);
   const rawCards = useRecoilValue(rawCardArray);
+  const ccId = useRecoilValue(currentCardId)
   const isDeckOverState = useRecoilValue(isDeckOver);
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
@@ -720,6 +722,11 @@ setCards(cardArray)
         setCurrentSqft(hpSqftArray[currentCard - 1])
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
+
+        // console.log(cardArray)
+        // console.log("Current Card: " + currentCard)
+        // console.log("Current Card ID: " + hpidCardArray)
+        // console.log("Cards Length: " + cards.length + 1)
       }
 
       if (nextDeckCounter % 6 === 0) {
