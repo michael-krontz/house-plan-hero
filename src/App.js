@@ -18,6 +18,7 @@ import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const nextIcon = <FontAwesomeIcon icon={faLayerGroup} />
@@ -26,6 +27,7 @@ const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 const heartIcon = <FontAwesomeIcon icon={faHeart} />
 const userIcon = <FontAwesomeIcon icon={faUserCircle} />
+const loadingIcon = <FontAwesomeIcon icon={faSpinner} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
@@ -511,6 +513,7 @@ function DeckBuild() {
 
   const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
+  const deckOver = useSetRecoilState(isDeckOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
   const setCurrentBath = useSetRecoilState(currentBath);
@@ -655,17 +658,39 @@ setCards(cardArray)
       setCurrentHand(currentCard)
       stackOver(false)
 
-      if (z === (newArray.length - 1)) {
-        console.log("z: " + z)
-        console.log("No More Cards")
-        setNextButtonVisible('none')
-      }
+      // if (z === (newArray.length - 1)) {
+      //   console.log("z: " + z)
+      //   console.log("No More Cards")
+      //   setNextButtonVisible('none')
+      // }
     }
   };
 
+  const deckOverAction = () => {
+    z = 0
+
+    if (z < (newArray.length)) {
+      z ++
+      var cardArray = newArray[z]
+      cardArray.reverse();
+      currentCard = 1
+      nextDeckCounter = 1
+      hpidCardArray = []
+      setCardId(1)
+      setCards(hpidCardArray)
+      setCurrentHand(currentCard)
+      stackOver(false)
+      deckOver(false)
+        console.log(cardArray)
+        console.log("Current Card: " + currentCard)
+        console.log("Current Card ID: " + hpidCardArray)
+
+    }
+  };
+
+
   function VisibleInfoBox(props) {
-    return <div className="button-box">
-      </div>
+    return <div className = "loading-spinner">{loadingIcon}</div>
   }
   
   function InfoBox(props) {
@@ -738,7 +763,9 @@ setCards(cardArray)
       }
       
       else if (currentCard === (rawCards.length + 1)) {
-        console.log("Deck Over")
+        setDeckOver(true)
+        setTimeout(deckOverAction, 1000)
+        // console.log("Deck Over")
       }
 
       else if (nextDeckCounter === (cards.length + 1)) {
