@@ -510,6 +510,7 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
   var hpidCardArrayItem
+  var cardArray
 
   const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
@@ -651,42 +652,56 @@ setCards(cardArray)
 
     if (z < (newArray.length)) {
       z ++
-      var cardArray = newArray[z]
-      cardArray.reverse();
-      setCardId(hpidCardArray[currentCard - 1])
+      cardArray = newArray[z]
+      console.log("z: " + z)
+      console.log("newArray length: " + newArray.length)
+      console.log("newArray: " + newArray[z])
+      console.log("current Card: " + currentCard)
+      console.log("hipdCardArray: " + hpidCardArray)
+      // cardArray.reverse();
+
+      setCurrentTitle(hptCardArray[currentCard - 1])
+      setCurrentDesigner(hpdeCardArray[currentCard - 1])
+      setCurrentBed(hpBedArray[currentCard - 1])
+      setCurrentBath(hpBathArray[currentCard - 1])
+      setCurrentSqft(hpSqftArray[currentCard - 1])
+      setCurrentDesc(hpDescArray[currentCard - 1])
+      setCurrentLink(hpLinkArray[currentCard - 1])
+      setDetailCount(hpdCardArray[currentCard - 1])
+
       setCards(cardArray)
       setCurrentHand(currentCard)
       stackOver(false)
 
-      // if (z === (newArray.length - 1)) {
-      //   console.log("z: " + z)
-      //   console.log("No More Cards")
-      //   setNextButtonVisible('none')
-      // }
+      if (z === (newArray.length - 1)) {
+        z = 1
+        currentCard = 9
+        setCardId(hpidCardArray[currentCard - 1])
+
+        console.log("card Array: " + cardArray)
+        console.log("Z Reset!")
+        console.log("current Card: " + currentCard)
+      }
     }
   };
 
-  const deckOverAction = () => {
-    z = 0
+  // const deckOverAction = () => {
+  //     z = 1
+  //     cardArray = newArray[z]
+  //     console.log("Card Array: " + cardArray)
+  //     // cardArray.reverse();
+  //     currentCard = 1
+  //     nextDeckCounter = 1
+  //     // hpidCardArray = []
+  //     setCardId(hpidCardArray[currentCard - 1])
+  //     setCards(cardArray)
+  //     setCurrentHand(currentCard)
+  //     stackOver(false)
+  //     deckOver(false)
+  //       console.log("Current Card: " + currentCard)
+  //       console.log("Current Card ID Array: " + hpidCardArray)
 
-    if (z < (newArray.length)) {
-      z ++
-      var cardArray = newArray[z]
-      cardArray.reverse();
-      currentCard = 1
-      nextDeckCounter = 1
-      hpidCardArray = []
-      setCardId(1)
-      setCards(hpidCardArray)
-      setCurrentHand(currentCard)
-      stackOver(false)
-      deckOver(false)
-        console.log("Card Array: " + cardArray)
-        console.log("Current Card: " + currentCard)
-        console.log("Current Card ID: " + hpidCardArray)
-
-    }
-  };
+  // };
 
 
   function VisibleInfoBox(props) {
@@ -748,6 +763,7 @@ setCards(cardArray)
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
 
+        console.log("Card ID:" + cardId)
         // console.log(cardArray)
         // console.log("Current Card: " + currentCard)
         // console.log("Current Card ID: " + hpidCardArray)
@@ -764,7 +780,7 @@ setCards(cardArray)
       
       else if (currentCard === (rawCards.length + 1)) {
         setDeckOver(true)
-        setTimeout(deckOverAction, 1000)
+        // setTimeout(deckOverAction, 1000)
         // console.log("Deck Over")
       }
 
