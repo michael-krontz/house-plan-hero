@@ -681,7 +681,7 @@ setCards(cardArray)
       setCurrentHand(currentCard)
       stackOver(false)
       deckOver(false)
-        console.log(cardArray)
+        console.log("Card Array: " + cardArray)
         console.log("Current Card: " + currentCard)
         console.log("Current Card ID: " + hpidCardArray)
 
