@@ -455,3 +455,9 @@ button.small-like-button {
 .Header-content-style {
   font-size: 12px;
 }
+
+.loading-spinner {
+  height: 30vh;
+  font-size: 65px;
+  color: white;
+}

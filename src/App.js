@@ -18,6 +18,7 @@ import { faBath } from '@fortawesome/free-solid-svg-icons'
 import { faRulerCombined } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const eyeIcon = <FontAwesomeIcon icon={faEye} />
 const nextIcon = <FontAwesomeIcon icon={faLayerGroup} />
@@ -26,6 +27,7 @@ const bathIcon = <FontAwesomeIcon icon={faBath} />
 const sqftIcon = <FontAwesomeIcon icon={faRulerCombined} />
 const heartIcon = <FontAwesomeIcon icon={faHeart} />
 const userIcon = <FontAwesomeIcon icon={faUserCircle} />
+const loadingIcon = <FontAwesomeIcon icon={faSpinner} />
 var cardUrl
 var hpCardId
 var hpdCardArray = []
@@ -508,9 +510,11 @@ function DeckBuild() {
   var hpDescArrayItem
   var hpLinkArrayItem
   var hpidCardArrayItem
+  var cardArray
 
   const houseStyle = useRecoilValue(styleState);
   const stackOver = useSetRecoilState(isStackOver);
+  const deckOver = useSetRecoilState(isDeckOver);
   const setCurrentTitle = useSetRecoilState(currentTitle);
   const setCurrentBed = useSetRecoilState(currentBed);
   const setCurrentBath = useSetRecoilState(currentBath);
@@ -648,24 +652,60 @@ setCards(cardArray)
 
     if (z < (newArray.length)) {
       z ++
-      var cardArray = newArray[z]
-      cardArray.reverse();
-      setCardId(hpidCardArray[currentCard - 1])
+      cardArray = newArray[z]
+      console.log("z: " + z)
+      console.log("newArray length: " + newArray.length)
+      console.log("newArray: " + newArray[z])
+      console.log("current Card: " + currentCard)
+      console.log("hipdCardArray: " + hpidCardArray)
+      // cardArray.reverse();
+
+      setCurrentTitle(hptCardArray[currentCard - 1])
+      setCurrentDesigner(hpdeCardArray[currentCard - 1])
+      setCurrentBed(hpBedArray[currentCard - 1])
+      setCurrentBath(hpBathArray[currentCard - 1])
+      setCurrentSqft(hpSqftArray[currentCard - 1])
+      setCurrentDesc(hpDescArray[currentCard - 1])
+      setCurrentLink(hpLinkArray[currentCard - 1])
+      setDetailCount(hpdCardArray[currentCard - 1])
+
       setCards(cardArray)
       setCurrentHand(currentCard)
       stackOver(false)
 
       if (z === (newArray.length - 1)) {
-        console.log("z: " + z)
-        console.log("No More Cards")
-        setNextButtonVisible('none')
+        z = 1
+        currentCard = 9
+        setCardId(hpidCardArray[currentCard - 1])
+
+        console.log("card Array: " + cardArray)
+        console.log("Z Reset!")
+        console.log("current Card: " + currentCard)
       }
     }
   };
 
+  // const deckOverAction = () => {
+  //     z = 1
+  //     cardArray = newArray[z]
+  //     console.log("Card Array: " + cardArray)
+  //     // cardArray.reverse();
+  //     currentCard = 1
+  //     nextDeckCounter = 1
+  //     // hpidCardArray = []
+  //     setCardId(hpidCardArray[currentCard - 1])
+  //     setCards(cardArray)
+  //     setCurrentHand(currentCard)
+  //     stackOver(false)
+  //     deckOver(false)
+  //       console.log("Current Card: " + currentCard)
+  //       console.log("Current Card ID Array: " + hpidCardArray)
+
+  // };
+
+
   function VisibleInfoBox(props) {
-    return <div className="button-box">
-      </div>
+    return <div className = "loading-spinner">{loadingIcon}</div>
   }
   
   function InfoBox(props) {
@@ -723,6 +763,7 @@ setCards(cardArray)
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
 
+        console.log("Card ID:" + cardId)
         // console.log(cardArray)
         // console.log("Current Card: " + currentCard)
         // console.log("Current Card ID: " + hpidCardArray)
@@ -738,7 +779,9 @@ setCards(cardArray)
       }
       
       else if (currentCard === (rawCards.length + 1)) {
-        console.log("Deck Over")
+        setDeckOver(true)
+        // setTimeout(deckOverAction, 1000)
+        // console.log("Deck Over")
       }
 
       else if (nextDeckCounter === (cards.length + 1)) {
