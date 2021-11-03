@@ -478,12 +478,25 @@ function Logo() {
   const currentTitleState = useRecoilValue(currentTitle);
   const currentDesignerState = useRecoilValue(currentDesigner);
   const stackOver = useRecoilValue(isStackOver);
+
+
+  if (stackOver === false) {
     return (
       <div className = "Header-content">
         <div>{currentTitleState}</div>
         <div className = "Header-content-style">{currentDesignerState}</div>
       </div>
     )
+  }
+
+  else if (stackOver === true) {
+    return (
+      <div className = "Header-content">
+        <div></div>
+        <div className = "Header-content-style"></div>
+      </div>
+    )
+  }
 };
 
 function NavBar() {
@@ -721,7 +734,8 @@ setCards(cardArray)
   const currentHandVal = useRecoilValue(currentHand);
   const setCurrentHand = useSetRecoilState(currentHand);
   const cardId = useRecoilValue(currentCardId);
-  const setDeckOver = useSetRecoilState(isDeckOver)
+  const stackState = useRecoilValue(isStackOver)
+  const setDeckOver = useSetRecoilState(isDeckOver);
   const setCardId = useSetRecoilState(currentCardId);
   const setDetailCount = useSetRecoilState(detailCount);
   const setStackOver = useSetRecoilState(isStackOver);
@@ -763,29 +777,34 @@ setCards(cardArray)
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
 
+        console.log("isStackOver? : " + stackState)
         console.log("Card ID:" + cardId)
         // console.log(cardArray)
-        // console.log("Current Card: " + currentCard)
+        console.log("Current Card: " + currentCard)
         // console.log("Current Card ID: " + hpidCardArray)
-        // console.log("Cards Length: " + cards.length + 1)
+        console.log("Cards Length: " + cards.length + 1)
       }
 
       if (nextDeckCounter % 6 === 0) {
         setTimeout(NextDeckAction, 500)
+        setStackOver(true)
+        console.log("Stack Over, my Man!")
       }
 
-      if (currentCard === (cards.length + 1)) {
-        setStackOver(true)
-      }
+      // if (currentCard === 6) {
+      //   setStackOver(true)
+      //   console.log("Stack Over, my Man!")
+      // }
       
       else if (currentCard === (rawCards.length + 1)) {
         setDeckOver(true)
+        console.log("Deck Over, Dude")
         // setTimeout(deckOverAction, 1000)
-        // console.log("Deck Over")
       }
 
       else if (nextDeckCounter === (cards.length + 1)) {
         setStackOver(true)
+        console.log("Stack Ovahhh")
       }
 
         return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
