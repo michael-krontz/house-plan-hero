@@ -435,6 +435,7 @@ function ViewModalButton() {
   const voop = () => {};
 
   function ToggleViewButton() {
+      console.log("COCK " + cardId)
       return <button className="view-button" onClick={ToggleViewAction}>{eyeIcon}</button>
   }
 
@@ -560,7 +561,6 @@ function fetchData() {
   setCards(cardData)
   setRawCardArray(cardData)
   console.log("fetching")
-  console.log()
   /* eslint-disable */
   var x
   for (x=0; x < 1; x++) {
@@ -645,6 +645,9 @@ var newArray = _.chunk(allCards, [5])
 var cardArray = newArray[z]
 cardArray.reverse();
 setCards(cardArray)
+console.log("cardArray: " + cardArray)
+console.log("/////////////////////////////////////////////////")
+
 
   const zoop = () => {};
 
@@ -663,15 +666,21 @@ setCards(cardArray)
   const NextDeckAction = () => {
     nextDeckCounter = 1
 
-    if (z < (newArray.length)) {
+    if (z <= 24) {
       z ++
       cardArray = newArray[z]
-      console.log("z: " + z)
-      console.log("newArray length: " + newArray.length)
-      console.log("newArray: " + newArray[z])
-      console.log("current Card: " + currentCard)
-      console.log("hipdCardArray: " + hpidCardArray)
-      // cardArray.reverse();
+      
+      if (currentCard >= allCards.length) {
+        currentCard = 1
+      }
+
+      // console.log("/////////////////////////////////////////////////")
+      // console.log("newArray : " + newArray)
+      // console.log("Card Array: " + cardArray)
+      // console.log("hipdCardArray: " + hpidCardArray)
+      // console.log("current card placement: " + (hpidCardArray[currentCard - 1]))
+      // console.log("/////////////////////////////////////////////////")
+
 
       setCurrentTitle(hptCardArray[currentCard - 1])
       setCurrentDesigner(hpdeCardArray[currentCard - 1])
@@ -681,19 +690,20 @@ setCards(cardArray)
       setCurrentDesc(hpDescArray[currentCard - 1])
       setCurrentLink(hpLinkArray[currentCard - 1])
       setDetailCount(hpdCardArray[currentCard - 1])
-
       setCards(cardArray)
       setCurrentHand(currentCard)
+      setCardId(hpidCardArray[currentCard - 1])
       stackOver(false)
 
-      if (z === (newArray.length - 1)) {
-        z = 1
-        currentCard = 9
-        setCardId(hpidCardArray[currentCard - 1])
+      if (z === 4) {
+        z = -1
 
-        console.log("card Array: " + cardArray)
-        console.log("Z Reset!")
-        console.log("current Card: " + currentCard)
+        // console.log("=====================EVENT!===================")
+        // console.log("card Array: " + cardArray)
+        // console.log("current Card: " + currentCard)
+        // console.log("hipdCardArray: " + hpidCardArray)
+        // console.log("Z Reset!" + z)
+        // console.log("cardArray length: " + cardArray.length)
       }
     }
   };
@@ -767,6 +777,9 @@ setCards(cardArray)
       if (isGone === true) {
         nextDeckCounter ++
         currentCard ++
+
+
+
         setCardId(hpidCardArray[currentCard - 1])
         setDetailCount(hpdCardArray[currentCard - 1])
         setCurrentTitle(hptCardArray[currentCard - 1])
@@ -777,18 +790,28 @@ setCards(cardArray)
         setCurrentDesc(hpDescArray[currentCard - 1])
         setCurrentLink(hpLinkArray[currentCard - 1])
 
-        console.log("isStackOver? : " + stackState)
+        if (currentCard > 25) {
+          currentCard = 1
+          setCardId(hpidCardArray[currentCard])
+        }
+
+        // console.log("isStackOver? : " + stackState)
         console.log("Card ID:" + cardId)
         // console.log(cardArray)
         console.log("Current Card: " + currentCard)
         // console.log("Current Card ID: " + hpidCardArray)
-        console.log("Cards Length: " + cards.length + 1)
+        // console.log("Cards Length: " + cards.length + 1)
+        console.log("hipdCardArray: " + hpidCardArray)
+        console.log("hipdCardIDNUM: " + hpidCardArray[currentCard - 1])
+        console.log("/////////////////////////////////////////////////")
+
+
       }
 
       if (nextDeckCounter % 6 === 0) {
         setTimeout(NextDeckAction, 500)
         setStackOver(true)
-        console.log("Stack Over, my Man!")
+        // console.log("Stack Over, my Man!")
       }
 
       // if (currentCard === 6) {
@@ -798,7 +821,7 @@ setCards(cardArray)
       
       else if (currentCard === (rawCards.length + 1)) {
         setDeckOver(true)
-        console.log("Deck Over, Dude")
+        // console.log("Deck Over, Dude")
         // setTimeout(deckOverAction, 1000)
       }
 
