@@ -674,22 +674,13 @@ console.log("/////////////////////////////////////////////////")
         currentCard = 1
       }
 
-      // if (z === newArray.length) {
-      //   z = 0
-      //   console.log("Z RESET BRUH")
-      // }
-
-      console.log("/////////////////////////////////////////////////")
-      console.log("newArray : " + newArray)
-      console.log("Card Array: " + cardArray)
-      console.log("hipdCardArray: " + hpidCardArray)
-      console.log("current card placement: " + (hpidCardArray[currentCard - 1]))
-      console.log("/////////////////////////////////////////////////")
-      // console.log("Current Card ID: " + useCardId)
-      // console.log("newArray: " + newArray[z])
-      // console.log("current Card: " + currentCard)
+      // console.log("/////////////////////////////////////////////////")
+      // console.log("newArray : " + newArray)
+      // console.log("Card Array: " + cardArray)
       // console.log("hipdCardArray: " + hpidCardArray)
-      // cardArray.reverse();
+      // console.log("current card placement: " + (hpidCardArray[currentCard - 1]))
+      // console.log("/////////////////////////////////////////////////")
+
 
       setCurrentTitle(hptCardArray[currentCard - 1])
       setCurrentDesigner(hpdeCardArray[currentCard - 1])
@@ -705,15 +696,14 @@ console.log("/////////////////////////////////////////////////")
       stackOver(false)
 
       if (z === 4) {
-        z = 0
+        z = -1
 
-        // setCardId(hpidCardArray[currentCard - 1])
-        console.log("=====================EVENT!===================")
-        console.log("card Array: " + cardArray)
-        console.log("current Card: " + currentCard)
-        console.log("hipdCardArray: " + hpidCardArray)
-        console.log("Z Reset!" + z)
-        console.log("cardArray length: " + cardArray.length)
+        // console.log("=====================EVENT!===================")
+        // console.log("card Array: " + cardArray)
+        // console.log("current Card: " + currentCard)
+        // console.log("hipdCardArray: " + hpidCardArray)
+        // console.log("Z Reset!" + z)
+        // console.log("cardArray length: " + cardArray.length)
       }
     }
   };
